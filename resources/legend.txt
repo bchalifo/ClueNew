@@ -1,0 +1,11 @@
+X, Closet
+L, Library
+B, Bedroom
+K, Kitchen
+D, Dinning Room
+A, Bowling Alley
+W, Water Closet
+O, Office
+F, Family Room
+S, Observitory
+., Walk way
