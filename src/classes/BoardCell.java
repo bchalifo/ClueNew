@@ -27,6 +27,10 @@ public class BoardCell implements Comparable<BoardCell> {
 		else
 			return -1;
 	}
+	@Override
+	public String toString(){
+		return "Row: " + currentRow + " Col: " + currentCol;
+	}
 	
 
 }

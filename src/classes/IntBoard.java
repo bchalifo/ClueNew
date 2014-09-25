@@ -11,19 +11,20 @@ public class IntBoard {
 	private Map<BoardCell, LinkedList<BoardCell>> adjMtx;
 	private Set<BoardCell> visited;
 	private Set<BoardCell> targets;
-	private Map<Integer[],BoardCell> board;
+	private ArrayList<ArrayList<BoardCell>> board;
 	
 	// Constructor
 	public IntBoard(){
 		adjMtx = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		visited = new HashSet<BoardCell>();
 		targets = new HashSet<BoardCell>();
+		
 		//Create board
-		board = new HashMap<Integer[],BoardCell>();
+		board = new ArrayList<ArrayList<BoardCell>>();
 		for(int r = 0; r < ROWS; r++){
+			board.add(new ArrayList<BoardCell>());
 			for(int c = 0; c < COLS; c++){
-				Integer[] key = {r,c};
-				board.put(key,new BoardCell(r,c));
+				board.get(r).add(new BoardCell(r,c));
 			}
 		}
 		
@@ -32,7 +33,6 @@ public class IntBoard {
 	// Calculate adjacent cells for each cell and add to adjMtx
 	public void calcAdjacencies(){
 		LinkedList<BoardCell> tempList = new LinkedList<BoardCell>();
-		
 		for(int r = 0; r < ROWS; r++){
 			for(int c = 0; c < COLS; c++){
 				if(c+1 < COLS ) tempList.add(getCell(r,c+1));
@@ -40,26 +40,28 @@ public class IntBoard {
 				if(c-1 >= 0 ) tempList.add(getCell(r,c-1));
 				if(r-1 >= 0) tempList.add(getCell(r-1,c));
 				
-				adjMtx.put(new BoardCell(r,c), new LinkedList<BoardCell>(tempList));
+				adjMtx.put(getCell(r,c), new LinkedList<BoardCell>(tempList));
+				tempList.clear();
 			}
-			tempList.clear();
 		}
 
 	}
 	
 	// Calculates targets and stores them in a list of targets
 	public void calcTargets(BoardCell cell, int moves){
+		BoardCell start = cell;
+		recursion(cell,moves,start);
+	}
+	private void recursion(BoardCell cell, int moves, BoardCell start){
 		if(moves == 0){
-			if(!visited.contains(cell)) targets.add(cell);
+			if(!cell.equals(start)) targets.add(cell);
+			visited.clear();
 			return;
 		}
 		visited.add(cell);
 		for(BoardCell c : adjMtx.get(cell)){
-			if(!visited.contains(c)) calcTargets(c,moves-1);
+			if(!visited.contains(c)) recursion(c,moves-1,start);
 		}
-		visited.clear();
-		
-		
 	}
 	
 	// Getter for targets
@@ -74,8 +76,7 @@ public class IntBoard {
 	
 	
 	public BoardCell getCell(int row, int col){
-		Integer[] key = {row, col};
-		return board.get(key);
+		return board.get(row).get(col);
 	}
 	
 
