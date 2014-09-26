@@ -2,7 +2,7 @@ package clueGame;
 
 public class RoomCell extends BoardCell {
 	
-	private enum DoorDirection{
+	public static enum DoorDirection{
 		UP,DOWN,LEFT,RIGHT,NONE;
 	}
 	
@@ -18,6 +18,18 @@ public class RoomCell extends BoardCell {
 	
 	public boolean isRoom(){
 		return true;
+	}
+
+
+	public DoorDirection getDoorDirection() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public char getInitial() {
+		// TODO Auto-generated method stub
+		return ' ';
 	}
 	
 	
