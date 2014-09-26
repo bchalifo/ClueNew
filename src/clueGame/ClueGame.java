@@ -30,8 +30,7 @@ public class ClueGame {
 	}
 
 	public Board getBoard() {
-		// TODO Auto-generated method stub
-		return null;
+		return board;
 	}
 
 	public void loadRoomConfig() {

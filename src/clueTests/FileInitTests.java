@@ -30,7 +30,7 @@ public class FileInitTests {
 	
 	@SuppressWarnings("deprecation")
 	@Test
-	public void numRooms(){
+	public void legendAndRooms(){
 		Map<Character, String> rooms = board.getRooms();
 		Assert.assertEquals(ROOMS, rooms.size());
 		
@@ -60,16 +60,16 @@ public class FileInitTests {
 	@Test
 	public void testDoor(){
 		RoomCell room = board.getRoomCellAt(4, 1);
-		Assert.assertEquals("DOWN", room.getDoorDirection());
+		Assert.assertEquals(RoomCell.DoorDirection.DOWN, room.getDoorDirection());
 		
 		room = board.getRoomCellAt(6, 18);
-		Assert.assertEquals("UP", room.getDoorDirection());
+		Assert.assertEquals(RoomCell.DoorDirection.UP, room.getDoorDirection());
 		
 		room = board.getRoomCellAt(9, 15);
-		Assert.assertEquals("LEFT", room.getDoorDirection());
+		Assert.assertEquals(RoomCell.DoorDirection.LEFT, room.getDoorDirection());
 		
 		room = board.getRoomCellAt(9,21);
-		Assert.assertEquals("RIGHT", room.getDoorDirection());
+		Assert.assertEquals(RoomCell.DoorDirection.RIGHT, room.getDoorDirection());
 		
 		int numDoors = 0;
 		for(int r = 0; r < ROWS; r++)
@@ -102,15 +102,17 @@ public class FileInitTests {
 	@Test (expected = BadConfigFormatException.class)
 	public void testLayout() throws BadConfigFormatException{
 		ClueGame game = new ClueGame("resources/badLayout.csv", "resources/legend.txt");
-		game.loadConfigFiles();
 		game.getBoard().loadBoardConfig();
+		game.loadConfigFiles();
+		
 	}
 	
 	@Test (expected = BadConfigFormatException.class)
 	public void testLegend() throws BadConfigFormatException{
 		ClueGame game = new ClueGame("resources/clueLayout.csv", "resources/badLegend.txt");
-		game.loadConfigFiles();
 		game.getBoard().loadBoardConfig();
+		game.loadConfigFiles();
+		
 	}
 
 }
