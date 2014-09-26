@@ -10,9 +10,23 @@ public class RoomCell extends BoardCell {
 	private char roomInitial;
 	
 
-	public RoomCell(int row, int col) {
+	public RoomCell(int row, int col, String ID) throws BadConfigFormatException {
 		super(row, col);
-		// TODO Auto-generated constructor stub
+		roomInitial = ID.charAt(0);
+		if(ID.length()>1){
+			switch (ID.charAt(1)){
+				case 'U': doorDirection = DoorDirection.UP;
+						break;
+				case 'D': doorDirection = DoorDirection.DOWN;
+						break;
+				case 'L': doorDirection = DoorDirection.LEFT;
+						break;
+				case 'R': doorDirection = DoorDirection.RIGHT;
+						break;
+				default: throw new BadConfigFormatException("Incorrect Room Format");
+			}
+		}
+		else doorDirection = DoorDirection.NONE;
 	}
 	
 	
@@ -22,14 +36,12 @@ public class RoomCell extends BoardCell {
 
 
 	public DoorDirection getDoorDirection() {
-		// TODO Auto-generated method stub
-		return null;
+		return doorDirection;
 	}
 
 
 	public char getInitial() {
-		// TODO Auto-generated method stub
-		return ' ';
+		return roomInitial;
 	}
 	
 	

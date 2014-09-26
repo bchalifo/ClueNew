@@ -3,22 +3,30 @@ package clueGame;
 import java.util.*;
 
 public class ClueGame {
+	// Constants
+	private final int ROWS = 22;
+	private final int COLS = 23;
 	// variables
-	Map<Character,String> rooms;
-	
+	private Map<Character,String> rooms;
+	private Board board;
 	//Constructor
-	
 	public ClueGame(String layout, String legend) {
-		// TODO Auto-generated constructor stub
+		board = new Board(layout,legend,ROWS,COLS);
+		rooms = new HashMap<Character, String>();
 	}
 
 	public ClueGame() {
-		// TODO Auto-generated constructor stub
+		rooms = new HashMap<Character, String>();
 	}
 
 	// Methods
 	public void loadConfigFiles(){
-		
+		try {
+			board.loadBoardConfig();
+		} catch (BadConfigFormatException e) {
+			System.out.println(e.getLocalizedMessage());
+			System.exit(0);
+		}
 	}
 
 	public Board getBoard() {

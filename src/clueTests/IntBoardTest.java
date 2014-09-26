@@ -8,7 +8,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import classes.BoardCell;
+import classes.IntBoardCell;
 import classes.IntBoard;
 
 public class IntBoardTest {
@@ -23,8 +23,8 @@ public class IntBoardTest {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void adjListTL() {
-		BoardCell cell = board.getCell(0,0);
-		LinkedList<BoardCell> list = board.getAdjList(cell);
+		IntBoardCell cell = board.getCell(0,0);
+		LinkedList<IntBoardCell> list = board.getAdjList(cell);
 		Assert.assertTrue(list.contains(board.getCell(1, 0)));
 		Assert.assertTrue(list.contains(board.getCell(0, 1)));
 		Assert.assertEquals(2, list.size());
@@ -33,8 +33,8 @@ public class IntBoardTest {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void adjListBR(){
-		BoardCell cell = board.getCell(3, 3);
-		LinkedList<BoardCell> list = board.getAdjList(cell);
+		IntBoardCell cell = board.getCell(3, 3);
+		LinkedList<IntBoardCell> list = board.getAdjList(cell);
 		Assert.assertTrue(list.contains(board.getCell(2,3)));
 		Assert.assertTrue(list.contains(board.getCell(3,2)));
 		Assert.assertEquals(2, list.size());
@@ -43,8 +43,8 @@ public class IntBoardTest {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void adjListRE(){
-		BoardCell cell = board.getCell(1, 3);
-		LinkedList<BoardCell> list = board.getAdjList(cell);
+		IntBoardCell cell = board.getCell(1, 3);
+		LinkedList<IntBoardCell> list = board.getAdjList(cell);
 		Assert.assertTrue(list.contains(board.getCell(0,3)));
 		Assert.assertTrue(list.contains(board.getCell(2,3)));
 		Assert.assertTrue(list.contains(board.getCell(1,2)));
@@ -54,8 +54,8 @@ public class IntBoardTest {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void adjListLE(){
-		BoardCell cell = board.getCell(3, 0);
-		LinkedList<BoardCell> list = board.getAdjList(cell);
+		IntBoardCell cell = board.getCell(3, 0);
+		LinkedList<IntBoardCell> list = board.getAdjList(cell);
 		Assert.assertTrue(list.contains(board.getCell(3,1)));
 		Assert.assertTrue(list.contains(board.getCell(2,0)));
 		Assert.assertEquals(2, list.size());
@@ -64,8 +64,8 @@ public class IntBoardTest {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void adjListM(){
-		BoardCell cell = board.getCell(2, 2);
-		LinkedList<BoardCell> list = board.getAdjList(cell);
+		IntBoardCell cell = board.getCell(2, 2);
+		LinkedList<IntBoardCell> list = board.getAdjList(cell);
 		Assert.assertTrue(list.contains(board.getCell(2,3)));
 		Assert.assertTrue(list.contains(board.getCell(2,1)));
 		Assert.assertTrue(list.contains(board.getCell(1,2)));
@@ -76,8 +76,8 @@ public class IntBoardTest {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void adjList2C(){
-		BoardCell cell = board.getCell(1, 1);
-		LinkedList<BoardCell> list = board.getAdjList(cell);
+		IntBoardCell cell = board.getCell(1, 1);
+		LinkedList<IntBoardCell> list = board.getAdjList(cell);
 		Assert.assertTrue(list.contains(board.getCell(1,2)));
 		Assert.assertTrue(list.contains(board.getCell(0,1)));
 		Assert.assertTrue(list.contains(board.getCell(2,1)));
@@ -89,7 +89,7 @@ public class IntBoardTest {
 	@Test
 	public void testTargets_TL_3()
 	{
-		BoardCell cell = board.getCell(0, 0);
+		IntBoardCell cell = board.getCell(0, 0);
 		board.calcTargets(cell, 3);
 		Set targets = board.getTargets();
 		Assert.assertTrue(targets.contains(board.getCell(3, 0)));
@@ -104,7 +104,7 @@ public class IntBoardTest {
 	@Test
 	public void testTargets_BR_1()
 	{
-		BoardCell cell = board.getCell(3, 3);
+		IntBoardCell cell = board.getCell(3, 3);
 		board.calcTargets(cell, 3);
 		Set targets = board.getTargets();
 
@@ -120,7 +120,7 @@ public class IntBoardTest {
 	@Test
 	public void testTargets_RE_2()
 	{
-		BoardCell cell = board.getCell(1, 3);
+		IntBoardCell cell = board.getCell(1, 3);
 		board.calcTargets(cell, 2);
 		Set targets = board.getTargets();
 
@@ -134,7 +134,7 @@ public class IntBoardTest {
 	@Test
 	public void testTargets_C1_1()
 	{
-		BoardCell cell = board.getCell(1, 1);
+		IntBoardCell cell = board.getCell(1, 1);
 		board.calcTargets(cell, 1);
 		Set targets = board.getTargets();
 
@@ -149,7 +149,7 @@ public class IntBoardTest {
 	@Test
 	public void testTargets_C2_2()
 	{
-		BoardCell cell = board.getCell(2, 2);
+		IntBoardCell cell = board.getCell(2, 2);
 		board.calcTargets(cell, 2);
 		Set targets = board.getTargets();
 
@@ -164,7 +164,7 @@ public class IntBoardTest {
 	@Test
 	public void testTargets_C2_3()
 	{
-		BoardCell cell = board.getCell(2, 2);
+		IntBoardCell cell = board.getCell(2, 2);
 		board.calcTargets(cell, 3);
 		Set targets = board.getTargets();
 		Assert.assertTrue(targets.contains(board.getCell(1, 0)));
@@ -180,7 +180,7 @@ public class IntBoardTest {
 	@Test
 	public void testTargets_LE_2()
 	{
-		BoardCell cell = board.getCell(0, 2);
+		IntBoardCell cell = board.getCell(0, 2);
 		board.calcTargets(cell, 2);
 		Set targets = board.getTargets();
 
