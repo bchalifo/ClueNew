@@ -20,11 +20,11 @@ public class Board {
 	}
 
 	public int getNumRows() {
-		return 0;
+		return numRows;
 	}
 
 	public int getNumColumns() {
-		return 0;
+		return numColumns;
 	}
 
 	public RoomCell getRoomCellAt(int row, int col) {
