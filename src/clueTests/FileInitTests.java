@@ -76,10 +76,9 @@ public class FileInitTests {
 		{
 			for(int c = 0; c < COLS; c++)
 			{
-				if(board.getCellAt(r, c).isDoorway()) numDoors++;
+				if(board.getRoomCellAt(r, c).isDoorway()) numDoors++;
 			}
 		}
-		System.out.println(numDoors);
 		Assert.assertEquals(20, numDoors);
 	}
 	
