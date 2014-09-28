@@ -1,7 +1,7 @@
 X, asdfasdfCloset
 L, Library
 B, Bedroom
-K, Kitchensadf
+K Kitchensadf
 D, Dinning Room
 A, Bowling Alley
 W, Water Closet

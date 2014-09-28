@@ -54,7 +54,6 @@ public class Board {
 			}
 			else throw new BadConfigFormatException("Bad Legend file");
 		}
-		System.out.println(rooms);
 		legend.close();
 		
 		// Load board layout
