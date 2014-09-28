@@ -35,17 +35,17 @@ public class FileInitTests {
 		Assert.assertEquals(ROOMS, rooms.size());
 		
 		// Test legend
-		Assert.assertEquals("Closet", rooms.get("X"));
-		Assert.assertEquals("Library", rooms.get("L"));
-		Assert.assertEquals("Bedroom", rooms.get("B"));
-		Assert.assertEquals("Kitchen", rooms.get("K"));
-		Assert.assertEquals("Dinning Room", rooms.get("D"));
-		Assert.assertEquals("Bowling Alley", rooms.get("A"));
-		Assert.assertEquals("Water Closet", rooms.get("W"));
-		Assert.assertEquals("Office", rooms.get("O"));
-		Assert.assertEquals("Family Room", rooms.get("F"));
-		Assert.assertEquals("Observitory", rooms.get("S"));
-		Assert.assertEquals("Walk way", rooms.get("."));
+		Assert.assertEquals("Closet", rooms.get('X'));
+		Assert.assertEquals("Library", rooms.get('L'));
+		Assert.assertEquals("Bedroom", rooms.get('B'));
+		Assert.assertEquals("Kitchen", rooms.get('K'));
+		Assert.assertEquals("Dinning Room", rooms.get('D'));
+		Assert.assertEquals("Bowling Alley", rooms.get('A'));
+		Assert.assertEquals("Water Closet", rooms.get('W'));
+		Assert.assertEquals("Office", rooms.get('O'));
+		Assert.assertEquals("Family Room", rooms.get('F'));
+		Assert.assertEquals("Observitory", rooms.get('S'));
+		Assert.assertEquals("Walk way", rooms.get('.'));
 		
 	}
 	
@@ -79,8 +79,8 @@ public class FileInitTests {
 				if(board.getCellAt(r, c).isDoorway()) numDoors++;
 			}
 		}
-		
-		Assert.assertEquals(2, numDoors);
+		System.out.println(numDoors);
+		Assert.assertEquals(20, numDoors);
 	}
 	
 	@SuppressWarnings("deprecation")
