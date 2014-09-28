@@ -86,17 +86,17 @@ public class FileInitTests {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void testRoomType(){
-		Assert.assertEquals("X", board.getRoomCellAt(9, 9).getInitial());
-		Assert.assertEquals("L", board.getRoomCellAt(16, 15).getInitial());
-		Assert.assertEquals("B", board.getRoomCellAt(0, 18).getInitial());
-		Assert.assertEquals("K", board.getRoomCellAt(9, 18).getInitial());
-		Assert.assertEquals("D", board.getRoomCellAt(21, 0).getInitial());
-		Assert.assertEquals("A", board.getRoomCellAt(0, 0).getInitial());
-		Assert.assertEquals("W", board.getRoomCellAt(13, 10).getInitial());
-		Assert.assertEquals("O", board.getRoomCellAt(4, 9).getInitial());
-		Assert.assertEquals("F", board.getRoomCellAt(12, 0).getInitial());
-		Assert.assertEquals("S", board.getRoomCellAt(19, 6).getInitial());
-		Assert.assertEquals(".", board.getRoomCellAt(15, 0).getInitial());
+		Assert.assertEquals('X', board.getRoomCellAt(9, 9).getInitial());
+		Assert.assertEquals('L', board.getRoomCellAt(16, 15).getInitial());
+		Assert.assertEquals('B', board.getRoomCellAt(0, 18).getInitial());
+		Assert.assertEquals('K', board.getRoomCellAt(9, 18).getInitial());
+		Assert.assertEquals('D', board.getRoomCellAt(21, 0).getInitial());
+		Assert.assertEquals('A', board.getRoomCellAt(0, 0).getInitial());
+		Assert.assertEquals('W', board.getRoomCellAt(13, 10).getInitial());
+		Assert.assertEquals('O', board.getRoomCellAt(4, 9).getInitial());
+		Assert.assertEquals('F', board.getRoomCellAt(12, 0).getInitial());
+		Assert.assertEquals('S', board.getRoomCellAt(19, 6).getInitial());
+		Assert.assertEquals('.', board.getRoomCellAt(15, 0).getInitial());
 	}
 	
 	@Test (expected = BadConfigFormatException.class)
