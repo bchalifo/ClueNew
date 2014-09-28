@@ -8,3 +8,6 @@ Sun Sep 28 15:09:18 MDT 2014 Bad Layout file
 Sun Sep 28 15:10:30 MDT 2014 Bad Layout file
 Sun Sep 28 15:11:15 MDT 2014 Bad Layout file
 Sun Sep 28 15:12:30 MDT 2014 Bad Layout file
+Sun Sep 28 15:15:12 MDT 2014 Bad Legend file
+Sun Sep 28 15:15:22 MDT 2014 Bad Layout file
+Sun Sep 28 15:15:22 MDT 2014 Bad Legend file
