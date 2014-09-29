@@ -35,7 +35,7 @@ public class ClueGame {
 	}
 
 	public void loadRoomConfig() {
-		// TODO Auto-generated method stub
+		loadConfigFiles();
 		
 	}
 }
