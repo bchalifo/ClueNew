@@ -17,6 +17,7 @@ public class ClueGame {
 
 	public ClueGame() {
 		rooms = new HashMap<Character, String>();
+		board = new Board("ClueLayout.csv", "ClueLegend.txt",ROWS,COLS);
 	}
 
 	// Methods
