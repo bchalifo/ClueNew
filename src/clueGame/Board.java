@@ -110,12 +110,41 @@ public class Board {
 		LinkedList<BoardCell> tempList = new LinkedList<BoardCell>();
 		for(int r = 0; r < numRows; r++){
 			for(int c = 0; c < numColumns; c++){
-				if(c+1 < numColumns ) tempList.add(getCellAt(r,c+1));
-				if( r+1 < numRows) tempList.add(getCellAt(r+1,c));
-				if(c-1 >= 0 ) tempList.add(getCellAt(r,c-1));
-				if(r-1 >= 0) tempList.add(getCellAt(r-1,c));
-				
-				adjMtx.put(getCellAt(r,c), new LinkedList<BoardCell>(tempList));
+				if(!getRoomCellAt(r,c).isWalkway() &&!getRoomCellAt(r,c).isDoorway()) continue;//issues
+				if(c+1 < numColumns ){
+					if(getRoomCellAt(r,c+1).isWalkway()){
+						tempList.add(getRoomCellAt(r,c+1));
+					}
+					else if(getRoomCellAt(r,c+1).getDoorDirection()==RoomCell.DoorDirection.LEFT){
+						tempList.add(getRoomCellAt(r,c+1));
+					}
+				}
+				if( r+1 < numRows){
+					if(getRoomCellAt(r+1,c).isWalkway()){
+						tempList.add(getRoomCellAt(r+1,c));
+					}
+					else if(getRoomCellAt(r+1,c).getDoorDirection()==RoomCell.DoorDirection.UP){
+						tempList.add(getRoomCellAt(r+1,c));
+					}
+				}
+				if(c-1 >= 0 ){
+					if(getRoomCellAt(r,c-1).isWalkway()){
+						tempList.add(getRoomCellAt(r,c-1));
+					}
+					else if(getRoomCellAt(r,c-1).getDoorDirection()==RoomCell.DoorDirection.RIGHT){
+						tempList.add(getRoomCellAt(r,c-1));
+					}
+				}
+				if(r-1 >= 0){
+					if(getRoomCellAt(r-1,c).isWalkway()){
+						tempList.add(getRoomCellAt(r-1,c));
+					}
+					else if(getRoomCellAt(r-1,c).getDoorDirection()==RoomCell.DoorDirection.DOWN){
+						tempList.add(getRoomCellAt(r-1,c));
+					}
+				}
+
+				adjMtx.put(getRoomCellAt(r,c), new LinkedList<BoardCell>(tempList));
 				tempList.clear();
 			}
 		}
@@ -126,6 +155,8 @@ public class Board {
 
 	// Calculate targets for given roll
 	public void calcTargets(int row, int col, int moves) {
+		targets.clear();
+		visited.clear();
 		BoardCell start = getCellAt(row,col);
 		recursion(start,moves,start);
 		

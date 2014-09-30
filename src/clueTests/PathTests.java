@@ -33,7 +33,7 @@ public class PathTests {
 	//Orange cells are the corresponding test case
 	@Test
 	public void TestRooms() {
-		LinkedList<BoardCell> testList = board.getAdjList(0, 0);
+		LinkedList<BoardCell> testList = board.getAdjList(0,0);
 		Assert.assertEquals(0, testList.size());
 		testList = board.getAdjList(7, 0);
 		Assert.assertEquals(0, testList.size());
@@ -62,7 +62,7 @@ public class PathTests {
 		Assert.assertEquals(1, testList.size());
 		testList = board.getAdjList(18, 3);
 		Assert.assertEquals(1, testList.size());
-		testList = board.getAdjList(20, 6);
+		testList = board.getAdjList(6,20);
 		Assert.assertEquals(1, testList.size());
 		testList = board.getAdjList(12, 18);
 		Assert.assertEquals(1, testList.size());
@@ -73,6 +73,7 @@ public class PathTests {
 	@Test
 	public void doorWallTest() {
 		LinkedList<BoardCell> testList = board.getAdjList(9, 22);
+
 		Assert.assertTrue(testList.contains(board.getCellAt(8, 22)));
 		Assert.assertTrue(testList.contains(board.getCellAt(10, 22)));
 		Assert.assertTrue(testList.contains(board.getCellAt(9, 21)));
@@ -92,7 +93,7 @@ public class PathTests {
 		Assert.assertTrue(testList.contains(board.getCellAt(14, 18)));
 		Assert.assertEquals(4, testList.size());
 		
-		testList = board.getAdjList(8,14);
+		testList = board.getAdjList(9,14);
 		Assert.assertTrue(testList.contains(board.getCellAt(9, 15)));
 		Assert.assertTrue(testList.contains(board.getCellAt(9, 13)));
 		Assert.assertTrue(testList.contains(board.getCellAt(8, 14)));
@@ -103,11 +104,13 @@ public class PathTests {
 		Assert.assertTrue(testList.contains(board.getCellAt(19, 3)));
 		Assert.assertTrue(testList.contains(board.getCellAt(19, 5)));
 		Assert.assertTrue(testList.contains(board.getCellAt(20, 4)));
-		Assert.assertTrue(testList.contains(board.getCellAt(20, 3)));
+		Assert.assertTrue(testList.contains(board.getCellAt(18, 4)));
 		Assert.assertEquals(4, testList.size());
 		
 		testList = board.getAdjList(11, 3);
-		Assert.assertEquals(0, testList.size());
+		Assert.assertTrue(testList.contains(board.getCellAt(11, 4)));
+		Assert.assertTrue(testList.contains(board.getCellAt(12, 3)));
+		Assert.assertEquals(2, testList.size());
 	}
 	
 	// light purple cells are test cases.
@@ -142,7 +145,7 @@ public class PathTests {
 		for(BoardCell c : testList){
 			if(c.isDoorway()) count++;
 		}
-		Assert.assertEquals(1, count);
+		Assert.assertEquals(0, count);
 		
 		count = 0;
 		testList = board.getAdjList(19, 4);
@@ -219,6 +222,7 @@ public class PathTests {
 		
 		board.calcTargets(4, 1, 2);
 		Set targets = board.getTargets();
+		
 		Assert.assertTrue(targets.contains(board.getCellAt(5, 0)));
 		Assert.assertTrue(targets.contains(board.getCellAt(6, 1)));
 		Assert.assertTrue(targets.contains(board.getCellAt(5, 2)));
