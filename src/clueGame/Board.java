@@ -110,7 +110,6 @@ public class Board {
 		LinkedList<BoardCell> tempList = new LinkedList<BoardCell>();
 		for(int r = 0; r < numRows; r++){
 			for(int c = 0; c < numColumns; c++){
-				if(!getRoomCellAt(r,c).isWalkway() &&!getRoomCellAt(r,c).isDoorway()) continue;//issues
 				if(c+1 < numColumns ){
 					if(getRoomCellAt(r,c+1).isWalkway()){
 						tempList.add(getRoomCellAt(r,c+1));
@@ -144,7 +143,11 @@ public class Board {
 					}
 				}
 
-				adjMtx.put(getRoomCellAt(r,c), new LinkedList<BoardCell>(tempList));
+				if(!getRoomCellAt(r,c).isWalkway() &&!getRoomCellAt(r,c).isDoorway()){
+					adjMtx.put(getCellAt(r,c), new LinkedList<BoardCell>());
+				}
+				else
+					adjMtx.put(getCellAt(r,c), new LinkedList<BoardCell>(tempList));
 				tempList.clear();
 			}
 		}
@@ -162,7 +165,8 @@ public class Board {
 		
 	}
 	private void recursion(BoardCell cell, int moves, BoardCell start){
-		if(moves == 0){
+		
+		if(moves == 0 || (cell.isDoorway() && !start.isDoorway())){
 			if(!cell.equals(start)) targets.add(cell);
 			visited.clear();
 			return;
@@ -215,5 +219,16 @@ public class Board {
 		numRows = rows;
 		numColumns = cols;
 		
+	}
+	
+	@Override
+	public String toString(){
+		String sBoard = "";
+		for(int r = 0; r < numRows; r++){
+			for(int c = 0; c < numColumns; c++){
+				sBoard += "[ " + board[r][c] + " ]\n ";
+			}
+		}
+		return sBoard;
 	}
 }

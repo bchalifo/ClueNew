@@ -35,24 +35,34 @@ public class PathTests {
 	public void TestRooms() {
 		LinkedList<BoardCell> testList = board.getAdjList(0,0);
 		Assert.assertEquals(0, testList.size());
+		
 		testList = board.getAdjList(7, 0);
 		Assert.assertEquals(0, testList.size());
+		
 		testList = board.getAdjList(16, 3);
 		Assert.assertEquals(0, testList.size());
+		
 		testList = board.getAdjList(17, 5);
 		Assert.assertEquals(0, testList.size());
+		
 		testList = board.getAdjList(13, 10);
 		Assert.assertEquals(0, testList.size());
+		
 		testList = board.getAdjList(9, 10);
 		Assert.assertEquals(0, testList.size());
+		
 		testList = board.getAdjList(5, 11);
 		Assert.assertEquals(0, testList.size());
+		
 		testList = board.getAdjList(1, 18);
 		Assert.assertEquals(0, testList.size());
+		
 		testList = board.getAdjList(12, 17);
 		Assert.assertEquals(0, testList.size());
+		
 		testList = board.getAdjList(17, 17);
 		Assert.assertEquals(0, testList.size());
+		
 	}
 	
 	//Purple cells are the corresponding test case
@@ -62,10 +72,11 @@ public class PathTests {
 		Assert.assertEquals(1, testList.size());
 		testList = board.getAdjList(18, 3);
 		Assert.assertEquals(1, testList.size());
-		testList = board.getAdjList(6,20);
+		testList = board.getAdjList(19,5);
 		Assert.assertEquals(1, testList.size());
 		testList = board.getAdjList(12, 18);
 		Assert.assertEquals(1, testList.size());
+		testList = board.getAdjList(16,1);
 		Assert.assertEquals(board.getCellAt(15, 1), testList.get(0));
 	}
 	
@@ -183,8 +194,8 @@ public class PathTests {
 		Assert.assertTrue(targets.contains(board.getCellAt(13, 18)));
 		Assert.assertTrue(targets.contains(board.getCellAt(14, 19)));
 		Assert.assertTrue(targets.contains(board.getCellAt(15,20)));
-		Assert.assertTrue(targets.contains(board.getCellAt(15, 19))); // Enters room
-		Assert.assertTrue(targets.contains(board.getCellAt(15, 18))); // Enters room
+		Assert.assertTrue(targets.contains(board.getCellAt(16, 18))); // Enters room
+		Assert.assertTrue(targets.contains(board.getCellAt(16, 17))); // Enters room
 		Assert.assertEquals(7, targets.size());
 		
 		board.calcTargets(19, 11, 4);

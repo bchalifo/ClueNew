@@ -40,7 +40,7 @@ public class RoomCell extends BoardCell {
 		return false;
 	}
 	public boolean isWalkway(){
-		if(roomInitial == '.') return true;
+		if(roomInitial == '.'|| roomInitial == 'W') return true;
 		else return false;
 	}
 
