@@ -8,4 +8,4 @@ W, Water Closet
 O, Office
 F, Family Room
 S, Observitory
-., Walk way
+., Walkway

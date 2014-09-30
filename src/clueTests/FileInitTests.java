@@ -45,7 +45,7 @@ public class FileInitTests {
 		Assert.assertEquals("Office", rooms.get('O'));
 		Assert.assertEquals("Family Room", rooms.get('F'));
 		Assert.assertEquals("Observitory", rooms.get('S'));
-		Assert.assertEquals("Walk way", rooms.get('.'));
+		Assert.assertEquals("Walkway", rooms.get('.'));
 		
 	}
 	

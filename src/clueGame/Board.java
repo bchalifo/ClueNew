@@ -9,25 +9,23 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
-
 public class Board {
-	
-	
+
 	private int numRows;
 	private int numColumns;
 	private BoardCell[][] board;
-	private Map<Character,String> rooms;
+	private Map<Character, String> rooms;
 	private Map<BoardCell, LinkedList<BoardCell>> adjMtx;
 	private Set<BoardCell> visited;
 	private Set<BoardCell> targets;
-	
+
 	private String layoutFile;
 	private String legendFile;
-	
-	public Board(String layoutFile, String legendFile,int rows,int cols){
+
+	public Board(String layoutFile, String legendFile, int rows, int cols) {
 		this.layoutFile = layoutFile;
 		this.legendFile = legendFile;
-		setSize(rows,cols);
+		setSize(rows, cols);
 		// init containers
 		board = new BoardCell[numRows][numColumns];
 		rooms = new HashMap<Character, String>();
@@ -35,152 +33,160 @@ public class Board {
 		visited = new HashSet<BoardCell>();
 		targets = new HashSet<BoardCell>();
 	}
-	
-	public void loadBoardConfig()throws BadConfigFormatException{
+
+	public void loadBoardConfig() throws BadConfigFormatException {
 		// load legend
 		Scanner legend = loadLegend();
-		while(legend.hasNextLine()){
+		while (legend.hasNextLine()) {
 			String legendLine = legend.nextLine();
-			if(legendLine.indexOf(',') > -1)
-			{
+			if (legendLine.indexOf(',') > -1) {
 				String temp[] = legendLine.split(", ");
-				if(temp.length > 2 && temp[0].length() == 1) throw new BadConfigFormatException("Bad legend file");
-				else
-				{
+				if (temp.length > 2 && temp[0].length() == 1)
+					throw new BadConfigFormatException("Bad legend file");
+				else {
 					char key = temp[0].charAt(0);
 					rooms.put(key, temp[1]);
 				}
-				
-			}
-			else throw new BadConfigFormatException("Bad Legend file");
+
+			} else
+				throw new BadConfigFormatException("Bad Legend file");
 		}
 		legend.close();
-		
+
 		// Load board layout
 		Scanner layout = loadLayout();
 		int row = 0;
-		while(layout.hasNextLine()){
+		while (layout.hasNextLine()) {
 			String layoutLine = layout.nextLine();
 			String temp[];
-			if(layoutLine.indexOf(',') > -1){
-			    temp = layoutLine.split(",");
-				if(temp.length == numColumns){
-					for(int i = 0; i < temp.length;i++){
-							board[row][i] = new RoomCell(row,i,temp[i]);
+			if (layoutLine.indexOf(',') > -1) {
+				temp = layoutLine.split(",");
+				if (temp.length == numColumns) {
+					for (int i = 0; i < temp.length; i++) {
+						board[row][i] = new RoomCell(row, i, temp[i]);
+
+						try{
+							if (rooms.get(temp[i].charAt(0)).equalsIgnoreCase("walkway")) {
+							((RoomCell) board[row][i]).makeWalkway();
+							}
+						}catch(NullPointerException e){
+							throw new BadConfigFormatException("Bad Layout file");
+						}
+						
+
 					}
 					row++;
-				}
-				else throw new BadConfigFormatException("Bad Layout file");
-			}
-			else throw new BadConfigFormatException("Bad Layout file");
-	
+				} else
+					throw new BadConfigFormatException("Bad Layout file");
+			} else
+				throw new BadConfigFormatException("Bad Layout file");
+
 		}
 		layout.close();
 	}
-	private Scanner loadLayout(){
+
+	private Scanner loadLayout() {
 		// Read in layout file
 		Scanner in = null;
 		FileReader reader = null;
-		try{
+		try {
 			reader = new FileReader(layoutFile);
 			in = new Scanner(reader);
-		}catch(FileNotFoundException e){
+		} catch (FileNotFoundException e) {
 			System.out.println(e.getLocalizedMessage());
 			System.exit(0);
 		}
 		return in;
 	}
-	private Scanner loadLegend(){
+
+	private Scanner loadLegend() {
 		// Read in legend file
 		Scanner in = null;
 		FileReader reader = null;
-		try{
+		try {
 			reader = new FileReader(legendFile);
 			in = new Scanner(reader);
-		}catch(FileNotFoundException e){
+		} catch (FileNotFoundException e) {
 			System.out.println(e.getLocalizedMessage());
 			System.exit(0);
 		}
 		return in;
 	}
 
-
-
 	public void calcAdjacencies() {
 		LinkedList<BoardCell> tempList = new LinkedList<BoardCell>();
-		for(int r = 0; r < numRows; r++){
-			for(int c = 0; c < numColumns; c++){
-				if(c+1 < numColumns ){
-					if(getRoomCellAt(r,c+1).isWalkway()){
-						tempList.add(getRoomCellAt(r,c+1));
-					}
-					else if(getRoomCellAt(r,c+1).getDoorDirection()==RoomCell.DoorDirection.LEFT){
-						tempList.add(getRoomCellAt(r,c+1));
-					}
-				}
-				if( r+1 < numRows){
-					if(getRoomCellAt(r+1,c).isWalkway()){
-						tempList.add(getRoomCellAt(r+1,c));
-					}
-					else if(getRoomCellAt(r+1,c).getDoorDirection()==RoomCell.DoorDirection.UP){
-						tempList.add(getRoomCellAt(r+1,c));
+		for (int r = 0; r < numRows; r++) {
+			for (int c = 0; c < numColumns; c++) {
+				if (c + 1 < numColumns) {
+					if (getRoomCellAt(r, c + 1).isWalkway()) {
+						tempList.add(getRoomCellAt(r, c + 1));
+					} else if (getRoomCellAt(r, c + 1).getDoorDirection() == RoomCell.DoorDirection.LEFT) {
+						tempList.add(getRoomCellAt(r, c + 1));
 					}
 				}
-				if(c-1 >= 0 ){
-					if(getRoomCellAt(r,c-1).isWalkway()){
-						tempList.add(getRoomCellAt(r,c-1));
-					}
-					else if(getRoomCellAt(r,c-1).getDoorDirection()==RoomCell.DoorDirection.RIGHT){
-						tempList.add(getRoomCellAt(r,c-1));
+				if (r + 1 < numRows) {
+					if (getRoomCellAt(r + 1, c).isWalkway()) {
+						tempList.add(getRoomCellAt(r + 1, c));
+					} else if (getRoomCellAt(r + 1, c).getDoorDirection() == RoomCell.DoorDirection.UP) {
+						tempList.add(getRoomCellAt(r + 1, c));
 					}
 				}
-				if(r-1 >= 0){
-					if(getRoomCellAt(r-1,c).isWalkway()){
-						tempList.add(getRoomCellAt(r-1,c));
+				if (c - 1 >= 0) {
+					if (getRoomCellAt(r, c - 1).isWalkway()) {
+						tempList.add(getRoomCellAt(r, c - 1));
+					} else if (getRoomCellAt(r, c - 1).getDoorDirection() == RoomCell.DoorDirection.RIGHT) {
+						tempList.add(getRoomCellAt(r, c - 1));
 					}
-					else if(getRoomCellAt(r-1,c).getDoorDirection()==RoomCell.DoorDirection.DOWN){
-						tempList.add(getRoomCellAt(r-1,c));
+				}
+				if (r - 1 >= 0) {
+					if (getRoomCellAt(r - 1, c).isWalkway()) {
+						tempList.add(getRoomCellAt(r - 1, c));
+					} else if (getRoomCellAt(r - 1, c).getDoorDirection() == RoomCell.DoorDirection.DOWN) {
+						tempList.add(getRoomCellAt(r - 1, c));
 					}
 				}
 
-				if(!getRoomCellAt(r,c).isWalkway() &&!getRoomCellAt(r,c).isDoorway()){
-					adjMtx.put(getCellAt(r,c), new LinkedList<BoardCell>());
-				}
-				else
-					adjMtx.put(getCellAt(r,c), new LinkedList<BoardCell>(tempList));
+				if (!getRoomCellAt(r, c).isWalkway()
+						&& !getRoomCellAt(r, c).isDoorway()) {
+					adjMtx.put(getCellAt(r, c), new LinkedList<BoardCell>());
+				} else
+					adjMtx.put(getCellAt(r, c), new LinkedList<BoardCell>(
+							tempList));
 				tempList.clear();
 			}
 		}
-		
+
 	}
-
-
 
 	// Calculate targets for given roll
 	public void calcTargets(int row, int col, int moves) {
 		targets.clear();
 		visited.clear();
-		BoardCell start = getCellAt(row,col);
-		recursion(start,moves,start);
-		
+		BoardCell start = getCellAt(row, col);
+		recursion(start, moves, start);
+
 	}
-	private void recursion(BoardCell cell, int moves, BoardCell start){
-		
-		if(moves == 0 || (cell.isDoorway() && !start.isDoorway())){
-			if(!cell.equals(start)) targets.add(cell);
+
+	private void recursion(BoardCell cell, int moves, BoardCell start) {
+
+		if (moves == 0 || (cell.isDoorway() && !start.isDoorway())) {
+			if (!cell.equals(start))
+				targets.add(cell);
 			visited.clear();
+			visited.add(start);
 			return;
 		}
 		visited.add(cell);
-		for(BoardCell c : adjMtx.get(cell)){
-			if(!visited.contains(c)) recursion(c,moves-1,start);
+		for (BoardCell c : adjMtx.get(cell)) {
+			if (!visited.contains(c))
+				recursion(c, moves - 1, start);
 		}
 	}
-	
+
 	// ==================
-	//      Getters
+	// Getters
 	// ==================
-	
+
 	// Get Rooms
 	public Map<Character, String> getRooms() {
 		return rooms;
@@ -196,7 +202,7 @@ public class Board {
 
 	// Get RoomCell
 	public RoomCell getRoomCellAt(int row, int col) {
-		if(board[row][col].isRoom())
+		if (board[row][col].isRoom())
 			return (RoomCell) board[row][col];
 		return null;
 	}
@@ -205,7 +211,8 @@ public class Board {
 	public BoardCell getCellAt(int row, int col) {
 		return board[row][col];
 	}
-	//Get targets
+
+	// Get targets
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
@@ -218,14 +225,14 @@ public class Board {
 	private void setSize(int rows, int cols) {
 		numRows = rows;
 		numColumns = cols;
-		
+
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		String sBoard = "";
-		for(int r = 0; r < numRows; r++){
-			for(int c = 0; c < numColumns; c++){
+		for (int r = 0; r < numRows; r++) {
+			for (int c = 0; c < numColumns; c++) {
 				sBoard += "[ " + board[r][c] + " ]\n ";
 			}
 		}

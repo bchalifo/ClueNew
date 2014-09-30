@@ -8,10 +8,12 @@ public class RoomCell extends BoardCell {
 	
 	private DoorDirection doorDirection;
 	private char roomInitial;
+	private boolean walkway;
 	
 
 	public RoomCell(int row, int col, String ID) throws BadConfigFormatException {
 		super(row, col);
+		walkway = false;
 		roomInitial = ID.charAt(0);
 		if(ID.length()>1){
 			switch (ID.charAt(1)){
@@ -40,15 +42,16 @@ public class RoomCell extends BoardCell {
 		return false;
 	}
 	public boolean isWalkway(){
-		if(roomInitial == '.'|| roomInitial == 'W') return true;
-		else return false;
+		return walkway;
 	}
 
 	public DoorDirection getDoorDirection() {
 		return doorDirection;
 	}
 
-
+	public void makeWalkway(){
+		walkway = true;
+	}
 	public char getInitial() {
 		return roomInitial;
 	}

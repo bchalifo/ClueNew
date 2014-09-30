@@ -46,6 +46,7 @@ public class PathTests {
 		Assert.assertEquals(0, testList.size());
 		
 		testList = board.getAdjList(13, 10);
+		System.out.println(testList);
 		Assert.assertEquals(0, testList.size());
 		
 		testList = board.getAdjList(9, 10);
