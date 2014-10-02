@@ -49,6 +49,7 @@ public class RoomCell extends BoardCell {
 		return doorDirection;
 	}
 
+	//LOL
 	public void makeWalkway(){
 		walkway = true;
 	}
