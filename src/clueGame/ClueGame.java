@@ -3,18 +3,21 @@ package clueGame;
 import java.util.*;
 
 public class ClueGame {
-	// Constants
+	// constants
 	private final int ROWS = 22;
 	private final int COLS = 23;
-	// variables
+	// instance variables
 	private Map<Character,String> rooms;
 	private Board board;
-	//Constructor
+	
+	// TODO: Need containers for players and cards
+	
+	// constructor
 	public ClueGame(String layout, String legend) {
 		board = new Board(layout,legend,ROWS,COLS);
 		rooms = new HashMap<Character, String>();
 	}
-
+	// default constructor
 	public ClueGame() {
 		rooms = new HashMap<Character, String>();
 		board = new Board("ClueLayout.csv", "ClueLegend.txt",ROWS,COLS);
