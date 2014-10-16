@@ -9,8 +9,11 @@ public class ClueGame {
 	// instance variables
 	private Map<Character,String> rooms;
 	private Board board;
-	
-	// TODO: Need containers for players and cards
+	// new stuff
+	private Solution solution;
+	private ArrayList<Player> players;
+	private Map<Player, BoardCell> playerLocations;
+	private ArrayList<Card> cards;
 	
 	// constructor
 	public ClueGame(String layout, String legend) {

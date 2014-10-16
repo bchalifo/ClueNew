@@ -18,7 +18,6 @@ public class Board {
 	private Map<BoardCell, LinkedList<BoardCell>> adjMtx;
 	private Set<BoardCell> visited;
 	private Set<BoardCell> targets;
-	private Solution solution;
 	private String layoutFile;
 	private String legendFile;
 

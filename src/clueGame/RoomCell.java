@@ -2,8 +2,8 @@ package clueGame;
 
 public class RoomCell extends BoardCell {
 	
-	public static enum DoorDirection{
-		UP,DOWN,LEFT,RIGHT,NONE;
+	public enum DoorDirection{
+		UP ,DOWN, LEFT, RIGHT, NONE;
 	}
 	
 	private DoorDirection doorDirection;
