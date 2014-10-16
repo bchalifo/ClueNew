@@ -19,7 +19,7 @@ public class Player {
 	}
 	
 	// disprove suggestion made by another player
-	public boolean disproveSuggestion() {
+	public boolean disproveSuggestion(String person, String card, String weapon) {
 		return false;
 	}
 }

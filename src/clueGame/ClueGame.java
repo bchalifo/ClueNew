@@ -9,11 +9,14 @@ public class ClueGame {
 	// instance variables
 	private Map<Character,String> rooms;
 	private Board board;
-	// new stuff
+	
+	/*************************************************************************/
+	// NEW STUFF
 	private Solution solution;
 	private ArrayList<Player> players;
 	private Map<Player, BoardCell> playerLocations;
 	private ArrayList<Card> cards;
+	/*************************************************************************/
 	
 	// constructor
 	public ClueGame(String layout, String legend) {
@@ -42,6 +45,28 @@ public class ClueGame {
 
 	public void loadRoomConfig() {
 		loadConfigFiles();
+	}
+	
+	/*************************************************************************/
+	// NEW STUFF
+	public void deal() {
 		
 	}
+	
+	public void selectAnswer() {
+		
+	}
+	
+	public void handleSuggestion(String person,
+								 String room,
+								 String weapon,
+								 Player accusingPerson)
+	{
+		
+	}
+	
+	public boolean checkAccusation(Solution solution) {
+		return false;
+	}
+	/*************************************************************************/
 }
