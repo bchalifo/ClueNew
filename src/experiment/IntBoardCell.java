@@ -1,4 +1,4 @@
-package classes;
+package experiment;
 
 public class IntBoardCell implements Comparable<IntBoardCell> {
 	
