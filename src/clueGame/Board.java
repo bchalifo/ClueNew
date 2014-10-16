@@ -10,7 +10,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class Board {
-
+	// instance variables
 	private int numRows;
 	private int numColumns;
 	private BoardCell[][] board;
@@ -18,10 +18,11 @@ public class Board {
 	private Map<BoardCell, LinkedList<BoardCell>> adjMtx;
 	private Set<BoardCell> visited;
 	private Set<BoardCell> targets;
-
+	private Solution solution;
 	private String layoutFile;
 	private String legendFile;
 
+	// constructor with fields
 	public Board(String layoutFile, String legendFile, int rows, int cols) {
 		this.layoutFile = layoutFile;
 		this.legendFile = legendFile;
@@ -34,6 +35,7 @@ public class Board {
 		targets = new HashSet<BoardCell>();
 	}
 
+	// load board configuration
 	public void loadBoardConfig() throws BadConfigFormatException {
 		// load legend
 		Scanner legend = loadLegend();
@@ -41,15 +43,18 @@ public class Board {
 			String legendLine = legend.nextLine();
 			if (legendLine.indexOf(',') > -1) {
 				String temp[] = legendLine.split(", ");
-				if (temp.length > 2 && temp[0].length() == 1)
+				if (temp.length > 2 && temp[0].length() == 1) {
 					throw new BadConfigFormatException("Bad legend file");
+				}
 				else {
 					char key = temp[0].charAt(0);
 					rooms.put(key, temp[1]);
 				}
 
-			} else
+			}
+			else {
 				throw new BadConfigFormatException("Bad Legend file");
+			}
 		}
 		legend.close();
 
@@ -64,55 +69,59 @@ public class Board {
 				if (temp.length == numColumns) {
 					for (int i = 0; i < temp.length; i++) {
 						board[row][i] = new RoomCell(row, i, temp[i]);
-
-						try{
+						try {
 							if (rooms.get(temp[i].charAt(0)).equalsIgnoreCase("walkway")) {
-							((RoomCell) board[row][i]).makeWalkway();
+								((RoomCell) board[row][i]).makeWalkway();
 							}
-						}catch(NullPointerException e){
+						}
+						catch(NullPointerException e) {
 							throw new BadConfigFormatException("Bad Layout file");
 						}
-						
-
 					}
 					row++;
-				} else
+				}
+				else {
 					throw new BadConfigFormatException("Bad Layout file");
-			} else
+				}
+			}
+			else {
 				throw new BadConfigFormatException("Bad Layout file");
-
+			}
 		}
 		layout.close();
 	}
 
+	// creates a scanner for the layout file
 	private Scanner loadLayout() {
-		// Read in layout file
 		Scanner in = null;
 		FileReader reader = null;
 		try {
 			reader = new FileReader(layoutFile);
 			in = new Scanner(reader);
-		} catch (FileNotFoundException e) {
+		}
+		catch (FileNotFoundException e) {
 			System.out.println(e.getLocalizedMessage());
 			System.exit(0);
 		}
 		return in;
 	}
 
+	// creates a scanner for the legend file
 	private Scanner loadLegend() {
-		// Read in legend file
 		Scanner in = null;
 		FileReader reader = null;
 		try {
 			reader = new FileReader(legendFile);
 			in = new Scanner(reader);
-		} catch (FileNotFoundException e) {
+		}
+		catch (FileNotFoundException e) {
 			System.out.println(e.getLocalizedMessage());
 			System.exit(0);
 		}
 		return in;
 	}
 
+	// load the adjacency map for the board cells
 	public void calcAdjacencies() {
 		LinkedList<BoardCell> tempList = new LinkedList<BoardCell>();
 		for (int r = 0; r < numRows; r++) {
@@ -120,28 +129,32 @@ public class Board {
 				if (c + 1 < numColumns) {
 					if (getRoomCellAt(r, c + 1).isWalkway()) {
 						tempList.add(getRoomCellAt(r, c + 1));
-					} else if (getRoomCellAt(r, c + 1).getDoorDirection() == RoomCell.DoorDirection.LEFT) {
+					}
+					else if (getRoomCellAt(r, c + 1).getDoorDirection() == RoomCell.DoorDirection.LEFT) {
 						tempList.add(getRoomCellAt(r, c + 1));
 					}
 				}
 				if (r + 1 < numRows) {
 					if (getRoomCellAt(r + 1, c).isWalkway()) {
 						tempList.add(getRoomCellAt(r + 1, c));
-					} else if (getRoomCellAt(r + 1, c).getDoorDirection() == RoomCell.DoorDirection.UP) {
+					}
+					else if (getRoomCellAt(r + 1, c).getDoorDirection() == RoomCell.DoorDirection.UP) {
 						tempList.add(getRoomCellAt(r + 1, c));
 					}
 				}
 				if (c - 1 >= 0) {
 					if (getRoomCellAt(r, c - 1).isWalkway()) {
 						tempList.add(getRoomCellAt(r, c - 1));
-					} else if (getRoomCellAt(r, c - 1).getDoorDirection() == RoomCell.DoorDirection.RIGHT) {
+					}
+					else if (getRoomCellAt(r, c - 1).getDoorDirection() == RoomCell.DoorDirection.RIGHT) {
 						tempList.add(getRoomCellAt(r, c - 1));
 					}
 				}
 				if (r - 1 >= 0) {
 					if (getRoomCellAt(r - 1, c).isWalkway()) {
 						tempList.add(getRoomCellAt(r - 1, c));
-					} else if (getRoomCellAt(r - 1, c).getDoorDirection() == RoomCell.DoorDirection.DOWN) {
+					}
+					else if (getRoomCellAt(r - 1, c).getDoorDirection() == RoomCell.DoorDirection.DOWN) {
 						tempList.add(getRoomCellAt(r - 1, c));
 					}
 				}
@@ -149,43 +162,40 @@ public class Board {
 				if (!getRoomCellAt(r, c).isWalkway()
 						&& !getRoomCellAt(r, c).isDoorway()) {
 					adjMtx.put(getCellAt(r, c), new LinkedList<BoardCell>());
-				} else
-					adjMtx.put(getCellAt(r, c), new LinkedList<BoardCell>(
-							tempList));
+				}
+				else {
+					adjMtx.put(getCellAt(r, c), new LinkedList<BoardCell>(tempList));
+				}
 				tempList.clear();
 			}
 		}
-
 	}
 
-	// Calculate targets for given roll
+	// calculate targets for given roll
 	public void calcTargets(int row, int col, int moves) {
 		targets.clear();
 		visited.clear();
 		BoardCell start = getCellAt(row, col);
 		recursion(start, moves, start);
-
 	}
-
+	// recursive call for calculating targets
 	private void recursion(BoardCell cell, int moves, BoardCell start) {
 
 		if (moves == 0 || (cell.isDoorway() && !start.isDoorway())) {
-			if (!cell.equals(start))
+			if (!cell.equals(start)) {
 				targets.add(cell);
+			}
 			visited.clear();
 			visited.add(start);
 			return;
 		}
 		visited.add(cell);
 		for (BoardCell c : adjMtx.get(cell)) {
-			if (!visited.contains(c))
+			if (!visited.contains(c)) {
 				recursion(c, moves - 1, start);
+			}
 		}
 	}
-
-	// ==================
-	// Getters
-	// ==================
 
 	// Get Rooms
 	public Map<Character, String> getRooms() {
@@ -202,8 +212,9 @@ public class Board {
 
 	// Get RoomCell
 	public RoomCell getRoomCellAt(int row, int col) {
-		if (board[row][col].isRoom())
+		if (board[row][col].isRoom()) {
 			return (RoomCell) board[row][col];
+		}
 		return null;
 	}
 

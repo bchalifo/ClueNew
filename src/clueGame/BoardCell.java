@@ -2,8 +2,6 @@ package clueGame;
 
 public abstract class BoardCell implements Comparable<BoardCell> {
 	
-
-	
 	private int row;
 	private int col;
 
@@ -13,27 +11,27 @@ public abstract class BoardCell implements Comparable<BoardCell> {
 		this.col = col;
 	}
 	
-	public boolean isWalkway(){
+	public boolean isWalkway() {
 		return false;
 	}
-	public boolean isRoom(){
+	public boolean isRoom() {
 		return false;
 	}
-	public boolean isDoorway(){
+	public boolean isDoorway() {
 		return false;
 	}
 	
 	@Override
 	public int compareTo(BoardCell o) {
-		if(this.col == o.col && this.row == o.row)
+		if(this.col == o.col && this.row == o.row) {
 			return 0;
-		else
+		}
+		else {
 			return -1;
+		}
 	}
 	@Override
-	public String toString(){
+	public String toString() {
 		return "Row: " + row + " Col: " + col;
 	}
-	
-
 }
