@@ -9,6 +9,10 @@ public class ComputerPlayer extends Player {
 		super();
 	}
 
+	public ComputerPlayer(String name, String color) {
+		super(name, color);
+	}
+
 	// picks a location from a list of targets
 	public void pickLocation() {
 		

@@ -8,6 +8,12 @@ public class Player {
 	private ArrayList<Card> cards;
 	private Color color;
 	
+	// constructor
+	public Player(String name, String color){
+		this.name = name;
+		this.color = Color.valueOf(color);
+	}
+	
 	// default constructor
 	public Player() {
 		

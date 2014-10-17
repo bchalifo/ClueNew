@@ -46,7 +46,7 @@ public class GameSetupTests {
 		
 		assertEquals(players.get(3).getName(), "That Guy");
 		assertEquals(players.get(3).getColor(), Color.YELLOW);
-		assertEquals(playerLocations.get(players.get(3)), board.getCellAt(22, 16));
+		assertEquals(playerLocations.get(players.get(3)), board.getCellAt(21, 16));
 		
 		assertEquals(players.get(4).getName(), "Davey Jones");
 		assertEquals(players.get(4).getColor(), Color.BLUE);
