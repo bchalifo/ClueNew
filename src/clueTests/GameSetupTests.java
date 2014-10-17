@@ -11,12 +11,7 @@ import clueGame.*;
 import clueGame.Card.CardType;
 
 public class GameSetupTests {
-	/**
-	 * Need tests for:
-	 * 	- loading the people
-	 *  - loading the cards
-	 *  - dealing the cards
-	 */
+	// containers for game data
 	private static ClueGame game;
 	private static Board board;
 	private ArrayList<Player> players;
@@ -107,13 +102,7 @@ public class GameSetupTests {
 			assert(personFound && roomFound && weaponFound);
 		}
 	}
-	
-	public Boolean exists(Card card){
-		
-		
-		return false;
-	}
-	
+
 	// This tests that the cards are dealt properly
 	@Test
 	public void testDeal() {
@@ -141,6 +130,5 @@ public class GameSetupTests {
 				deckCopy.remove(playerCard);
 			}
 		}
-		
 	}
 }

@@ -29,6 +29,7 @@ public class ClueGame {
 		cards = new ArrayList<Card>();
 		playerLocations = new HashMap<Player, BoardCell>();
 		players = new ArrayList<Player>(6);
+		solution = new Solution();
 	}
 
 	// default constructor
@@ -62,6 +63,10 @@ public class ClueGame {
 
 	/*************************************************************************/
 	// NEW STUFF
+	public void makeSolution(){
+		
+	}
+	
 	public void deal() {
 		Random r = new Random();
 		int low = 0;
@@ -91,6 +96,9 @@ public class ClueGame {
 	}
 
 	public boolean checkAccusation(Solution solution) {
+		if(this.solution.equals(solution)){
+			return true;
+		}
 		return false;
 	}
 
