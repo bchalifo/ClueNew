@@ -25,4 +25,8 @@ public class Player {
 	public Color getColor() {
 		return color;
 	}
+	
+	public ArrayList<Card> getHand() {
+		return this.cards;
+	}
 }

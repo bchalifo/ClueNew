@@ -17,6 +17,7 @@ public class GameSetupTests {
 	 *  - loading the cards
 	 *  - dealing the cards
 	 */
+	private static ClueGame game;
 	private static Board board;
 	private ArrayList<Player> players;
 	private Map<Player, BoardCell> playerLocations;
@@ -24,7 +25,7 @@ public class GameSetupTests {
 	
 	@Before
 	public void setUpPeople(){
-		ClueGame game = new ClueGame("ClueLayout.csv", "ClueLegend.txt");
+		game = new ClueGame("ClueLayout.csv", "ClueLegend.txt");
 		game.loadConfigFiles();
 		board = game.getBoard();
 		players = game.getPlayers();
@@ -104,6 +105,20 @@ public class GameSetupTests {
 			}
 			// make sure they were found
 			assert(personFound && roomFound && weaponFound);
+		}
+	}
+	
+	// This tests that the cards are dealt properly
+	@Test
+	public void testDeal() {
+		// deal the cards
+		game.deal();
+		// all cards should be dealt
+		assertEquals(cards.size(), 0);
+		// all players should have 3 or 4 cards each
+		for (Player player : players) {
+			ArrayList<Card> hand = player.getHand();
+			assert(hand.size() == 4 || hand.size() == 3);
 		}
 	}
 }
