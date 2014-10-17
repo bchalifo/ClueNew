@@ -1,21 +1,21 @@
-player, Dr.Phil
-player, 
-player,
-player,
-player,
-player.
-weapon, bag of rocks
-weapon, 
-weapon,
-weapon,
-weapon,
-weapon,
-room, Library
-room, Bedroom
-room, Kitchen
-room, Dining Room
-room, Bowling Alley
-room, Water Closet
-room, Office
-room, Family Room
-room, Observatory
+player,Dr.Phil
+player,Popeye
+player,Vlad
+player,That Guy
+player,Davey Jones
+player,John Elway
+room,Library
+room,Bedroom
+room,Kitchen
+room,Dining Room
+room,Bowling Alley
+room,Water Closet
+room,Office
+room,Family Room
+room,Observatory
+weapon,Bear Hands
+weapon,Bag of Rocks
+weapon,Really Depressing Thoughts
+weapon,Hot Soup
+weapon,Fruit Cake Brick
+weapon,Ray Gun

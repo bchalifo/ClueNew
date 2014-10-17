@@ -2,13 +2,13 @@ package clueGame;
 
 public class Card {
 	// card type
-	private enum Type {
+	public enum CardType {
 		PERSON, WEAPON, ROOM
 	}
 	
 	// instance variables
 	private String name;
-	private Type type;
+	private CardType type;
 	
 	// default constructor
 	public Card() {
@@ -22,10 +22,10 @@ public class Card {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Type getType() {
+	public CardType getType() {
 		return type;
 	}
-	public void setType(Type type) {
+	public void setType(CardType type) {
 		this.type = type;
 	}
 

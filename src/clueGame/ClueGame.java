@@ -83,7 +83,11 @@ public class ClueGame {
 		
 	}
 	
-	public ArrayList getPlayers(){
+	public ArrayList<Card> getCards() {
+		return cards;
+	}
+	
+	public ArrayList<Player> getPlayers(){
 		return players;
 	}
 	
