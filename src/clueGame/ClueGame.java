@@ -23,7 +23,9 @@ public class ClueGame {
 	public ClueGame(String layout, String legend) {
 		board = new Board(layout,legend,ROWS,COLS);
 		rooms = new HashMap<Character, String>();
+		loadPlayers();
 	}
+	
 	// default constructor
 	public ClueGame() {
 		rooms = new HashMap<Character, String>();
@@ -76,6 +78,17 @@ public class ClueGame {
 	
 	public void loadCards() throws FileNotFoundException {
 		
+	}
+	public void loadPlayers() {
+		
+	}
+	
+	public ArrayList getPlayers(){
+		return players;
+	}
+	
+	public Map getPlayerLocations(){
+		return playerLocations;
 	}
 	/*************************************************************************/
 }
