@@ -1,9 +1,9 @@
-player,Dr.Phil
-player,Popeye
-player,Vlad
-player,That Guy
-player,Davey Jones
-player,John Elway
+person,Dr.Phil
+person,Popeye
+person,Vlad
+person,That Guy
+person,Davey Jones
+person,John Elway
 room,Library
 room,Bedroom
 room,Kitchen
