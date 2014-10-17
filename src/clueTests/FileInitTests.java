@@ -39,12 +39,12 @@ public class FileInitTests {
 		Assert.assertEquals("Library", rooms.get('L'));
 		Assert.assertEquals("Bedroom", rooms.get('B'));
 		Assert.assertEquals("Kitchen", rooms.get('K'));
-		Assert.assertEquals("Dinning Room", rooms.get('D'));
+		Assert.assertEquals("Dining Room", rooms.get('D'));
 		Assert.assertEquals("Bowling Alley", rooms.get('A'));
 		Assert.assertEquals("Water Closet", rooms.get('W'));
 		Assert.assertEquals("Office", rooms.get('O'));
 		Assert.assertEquals("Family Room", rooms.get('F'));
-		Assert.assertEquals("Observitory", rooms.get('S'));
+		Assert.assertEquals("Observatory", rooms.get('S'));
 		Assert.assertEquals("Walkway", rooms.get('.'));
 		
 	}

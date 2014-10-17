@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class ClueGame {
@@ -33,7 +34,11 @@ public class ClueGame {
 	public void loadConfigFiles(){
 		try {
 			board.loadBoardConfig();
+			this.loadCards();
 		} catch (BadConfigFormatException e) {
+			System.out.println(e.getLocalizedMessage());
+			System.exit(0);
+		} catch (FileNotFoundException e) {
 			System.out.println(e.getLocalizedMessage());
 			System.exit(0);
 		}
@@ -67,6 +72,10 @@ public class ClueGame {
 	
 	public boolean checkAccusation(Solution solution) {
 		return false;
+	}
+	
+	public void loadCards() throws FileNotFoundException {
+		
 	}
 	/*************************************************************************/
 }

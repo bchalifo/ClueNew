@@ -1,0 +1,21 @@
+player, Dr.Phil
+player, 
+player,
+player,
+player,
+player.
+weapon, bag of rocks
+weapon, 
+weapon,
+weapon,
+weapon,
+weapon,
+room, Library
+room, Bedroom
+room, Kitchen
+room, Dining Room
+room, Bowling Alley
+room, Water Closet
+room, Office
+room, Family Room
+room, Observatory

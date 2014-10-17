@@ -35,3 +35,5 @@ Thu Oct 16 12:28:04 MDT 2014 Bad Layout file
 Thu Oct 16 12:28:04 MDT 2014 Bad Legend file
 Thu Oct 16 12:28:10 MDT 2014 Bad Layout file
 Thu Oct 16 12:28:10 MDT 2014 Bad Legend file
+Thu Oct 16 19:08:53 MDT 2014 Bad Layout file
+Thu Oct 16 19:08:53 MDT 2014 Bad Legend file

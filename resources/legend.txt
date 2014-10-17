@@ -2,10 +2,10 @@ X, Closet
 L, Library
 B, Bedroom
 K, Kitchen
-D, Dinning Room
+D, Dining Room
 A, Bowling Alley
 W, Water Closet
 O, Office
 F, Family Room
-S, Observitory
+S, Observatory
 ., Walkway
