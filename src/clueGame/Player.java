@@ -12,6 +12,7 @@ public class Player {
 	public Player(String name, String color){
 		this.name = name;
 		this.color = Color.valueOf(color);
+		this.cards = new ArrayList<Card>();
 	}
 	
 	// default constructor
@@ -34,5 +35,9 @@ public class Player {
 	
 	public ArrayList<Card> getHand() {
 		return this.cards;
+	}
+	
+	public void addCard(Card card){
+		this.cards.add(card);
 	}
 }

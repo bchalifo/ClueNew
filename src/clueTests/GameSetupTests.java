@@ -108,9 +108,16 @@ public class GameSetupTests {
 		}
 	}
 	
+	public Boolean exists(Card card){
+		
+		
+		return false;
+	}
+	
 	// This tests that the cards are dealt properly
 	@Test
 	public void testDeal() {
+		ArrayList<Card> deckCopy = new ArrayList<Card>(cards); 
 		// deal the cards
 		game.deal();
 		// all cards should be dealt
@@ -120,5 +127,20 @@ public class GameSetupTests {
 			ArrayList<Card> hand = player.getHand();
 			assert(hand.size() == 4 || hand.size() == 3);
 		}
+		// ensure one card is not given to two players
+		for(Player player : players){
+			for(Card playerCard : player.getHand()){
+				boolean cardExists = false;
+				//assertTrue(deckCopy == playerCard));
+				for (Card card : deckCopy) {
+					if (card.equals(playerCard)) {
+						cardExists = true;
+					}
+				}
+				assertTrue(cardExists);
+				deckCopy.remove(playerCard);
+			}
+		}
+		
 	}
 }

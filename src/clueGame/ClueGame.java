@@ -63,7 +63,19 @@ public class ClueGame {
 	/*************************************************************************/
 	// NEW STUFF
 	public void deal() {
-
+		Random r = new Random();
+		int low = 0;
+		while(!cards.isEmpty()){
+			for(int i = 0; i < 6; i++){
+				if(cards.isEmpty()){
+					break;
+				}
+				int high = cards.size();
+				int rando = r.nextInt(high);
+				players.get(i).addCard(cards.get(rando));
+				cards.remove(rando);
+			}
+		}
 	}
 
 	public void selectAnswer() {
@@ -81,13 +93,13 @@ public class ClueGame {
 	public boolean checkAccusation(Solution solution) {
 		return false;
 	}
-	
+
 	// load the deck of cards from file
 	public void loadCards() throws FileNotFoundException {
 		// open cards file
 		FileReader reader = new FileReader("resources/Cards.txt");
 		Scanner in = new Scanner(reader);
-		
+
 		// read in data
 		while (in.hasNextLine()) {
 			String[] parts = in.nextLine().split(",");
@@ -111,7 +123,7 @@ public class ClueGame {
 			cards.add(card);
 		}
 	}
-	
+
 	public void loadPlayers() {
 		String playerFile = "resources/Players.txt";
 		Scanner people = null;
@@ -136,9 +148,9 @@ public class ClueGame {
 			String tempLoc[] = location.split(",");
 			String row = tempLoc[0];
 			String col = tempLoc[1];
-			
+
 			BoardCell tempCell = board.getCellAt(Integer.parseInt(row), 
-						Integer.parseInt(col));
+					Integer.parseInt(col));
 
 			switch(name){
 			case "Davey Jones":
@@ -154,11 +166,11 @@ public class ClueGame {
 			}
 		}
 	}
-	
+
 	public ArrayList<Card> getCards() {
 		return cards;
 	}
-	
+
 	public ArrayList getPlayers(){
 		return players;
 	}
