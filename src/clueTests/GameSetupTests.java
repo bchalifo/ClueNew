@@ -18,6 +18,7 @@ public class GameSetupTests {
 	private Map<Player, BoardCell> playerLocations;
 	private ArrayList<Card> cards;
 	
+	// Create a new game for each test
 	@Before
 	public void setUpPeople(){
 		game = new ClueGame("ClueLayout.csv", "ClueLegend.txt");
@@ -28,10 +29,12 @@ public class GameSetupTests {
 		cards = game.getCards();
 	}
 	
+	// Test each person, for their name, their color, and their starting location
 	@Test
 	public void testPeople(){
+		// Test our player container size
 		assertEquals(players.size(), 6);
-		
+		// Test all of our players within the game for correct data:
 		assertEquals(players.get(0).getName(), "Dr. Phil");
 		assertEquals(players.get(0).getColor(), Color.PURPLE);
 		assertEquals(playerLocations.get(players.get(0)), board.getCellAt(0, 11));
@@ -47,7 +50,7 @@ public class GameSetupTests {
 		assertEquals(players.get(3).getName(), "That Guy");
 		assertEquals(players.get(3).getColor(), Color.YELLOW);
 		assertEquals(playerLocations.get(players.get(3)), board.getCellAt(21, 16));
-		
+		// This is the one human player, the rest are computers.
 		assertEquals(players.get(4).getName(), "Davey Jones");
 		assertEquals(players.get(4).getColor(), Color.BLUE);
 		assertEquals(playerLocations.get(players.get(4)), board.getCellAt(13, 22));
@@ -120,7 +123,6 @@ public class GameSetupTests {
 		for(Player player : players){
 			for(Card playerCard : player.getHand()){
 				boolean cardExists = false;
-				//assertTrue(deckCopy == playerCard));
 				for (Card card : deckCopy) {
 					if (card.equals(playerCard)) {
 						cardExists = true;

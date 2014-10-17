@@ -64,9 +64,11 @@ public class ClueGame {
 	/*************************************************************************/
 	// NEW STUFF
 	public void makeSolution(){
-		
+		this.solution = new Solution("Dr. Phil", "Really Depressing Thoughts", 
+				"Bedroom");
 	}
 	
+	// A function called separately to simulate dealing the deck out to each player.
 	public void deal() {
 		Random r = new Random();
 		int low = 0;
@@ -95,8 +97,9 @@ public class ClueGame {
 
 	}
 
-	public boolean checkAccusation(Solution solution) {
-		if(this.solution.equals(solution)){
+	// Checks an accusation against the game's solution
+	public boolean checkAccusation(Solution assertion) {
+		if(this.solution.equals(assertion)){
 			return true;
 		}
 		return false;
@@ -132,7 +135,10 @@ public class ClueGame {
 		}
 	}
 
+	// This function loads the players from the text file and instantiates a player
+	// object with the given parameters and places them in their correct container.
 	public void loadPlayers() {
+		// This is the set up for the scanner to read the txt file
 		String playerFile = "resources/Players.txt";
 		Scanner people = null;
 		FileReader reader = null;
@@ -145,21 +151,25 @@ public class ClueGame {
 			System.exit(0);
 		}
 
+		// Read txt file and pull required data from each line
 		while(people.hasNextLine()){
 			String temp[];
 			String line = people.nextLine();
 			temp = line.split(";");
+			// Get each player's respective name, color, and starting location
 			String name = temp[0];
 			String color = temp[1];
 			String location = temp[2];
 
+			// Change location from String to two integers
 			String tempLoc[] = location.split(",");
 			String row = tempLoc[0];
 			String col = tempLoc[1];
 
+			// Create boardCell copy of where each player starts.
 			BoardCell tempCell = board.getCellAt(Integer.parseInt(row), 
 					Integer.parseInt(col));
-
+			// Davey Jones is our human player and the rest are computer players
 			switch(name){
 			case "Davey Jones":
 				HumanPlayer hPerson = new HumanPlayer(name, color);
@@ -175,6 +185,7 @@ public class ClueGame {
 		}
 	}
 
+	// Getters for various containers:
 	public ArrayList<Card> getCards() {
 		return cards;
 	}

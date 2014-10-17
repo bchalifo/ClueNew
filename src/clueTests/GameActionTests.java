@@ -13,12 +13,12 @@ import clueGame.Card.CardType;
 public class GameActionTests {
 	/**
 	 * Need tests for:
-	 * 	- checking an accusation
 	 *  - selecting a target location
 	 *  - disproving a suggestion
 	 *  - making a suggestion
 	 */
 	
+	// game information containers
 	private static ClueGame game;
 	private static Board board;
 	private ArrayList<Player> players;
@@ -35,9 +35,12 @@ public class GameActionTests {
 		cards = game.getCards();
 	}
 	
+	// This test hard-codes a solution for the game and tests for if it is true
+	// and once for which way it can fail in each category.
 	@Test
 	public void testAccusation(){
-		Solution solution = new Solution("Dr. Phil", "Really Depressing Thoughts", 
+		game.makeSolution();
+		Solution solution = new Solution("Dr. Phil", "Really Depressing Thoughts",
 				"Bedroom");
 		assertTrue(game.checkAccusation(solution));
 		solution = new Solution("Vlad", "Really Depressing Thoughts", 
