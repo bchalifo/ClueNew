@@ -14,13 +14,10 @@ public class ClueGame {
 	private Map<Character,String> rooms;
 	private Board board;
 
-	/*************************************************************************/
-	// NEW STUFF
 	private Solution solution;
 	private ArrayList<Player> players;
 	private Map<Player, BoardCell> playerLocations;
 	private ArrayList<Card> cards;
-	/*************************************************************************/
 
 	// constructor
 	public ClueGame(String layout, String legend) {
@@ -61,8 +58,6 @@ public class ClueGame {
 		loadConfigFiles();
 	}
 
-	/*************************************************************************/
-	// NEW STUFF
 	public void makeSolution(){
 		this.solution = new Solution("Dr. Phil", "Really Depressing Thoughts", 
 				"Bedroom");
@@ -197,5 +192,4 @@ public class ClueGame {
 	public Map getPlayerLocations(){
 		return playerLocations;
 	}
-	/*************************************************************************/
 }
