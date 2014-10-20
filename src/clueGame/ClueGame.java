@@ -21,6 +21,7 @@ public class ClueGame {
 
 	// constructor
 	public ClueGame(String layout, String legend) {
+		// initialize containers
 		board = new Board(layout,legend,ROWS,COLS);
 		rooms = new HashMap<Character, String>();
 		cards = new ArrayList<Card>();
@@ -66,9 +67,8 @@ public class ClueGame {
 	// A function called separately to simulate dealing the deck out to each player.
 	public void deal() {
 		Random r = new Random();
-		int low = 0;
 		while(!cards.isEmpty()){
-			for(int i = 0; i < 6; i++){
+			for(int i = 0; i < players.size(); i++){
 				if(cards.isEmpty()){
 					break;
 				}
@@ -84,12 +84,13 @@ public class ClueGame {
 
 	}
 
-	public void handleSuggestion(String person,
-			String room,
-			String weapon,
+	// handles player suggestions
+	public Card handleSuggestion(Card person,
+			Card room,
+			Card weapon,
 			Player accusingPerson)
 	{
-
+		return null;
 	}
 
 	// Checks an accusation against the game's solution
@@ -128,6 +129,7 @@ public class ClueGame {
 			// add card to the deck
 			cards.add(card);
 		}
+		in.close();
 	}
 
 	// This function loads the players from the text file and instantiates a player
@@ -185,11 +187,16 @@ public class ClueGame {
 		return cards;
 	}
 
-	public ArrayList getPlayers(){
+	public ArrayList<Player> getPlayers(){
 		return players;
 	}
 
-	public Map getPlayerLocations(){
+	public Map<Player, BoardCell> getPlayerLocations(){
 		return playerLocations;
+	}
+	
+	// set players (needed for testing)
+	public void setPlayers(ArrayList<Player> players) {
+		this.players = players;
 	}
 }

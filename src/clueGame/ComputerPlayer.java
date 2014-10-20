@@ -9,6 +9,7 @@ public class ComputerPlayer extends Player {
 		super();
 	}
 
+	// constructor with fields
 	public ComputerPlayer(String name, String color) {
 		super(name, color);
 	}

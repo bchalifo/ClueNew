@@ -21,8 +21,8 @@ public class Player {
 	}
 	
 	// disprove suggestion made by another player
-	public boolean disproveSuggestion(String person, String card, String weapon) {
-		return false;
+	public Card disproveSuggestion(Card person, Card weapon, Card room) {
+		return null;
 	}
 
 	public String getName() {

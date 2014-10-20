@@ -15,6 +15,13 @@ public class Card {
 		
 	}
 	
+	// constructor with fields
+	public Card(String name, CardType type) {
+		super();
+		this.name = name;
+		this.type = type;
+	}
+	
 	// getters and setters
 	public String getName() {
 		return name;
