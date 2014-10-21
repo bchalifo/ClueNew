@@ -20,7 +20,7 @@ public class GameActionTests {
 	private Map<Player, RoomCell> playerLastRoom;
 	private ArrayList<Card> cards;
 	private ArrayList<Card> seenCards;
-	
+
 	@Before
 	// set up game before each test
 	public void setUp(){
@@ -33,15 +33,15 @@ public class GameActionTests {
 		cards = game.getCards();
 		seenCards = game.getSeenCards();
 	}
-	
+
 	@Test
 	public void testTarget(){		
 		// Set Player to corner of map, no doors are possible.
 		ComputerPlayer player = new ComputerPlayer();
 		board.calcTargets(3, 3, 2);
-		
+
 		Set targets = board.getTargets();
-		
+
 		int cell3_5 = 0;
 		int cell5_3 = 0;
 		int cell4_4 = 0;
@@ -67,29 +67,68 @@ public class GameActionTests {
 		assertTrue(cell5_3 > 10);
 		assertTrue(cell4_4 > 10);
 	}
-	
+
 	@Test
 	public void testTargetDoor(){
-		 ComputerPlayer player = new ComputerPlayer();
-		 board.calcTargets(6, 1, 2);
-		 Set targets = board.getTargets();
-		 int count = 0;
-		 
-		 for(int i = 0; i < 100; i++){
-			 // Set last room visited to X, a room that cannot be entered
-			 player.setLastRoom('X');
-			 BoardCell selected = player.pickLocation(targets);
-			 if(selected == board.getCellAt(4, 1)){
-				 count++;
-				 continue;
-			 }
-			 else{
-				 fail("Player did not choose door where player had not entered yet.");
-			 }
-		 }
-		 assertEquals(100, count);
+		ComputerPlayer player = new ComputerPlayer();
+		board.calcTargets(6, 1, 2);
+		Set targets = board.getTargets();
+		int count = 0;
+
+		for(int i = 0; i < 100; i++){
+			// Set last room visited to X, a room that cannot be entered
+			player.setLastRoom('X');
+			BoardCell selected = player.pickLocation(targets);
+			if(selected == board.getCellAt(4, 1)){
+				count++;
+				continue;
+			}
+			else{
+				fail("Player did not choose door where player had not entered yet.");
+			}
+		}
+		assertEquals(100, count);
 	}
 
+	@Test
+	public void testTargetNotDoor(){
+		ComputerPlayer player = new ComputerPlayer();
+		board.calcTargets(6, 1, 2);
+		Set targets = board.getTargets();
+		player.setLastRoom('A');
+		int cell5_0 = 0;
+		int cell5_2 = 0;
+		int cell7_2 = 0;
+		int cell6_3 = 0;
+
+		for(int i = 0; i < 100; i++){
+			BoardCell selected = player.pickLocation(targets);
+			if(selected == board.getCellAt(4, 1)){
+				fail("Player chose the door.");
+			}
+			else if(selected == board.getCellAt(5, 0)){
+				cell5_0++;
+			}
+			else if(selected == board.getCellAt(5, 2)){
+				cell5_2++;
+			}
+			else if(selected == board.getCellAt(7, 2)){
+				cell7_2++;
+			}
+			else if(selected == board.getCellAt(6, 3)){
+				cell6_3++;
+			}
+			else{
+				fail("Move is not an option.");
+			}
+		}
+		
+		assertEquals(100, (cell5_0 + cell5_2 + cell7_2 + cell6_3));
+		assertTrue(cell5_0 > 10);
+		assertTrue(cell5_2 > 10);
+		assertTrue(cell7_2 > 10);
+		assertTrue(cell6_3 > 10);
+	}
 
 	// This test hard-codes a solution for the game and tests for if it is true
 	// and once for which way it can fail in each category.
@@ -112,7 +151,7 @@ public class GameActionTests {
 		solution = new Solution("Dr. Phil", "Bear Hands", "Bedroom");
 		assertFalse(game.checkAccusation(solution));
 	}
-	
+
 	// This tests that players are able to disprove suggestions correctly
 	@Test
 	public void testDisproveSuggestion() {
@@ -123,7 +162,7 @@ public class GameActionTests {
 		Card gunCard = new Card("Ray Gun", CardType.WEAPON);
 		Card bowlingCard = new Card("Bowling Alley", CardType.ROOM);
 		Card officeCard = new Card("Office", CardType.ROOM);
-		
+
 		// test for one player, one correct match
 		// 'deal' fixed hand to test player
 		Player disprover = new Player();
@@ -148,7 +187,7 @@ public class GameActionTests {
 		// test null is returned for no matches
 		result = disprover.disproveSuggestion(testCard, testCard, testCard);
 		assertEquals(result, null);
-		
+
 		// test for one player, multiple possible matches
 		int personMatchCount, weaponMatchCount, roomMatchCount;
 		// person and weapon match
@@ -197,7 +236,7 @@ public class GameActionTests {
 			else assert(false);
 		}
 		assert(personMatchCount > 0 && weaponMatchCount > 0 && roomMatchCount > 0);
-		
+
 		// test that all players are queried
 		// create players
 		ArrayList<Player> testPlayers = new ArrayList<Player>();
@@ -234,7 +273,7 @@ public class GameActionTests {
 		result = game.handleSuggestion(testCard, gunCard, testCard, compPlayer2);
 		assertEquals(result, gunCard);
 	}
-	
+
 	// This tests computer players making a suggestion
 	@Test
 	public void testComputerMakingSuggestion() {
@@ -250,7 +289,7 @@ public class GameActionTests {
 		compPlayer.addCard(johnCard);
 		compPlayer.addCard(bearCard);
 		compPlayer.addCard(gunCard);
-		
+
 		// make suggestion in bedroom with no seen cards
 		seenCards = game.getSeenCards();
 		RoomCell bedroomDoor = board.getRoomCellAt(3, 17);
@@ -261,7 +300,7 @@ public class GameActionTests {
 		assertEquals(johnCard, suggestion.getPerson());
 		assertEquals(gunCard, suggestion.getWeapon());
 		assertEquals(bedroomCard, suggestion.getRoom());
-		
+
 		// make suggestion in family room with two seen cards
 		game.addSeenCard(johnCard);
 		game.addSeenCard(gunCard);
