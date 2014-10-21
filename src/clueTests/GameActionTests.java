@@ -34,75 +34,87 @@ public class GameActionTests {
 		seenCards = game.getSeenCards();
 	}
 
-//	@Test
-//	public void testTarget(){		
-//		// Set Player to corner of map, no doors are possible.
-//		ComputerPlayer player = new ComputerPlayer();
-//		board.calcTargets(3, 3, 2);
-//
-//		Set targets = board.getTargets();
-//
-//		int cell3_5 = 0;
-//		int cell5_3 = 0;
-//		int cell4_4 = 0;
-//		// Run the test 100 times:
-//		for(int i = 0; i < 100; i++){
-//			BoardCell selected = player.pickLocation(targets);
-//			if(selected == board.getCellAt(3, 5)){
-//				cell3_5++;
-//			}
-//			else if(selected == board.getCellAt(5, 3)){
-//				cell5_3++;
-//			}
-//			else if(selected == board.getCellAt(4, 4)){
-//				cell4_4++;
-//			}
-//			else{
-//				fail("Invalid Target Selected");
-//			}
-//		}
-//		// Make sure 100 moves were made and somewhat evenly:
-//		assertEquals(100, cell3_5 + cell5_3 + cell4_4);
-//		assertTrue(cell3_5 > 10);
-//		assertTrue(cell5_3 > 10);
-//		assertTrue(cell4_4 > 10);
-//	}
+	// This test makes sure that the player choose a random move given there are 
+	// no valid doorways to enter.
+	@Test
+	public void testTarget(){		
+		// Set Player to corner of map, no doors are possible.
+		ComputerPlayer player = new ComputerPlayer();
+		board.calcTargets(3, 3, 2);
 
-//	@Test
-//	public void testTargetDoor(){
-//		ComputerPlayer player = new ComputerPlayer();
-//		board.calcTargets(6, 1, 2);
-//		Set targets = board.getTargets();
-//		int count = 0;
-//
-//		for(int i = 0; i < 100; i++){
-//			// Set last room visited to X, a room that cannot be entered
-//			player.setLastRoom('X');
-//			BoardCell selected = player.pickLocation(targets);
-//			if(selected == board.getCellAt(4, 1)){
-//				count++;
-//				continue;
-//			}
-//			else{
-//				fail("Player did not choose door where player had not entered yet.");
-//			}
-//		}
-//		assertEquals(100, count);
-//	}
+		Set targets = board.getTargets();
 
+		// Set counters to zero
+		int cell3_5 = 0;
+		int cell5_3 = 0;
+		int cell4_4 = 0;
+		// Run the test 100 times:
+		for(int i = 0; i < 100; i++){
+			BoardCell selected = player.pickLocation(targets);
+			if(selected == board.getCellAt(3, 5)){
+				cell3_5++;
+			}
+			else if(selected == board.getCellAt(5, 3)){
+				cell5_3++;
+			}
+			else if(selected == board.getCellAt(4, 4)){
+				cell4_4++;
+			}
+			else{
+				fail("Invalid Target Selected");
+			}
+		}
+		// Make sure 100 moves were made and somewhat evenly:
+		assertEquals(100, cell3_5 + cell5_3 + cell4_4);
+		assertTrue(cell3_5 > 10);
+		assertTrue(cell5_3 > 10);
+		assertTrue(cell4_4 > 10);
+	}
+
+	// This test makes sure that the player will choose a door given they 
+	// havn't been through it yet and it's a valid move.
+	@Test
+	public void testTargetDoor(){
+		// Set player information to something non random for consistency
+		ComputerPlayer player = new ComputerPlayer();
+		board.calcTargets(6, 1, 2);
+		Set targets = board.getTargets();
+		int count = 0;
+
+		for(int i = 0; i < 100; i++){
+			// Set last room visited to X, a room that cannot be entered
+			player.setLastRoom('X');
+			BoardCell selected = player.pickLocation(targets);
+			if(selected == board.getCellAt(4, 1)){
+				count++;
+				continue;
+			}
+			else{
+				fail("Player did not choose door where player had not entered yet.");
+			}
+		}
+		// Make sure 100 moves were tried
+		assertEquals(100, count);
+	}
+
+	// This tests if a room will be chosen given that the player has just visited it.
 	@Test
 	public void testTargetNotDoor(){
+		// Set player information to remove randomness from the situation
 		ComputerPlayer player = new ComputerPlayer();
 		board.calcTargets(6, 1, 2);
 		Set targets = board.getTargets();
 		player.setLastRoom('A');
+		// Instantiate counters to make sure each non doorway is chosen somewhat
+		// equally.
 		int cell5_0 = 0;
 		int cell5_2 = 0;
 		int cell7_2 = 0;
 		int cell6_3 = 0;
 
+		// Test 100 times to see if the door is chosen and if a valid, random other
+		// move is made.
 		for(int i = 0; i < 100; i++){
-			System.out.println(i);
 			BoardCell selected = player.pickLocation(targets);
 			if(selected == board.getCellAt(4, 1)){
 				fail("Player chose the door.");
@@ -124,6 +136,7 @@ public class GameActionTests {
 			}
 		}
 		
+		// Make sure 100 moves where made
 		assertEquals(100, (cell5_0 + cell5_2 + cell7_2 + cell6_3));
 		assertTrue(cell5_0 > 10);
 		assertTrue(cell5_2 > 10);

@@ -13,6 +13,7 @@ import clueGame.Card.CardType;
 public class ComputerPlayer extends Player {
 	// instance variables
 	char lastRoomVisited;
+	ArrayList<BoardCell> targetList;
 
 	// default constructor
 	public ComputerPlayer() {
@@ -26,9 +27,8 @@ public class ComputerPlayer extends Player {
 
 	// Tests if targets has a door option that does not equal
 	// last room visited.
-	public int roomOption(Set<BoardCell> targets){
+	public int roomOption(){
 		int room = -1;
-		ArrayList<BoardCell> targetList = new ArrayList<BoardCell>(targets);
 
 		for(int i = 0; i < targetList.size(); i++){
 			if(targetList.get(i).isDoorway()){
@@ -36,6 +36,9 @@ public class ComputerPlayer extends Player {
 				char targetDoor = door.getInitial();
 				if(!(targetDoor == lastRoomVisited)){
 					return i;
+				}
+				else{
+					targetList.remove(i);
 				}
 			}
 		}
@@ -45,30 +48,18 @@ public class ComputerPlayer extends Player {
 	// Computer selects a move based off of the input roll and possible moves
 	// The selected BoardCell is returned.
 	public BoardCell pickLocation(Set<BoardCell> targets){
-		ArrayList<BoardCell> targetList = new ArrayList<BoardCell>(targets);
-		int room = roomOption(targets);
-		System.out.println(room);
+		this.targetList = new ArrayList<BoardCell>(targets);
+		int room = roomOption();
 		if(room != -1){
 			BoardCell choice = targetList.get(room);
 			return choice;
 		}
-
-		Random rando = new Random();		
-		int randChoice = rando.nextInt(targets.size());
-
-		BoardCell choice = targetList.get(randChoice);
-		if(choice.isDoorway()){
-			RoomCell roomChoice = (RoomCell) choice;
-			if(roomChoice.getInitial() == lastRoomVisited){
-				int badRandom = randChoice;
-				
-				while(badRandom == randChoice){
-					randChoice = rando.nextInt(targets.size());
-				}
-			}
+		else{
+			Random rando = new Random();		
+			int randChoice = rando.nextInt(targetList.size());
+			BoardCell choice = targetList.get(randChoice);
+			return choice;
 		}
-		choice = targetList.get(randChoice);
-		return choice;
 	}
 
 	// create suggestion
