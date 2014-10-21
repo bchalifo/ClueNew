@@ -29,57 +29,67 @@ public class GameActionTests {
 
 	@Before
 	public void setUp(){
-		game = new ClueGame("ClueLayout.csv", "ClueLegend.txt");
+		ClueGame game = new ClueGame("resources/clueLayout.csv", "resources/legend.txt");
 		game.loadConfigFiles();
 		board = game.getBoard();
-		players = game.getPlayers();
-		playerLocations = game.getPlayerLocations();
-		playerLastRoom = game.getPlayerLastRoom();
-		cards = game.getCards();
+		board.calcAdjacencies();
+//		players = game.getPlayers();
+//		playerLocations = game.getPlayerLocations();
+//		playerLastRoom = game.getPlayerLastRoom();
+//		cards = game.getCards();
 	}
 
 	// This test hard-codes a solution for the game and tests for if it is true
 	// and once for which way it can fail in each category.
-	@Test
-	public void testAccusation(){
-		game.makeSolution();
-		Solution solution = new Solution("Dr. Phil", "Really Depressing Thoughts",
-				"Bedroom");
-		assertTrue(game.checkAccusation(solution));
-		solution = new Solution("Vlad", "Really Depressing Thoughts", 
-				"Bedroom");
-		assertFalse(game.checkAccusation(solution));
-		solution = new Solution("Dr. Phil", "Really Depressing Thoughts", 
-				"Bowling Alley");
-		assertFalse(game.checkAccusation(solution));
-		solution = new Solution("Dr. Phil", "Bear Hands", "Bedroom");
-		assertFalse(game.checkAccusation(solution));
-	}
+//	@Test
+//	public void testAccusation(){
+//		game.makeSolution();
+//		Solution solution = new Solution("Dr. Phil", "Really Depressing Thoughts",
+//				"Bedroom");
+//		assertTrue(game.checkAccusation(solution));
+//		solution = new Solution("Vlad", "Really Depressing Thoughts", 
+//				"Bedroom");
+//		assertFalse(game.checkAccusation(solution));
+//		solution = new Solution("Dr. Phil", "Really Depressing Thoughts", 
+//				"Bowling Alley");
+//		assertFalse(game.checkAccusation(solution));
+//		solution = new Solution("Dr. Phil", "Bear Hands", "Bedroom");
+//		assertFalse(game.checkAccusation(solution));
+//	}
 
 	@Test
 	public void testTarget(){		
 		// Set Player to corner of map, no doors are possible.
 		ComputerPlayer player = new ComputerPlayer();
-		board.calcTargets(21, 22, 2);
-		int cell19_22 = 0;
-		int cell21_20 = 0;
+		board.calcTargets(3, 3, 2);
+		
+		Set targets = board.getTargets();
+		System.out.println(targets.size());
+		
+		int cell3_5 = 0;
+		int cell5_3 = 0;
+		int cell4_4 = 0;
 		// Run the test 100 times:
 		for(int i = 0; i < 100; i++){
-			BoardCell selected = player.pickLocation(board.getTargets());
-			if(selected == board.getCellAt(19, 22)){
-				cell19_22++;
+			BoardCell selected = player.pickLocation(targets);
+			if(selected == board.getCellAt(3, 5)){
+				cell3_5++;
 			}
-			else if(selected == board.getCellAt(21, 20)){
-				cell21_20++;
+			else if(selected == board.getCellAt(5, 3)){
+				cell5_3++;
+			}
+			else if(selected == board.getCellAt(4, 4)){
+				cell4_4++;
 			}
 			else{
 				fail("Invalid Target Selected");
 			}
 		}
 		// Make sure 100 moves were made and somewhat evenly:
-		assertEquals(100, cell19_22 + cell21_20);
-		assertTrue(cell19_22 > 10);
-		assertTrue(cell21_20 > 10);
+		assertEquals(100, cell3_5 + cell5_3 + cell4_4);
+		assertTrue(cell3_5 > 10);
+		assertTrue(cell5_3 > 10);
+		assertTrue(cell4_4 > 10);
 	}
 
 	//		// Should return Bowling Alley as the selected option:

@@ -2,12 +2,14 @@ package clueGame;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class Board {
 	// instance variables
@@ -178,8 +180,7 @@ public class Board {
 		recursion(start, moves, start);
 	}
 	// recursive call for calculating targets
-	private void recursion(BoardCell cell, int moves, BoardCell start) {
-
+	private void recursion(BoardCell cell, int moves, BoardCell start) {		
 		if (moves == 0 || (cell.isDoorway() && !start.isDoorway())) {
 			if (!cell.equals(start)) {
 				targets.add(cell);
