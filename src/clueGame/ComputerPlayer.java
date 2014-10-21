@@ -23,13 +23,32 @@ public class ComputerPlayer extends Player {
 		super(name, color);
 	}
 
+	// Tests if targets has a door option that does not equal
+	// last room visited.
+	public int roomOption(Set<BoardCell> targets){
+		int room = -1;
+		ArrayList<BoardCell> targetList = new ArrayList<BoardCell>(targets);		
+		for(int i = 0; i < targetList.size(); i++){
+			if(targetList.get(i).isDoorway()){
+				return i;
+			}
+		}
+		return room;
+	}
+	
 	// Computer selects a move based off of the input roll and possible moves
 	// The selected BoardCell is returned.
 	public BoardCell pickLocation(Set<BoardCell> targets){
+		ArrayList<BoardCell> targetList = new ArrayList<BoardCell>(targets);
+		int room = roomOption(targets);
+		if(room != -1){
+			BoardCell choice = targetList.get(room);
+			return choice;
+		}
+		
 		Random rando = new Random();		
 		int randChoice = rando.nextInt(targets.size());
-		ArrayList<BoardCell> targeto = new ArrayList<BoardCell>(targets);
-		BoardCell choice = targeto.get(randChoice);		
+		BoardCell choice = targetList.get(randChoice);		
 		return choice;
 	}
 
