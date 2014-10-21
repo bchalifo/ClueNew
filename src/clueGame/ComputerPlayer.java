@@ -20,8 +20,8 @@ public class ComputerPlayer extends Player {
 	}
 	
 	// create suggestion
-	public void createSuggestion() {
-		
+	public Suggestion createSuggestion(String room) {
+		return null;
 	}
 	
 	// mark card as seen

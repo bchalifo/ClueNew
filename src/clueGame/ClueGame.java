@@ -18,13 +18,15 @@ public class ClueGame {
 	private ArrayList<Player> players;
 	private Map<Player, BoardCell> playerLocations;
 	private ArrayList<Card> cards;
+	private ArrayList<Card> seenCards;
 
-	// constructor
+	// constructor with game configuration files
 	public ClueGame(String layout, String legend) {
 		// initialize containers
 		board = new Board(layout,legend,ROWS,COLS);
 		rooms = new HashMap<Character, String>();
 		cards = new ArrayList<Card>();
+		seenCards = new ArrayList<Card>();
 		playerLocations = new HashMap<Player, BoardCell>();
 		players = new ArrayList<Player>(6);
 		solution = new Solution();
@@ -49,10 +51,6 @@ public class ClueGame {
 			System.out.println(e.getLocalizedMessage());
 			System.exit(0);
 		}
-	}
-
-	public Board getBoard() {
-		return board;
 	}
 
 	public void loadRoomConfig() {
@@ -92,6 +90,7 @@ public class ClueGame {
 			Player accusingPlayer)
 	{
 		int nextPlayerIndex = players.indexOf(accusingPlayer) + 1;
+		// check each player to disprove
 		while (true) {
 			Player nextPlayer = players.get(nextPlayerIndex % players.size());
 			// no player can disprove, so break and return null
@@ -103,7 +102,7 @@ public class ClueGame {
 			if (result == null) {
 				nextPlayerIndex++;
 			}
-			// match, so return
+			// match, return the result
 			else {
 				return result;
 			}
@@ -201,8 +200,16 @@ public class ClueGame {
 	}
 
 	// Getters for various containers:
+	public Board getBoard() {
+		return board;
+	}
+	
 	public ArrayList<Card> getCards() {
 		return cards;
+	}
+	
+	public ArrayList<Card> getSeenCards() {
+		return seenCards;
 	}
 
 	public ArrayList<Player> getPlayers(){
@@ -216,5 +223,13 @@ public class ClueGame {
 	// set players (needed for testing)
 	public void setPlayers(ArrayList<Player> players) {
 		this.players = players;
+	}
+	
+	public void addSeenCard(Card card) {
+		
+	}
+	
+	public void setPlayerLocation(Player player, BoardCell cell) {
+		
 	}
 }

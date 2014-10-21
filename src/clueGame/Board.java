@@ -70,6 +70,7 @@ public class Board {
 						board[row][i] = new RoomCell(row, i, temp[i]);
 						try {
 							if (rooms.get(temp[i].charAt(0)).equalsIgnoreCase("walkway")) {
+								// NOOOO
 								((RoomCell) board[row][i]).makeWalkway();
 							}
 						}

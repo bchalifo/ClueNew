@@ -11,21 +11,16 @@ import clueGame.*;
 import clueGame.Card.CardType;
 
 public class GameActionTests {
-	/**
-	 * Need tests for:
-	 *  - selecting a target location
-	 *  - disproving a suggestion
-	 *  - making a suggestion
-	 */
-	
 	// game information containers
 	private static ClueGame game;
 	private static Board board;
 	private ArrayList<Player> players;
 	private Map<Player, BoardCell> playerLocations;
 	private ArrayList<Card> cards;
+	private ArrayList<Card> seenCards;
 	
 	@Before
+	// set up game before each test
 	public void setUp(){
 		game = new ClueGame("ClueLayout.csv", "ClueLegend.txt");
 		game.loadConfigFiles();
@@ -33,6 +28,7 @@ public class GameActionTests {
 		players = game.getPlayers();
 		playerLocations = game.getPlayerLocations();
 		cards = game.getCards();
+		seenCards = game.getSeenCards();
 	}
 	
 	// This test hard-codes a solution for the game and tests for if it is true
@@ -170,9 +166,52 @@ public class GameActionTests {
 		result = game.handleSuggestion(johnCard, testCard, testCard, humanPlayer);
 		assertEquals(result, null);
 		result = game.handleSuggestion(testCard, gunCard, testCard, compPlayer1);
+		assertEquals(result, null);
 		// test order 1: first possible player disproves
 		result = game.handleSuggestion(testCard, testCard, officeCard, compPlayer1);
+		assertEquals(result, officeCard);
 		// test order 2: furthest player disproves
 		result = game.handleSuggestion(testCard, gunCard, testCard, compPlayer2);
+		assertEquals(result, gunCard);
+	}
+	
+	// This tests computer players making a suggestion
+	@Test
+	public void testComputerMakingSuggestion() {
+		// test setup
+		Card philCard = new Card("Dr. Phil", CardType.PERSON);
+		Card johnCard = new Card("John Elway", CardType.PERSON);
+		Card bearCard = new Card("Bear Hands", CardType.WEAPON);
+		Card gunCard = new Card("Ray Gun", CardType.WEAPON);
+		Card bedroomCard = new Card("Bedroom", CardType.ROOM);
+		Card familyRoomCard = new Card("Family Room", CardType.ROOM);
+		ComputerPlayer compPlayer = new ComputerPlayer();
+		compPlayer.addCard(philCard);
+		compPlayer.addCard(johnCard);
+		compPlayer.addCard(bearCard);
+		compPlayer.addCard(gunCard);
+		
+		// make suggestion in bedroom with no seen cards
+		seenCards = game.getSeenCards();
+		RoomCell bedroomDoor = board.getRoomCellAt(3, 17);
+		game.setPlayerLocation(compPlayer, bedroomDoor);
+		String roomName = board.getRooms().get(bedroomDoor.getInitial());
+		assertEquals("Bedroom", roomName);
+		Suggestion suggestion = compPlayer.createSuggestion(roomName);
+		assertEquals(philCard, suggestion.getPerson());
+		assertEquals(bearCard, suggestion.getWeapon());
+		assertEquals(bedroomCard, suggestion.getRoom());
+		
+		// make suggestion in family room with two seen cards
+		game.addSeenCard(philCard);
+		game.addSeenCard(bearCard);
+		seenCards = game.getSeenCards();
+		RoomCell familyRoomDoor = board.getRoomCellAt(10, 3);
+		roomName = board.getRooms().get(familyRoomDoor.getInitial());
+		assertEquals("Family Room", roomName);
+		suggestion = compPlayer.createSuggestion(roomName);
+		assertEquals(johnCard, suggestion.getPerson());
+		assertEquals(gunCard, suggestion.getWeapon());
+		assertEquals(familyRoomCard, suggestion.getRoom());
 	}
 }
