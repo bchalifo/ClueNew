@@ -169,10 +169,10 @@ public class GameActionTests {
 		// test suggestion only suggesting player can disprove
 		result = game.handleSuggestion(johnCard, testCard, testCard, humanPlayer);
 		assertEquals(result, null);
-		result = game.handleSuggestion(testCard, testCard, gunCard, compPlayer1);
+		result = game.handleSuggestion(testCard, gunCard, testCard, compPlayer1);
 		// test order 1: first possible player disproves
-		result = game.handleSuggestion(testCard, officeCard, testCard, compPlayer1);
+		result = game.handleSuggestion(testCard, testCard, officeCard, compPlayer1);
 		// test order 2: furthest player disproves
-		result = game.handleSuggestion(testCard, testCard, gunCard, compPlayer2);
+		result = game.handleSuggestion(testCard, gunCard, testCard, compPlayer2);
 	}
 }
