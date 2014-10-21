@@ -56,4 +56,8 @@ public class ComputerPlayer extends Player {
 	void updateSeen(Card seen) {
 
 	}
+	
+	public void setLastRoom(char room){
+		this.lastRoomVisited = room;
+	}
 }

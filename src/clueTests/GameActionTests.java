@@ -27,6 +27,7 @@ public class GameActionTests {
 		game = new ClueGame("resources/clueLayout.csv", "resources/legend.txt");
 		game.loadConfigFiles();
 		board = game.getBoard();
+		board.calcAdjacencies();
 		players = game.getPlayers();
 		playerLocations = game.getPlayerLocations();
 		cards = game.getCards();
@@ -40,7 +41,6 @@ public class GameActionTests {
 		board.calcTargets(3, 3, 2);
 		
 		Set targets = board.getTargets();
-		System.out.println(targets.size());
 		
 		int cell3_5 = 0;
 		int cell5_3 = 0;
@@ -67,20 +67,33 @@ public class GameActionTests {
 		assertTrue(cell5_3 > 10);
 		assertTrue(cell4_4 > 10);
 	}
+	
+	@Test
+	public void testTargetDoor(){
+		 ComputerPlayer player = new ComputerPlayer();
+		 board.calcTargets(6, 1, 2);
+		 Set targets = board.getTargets();
+		 int count = 0;
+		 
+		 for(int i = 0; i < 100; i++){
+			 // Set last room visited to X, a room that cannot be entered
+			 player.setLastRoom('X');
+			 BoardCell selected = player.pickLocation(targets);
+			 if(selected == board.getCellAt(4, 1)){
+				 count++;
+				 continue;
+			 }
+			 else{
+				 fail("Player did not choose door where player had not entered yet.");
+			 }
+		 }
+		 assertEquals(100, count);
+	}
 
-	//		// Should return Bowling Alley as the selected option:
-	//		BoardCell chosen = game.chooseMove(targets);
-	//		assertTrue(chosen.equals(board.getCellAt(4, 1)));
-	//
-	//		// Set That Guy player to the position of 6,2 on the board (reset location):
-	//		// Room last visited should be Bowling Alley, now no longer on the list of options
-	//		start = board.getCellAt(6, 2);
-	//		playerLocations.put(players.get(3), start);
-	//		chosen = game.chooseMove(targets);
-	//		assertFalse(chosen.equals(board.getCellAt(4, 1)));
 
 	// This test hard-codes a solution for the game and tests for if it is true
 	// and once for which way it can fail in each category.
+	@Test
 	public void testAccusation(){
 		game.makeSolution();
 		// correct solution
