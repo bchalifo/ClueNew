@@ -1,5 +1,9 @@
 package clueGame;
 
+import java.util.ArrayList;
+
+import clueGame.Card.CardType;
+
 public class ComputerPlayer extends Player {
 	// instance variables
 	char lastRoomVisited;
@@ -20,8 +24,22 @@ public class ComputerPlayer extends Player {
 	}
 	
 	// create suggestion
-	public Suggestion createSuggestion(String room) {
-		return null;
+	public Suggestion createSuggestion(String room, ArrayList<Card> seenCards) {
+		Card personSuggestion = new Card(), weaponSuggestion = new Card();
+		Card roomSuggestion = new Card(room, CardType.ROOM);
+		for (Card card : this.getHand()) {
+			if (!(seenCards.contains(card))) {
+				if (card.getType() == CardType.PERSON) {
+					personSuggestion = card;
+				}
+				else if (card.getType() == CardType.WEAPON) {
+					weaponSuggestion = card;
+				}
+			}
+			
+		}
+		Suggestion s = new Suggestion(personSuggestion, weaponSuggestion, roomSuggestion);
+		return s;
 	}
 	
 	// mark card as seen

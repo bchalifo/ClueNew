@@ -226,10 +226,10 @@ public class ClueGame {
 	}
 	
 	public void addSeenCard(Card card) {
-		
+		seenCards.add(card);
 	}
 	
 	public void setPlayerLocation(Player player, BoardCell cell) {
-		
+		playerLocations.put(player, cell);
 	}
 }

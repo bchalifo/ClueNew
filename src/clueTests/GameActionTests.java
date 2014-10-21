@@ -22,7 +22,7 @@ public class GameActionTests {
 	@Before
 	// set up game before each test
 	public void setUp(){
-		game = new ClueGame("ClueLayout.csv", "ClueLegend.txt");
+		game = new ClueGame("resources/clueLayout.csv", "resources/legend.txt");
 		game.loadConfigFiles();
 		board = game.getBoard();
 		players = game.getPlayers();
@@ -178,7 +178,7 @@ public class GameActionTests {
 	// This tests computer players making a suggestion
 	@Test
 	public void testComputerMakingSuggestion() {
-		// test setup
+		// setup
 		Card philCard = new Card("Dr. Phil", CardType.PERSON);
 		Card johnCard = new Card("John Elway", CardType.PERSON);
 		Card bearCard = new Card("Bear Hands", CardType.WEAPON);
@@ -197,21 +197,21 @@ public class GameActionTests {
 		game.setPlayerLocation(compPlayer, bedroomDoor);
 		String roomName = board.getRooms().get(bedroomDoor.getInitial());
 		assertEquals("Bedroom", roomName);
-		Suggestion suggestion = compPlayer.createSuggestion(roomName);
-		assertEquals(philCard, suggestion.getPerson());
-		assertEquals(bearCard, suggestion.getWeapon());
+		Suggestion suggestion = compPlayer.createSuggestion(roomName, seenCards);
+		assertEquals(johnCard, suggestion.getPerson());
+		assertEquals(gunCard, suggestion.getWeapon());
 		assertEquals(bedroomCard, suggestion.getRoom());
 		
 		// make suggestion in family room with two seen cards
-		game.addSeenCard(philCard);
-		game.addSeenCard(bearCard);
+		game.addSeenCard(johnCard);
+		game.addSeenCard(gunCard);
 		seenCards = game.getSeenCards();
 		RoomCell familyRoomDoor = board.getRoomCellAt(10, 3);
 		roomName = board.getRooms().get(familyRoomDoor.getInitial());
 		assertEquals("Family Room", roomName);
-		suggestion = compPlayer.createSuggestion(roomName);
-		assertEquals(johnCard, suggestion.getPerson());
-		assertEquals(gunCard, suggestion.getWeapon());
+		suggestion = compPlayer.createSuggestion(roomName, seenCards);
+		assertEquals(philCard, suggestion.getPerson());
+		assertEquals(bearCard, suggestion.getWeapon());
 		assertEquals(familyRoomCard, suggestion.getRoom());
 	}
 }
