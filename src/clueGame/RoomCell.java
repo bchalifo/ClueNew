@@ -32,33 +32,41 @@ public class RoomCell extends BoardCell {
 	}
 	
 
-
+	@Override
 	public boolean isRoom(){
 		return true;
 	}
 	
+	@Override
 	public boolean isDoorway(){
 		if(doorDirection != DoorDirection.NONE) {
 			return true; 
 		}
 		return false;
 	}
+	
+	@Override
 	public boolean isWalkway(){
 		return walkway;
 	}
+	
+	@Override
+	public void draw() {
+		// TODO Auto-generated method stub
+	}
 
+	// get door direction
 	public DoorDirection getDoorDirection() {
 		return doorDirection;
+	}
+	
+	// get room initial
+	public char getInitial() {
+		return roomInitial;
 	}
 
 	//LOL
 	public void makeWalkway(){
 		walkway = true;
 	}
-	public char getInitial() {
-		return roomInitial;
-	}
-	
-	
-
 }

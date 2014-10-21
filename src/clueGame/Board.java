@@ -63,19 +63,23 @@ public class Board {
 		Scanner layout = loadLayout();
 		int row = 0;
 		while (layout.hasNextLine()) {
+			// read in row
 			String layoutLine = layout.nextLine();
 			String temp[];
 			if (layoutLine.indexOf(',') > -1) {
 				temp = layoutLine.split(",");
 				if (temp.length == numColumns) {
-					for (int i = 0; i < temp.length; i++) {
-						board[row][i] = new RoomCell(row, i, temp[i]);
+					// read each column of row
+					for (int column = 0; column < temp.length; column++) {
+						// *****NEEDS FIXING**** //
+						board[row][column] = new RoomCell(row, column, temp[column]);
 						try {
-							if (rooms.get(temp[i].charAt(0)).equalsIgnoreCase("walkway")) {
+							if (rooms.get(temp[column].charAt(0)).equalsIgnoreCase("walkway")) {
 								// NOOOO
-								((RoomCell) board[row][i]).makeWalkway();
+								((RoomCell) board[row][column]).makeWalkway();
 							}
 						}
+						// ********************* //
 						catch(NullPointerException e) {
 							throw new BadConfigFormatException("Bad Layout file");
 						}
