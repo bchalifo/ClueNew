@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 import java.util.ArrayList;
+import java.util.Random;
 
 import clueGame.Card.CardType;
 
@@ -27,46 +28,68 @@ public class ComputerPlayer extends Player {
 	// last room visited.
 	public int roomOption(Set<BoardCell> targets){
 		int room = -1;
-		ArrayList<BoardCell> targetList = new ArrayList<BoardCell>(targets);		
+		ArrayList<BoardCell> targetList = new ArrayList<BoardCell>(targets);
+
 		for(int i = 0; i < targetList.size(); i++){
 			if(targetList.get(i).isDoorway()){
-				return i;
+				RoomCell door = (RoomCell) targetList.get(i);
+				char targetDoor = door.getInitial();
+				if(!(targetDoor == lastRoomVisited)){
+					return i;
+				}
 			}
 		}
 		return room;
 	}
-	
+
 	// Computer selects a move based off of the input roll and possible moves
 	// The selected BoardCell is returned.
 	public BoardCell pickLocation(Set<BoardCell> targets){
 		ArrayList<BoardCell> targetList = new ArrayList<BoardCell>(targets);
 		int room = roomOption(targets);
+		System.out.println(room);
 		if(room != -1){
 			BoardCell choice = targetList.get(room);
 			return choice;
 		}
-		
+
 		Random rando = new Random();		
 		int randChoice = rando.nextInt(targets.size());
-		BoardCell choice = targetList.get(randChoice);		
+
+		BoardCell choice = targetList.get(randChoice);
+		if(choice.isDoorway()){
+			RoomCell roomChoice = (RoomCell) choice;
+			if(roomChoice.getInitial() == lastRoomVisited){
+				int badRandom = randChoice;
+				
+				while(badRandom == randChoice){
+					randChoice = rando.nextInt(targets.size());
+				}
+			}
+		}
+		choice = targetList.get(randChoice);
 		return choice;
 	}
 
 	// create suggestion
 	public Suggestion createSuggestion(String room, ArrayList<Card> seenCards) {
-		Card personSuggestion = new Card(), weaponSuggestion = new Card();
+		ArrayList<Card> personSuggestions = new ArrayList<Card>();
+		ArrayList<Card> weaponSuggestions = new ArrayList<Card>();
 		Card roomSuggestion = new Card(room, CardType.ROOM);
 		for (Card card : this.getHand()) {
 			if (!(seenCards.contains(card))) {
 				if (card.getType() == CardType.PERSON) {
-					personSuggestion = card;
+					personSuggestions.add(card);
 				}
 				else if (card.getType() == CardType.WEAPON) {
-					weaponSuggestion = card;
+					weaponSuggestions.add(card);
 				}
 			}
-			
+
 		}
+		Random rand = new Random();
+		Card personSuggestion = personSuggestions.get(rand.nextInt(personSuggestions.size()));
+		Card weaponSuggestion = weaponSuggestions.get(rand.nextInt(weaponSuggestions.size()));
 		Suggestion s = new Suggestion(personSuggestion, weaponSuggestion, roomSuggestion);
 		return s;
 	}
@@ -75,7 +98,7 @@ public class ComputerPlayer extends Player {
 	void updateSeen(Card seen) {
 
 	}
-	
+
 	public void setLastRoom(char room){
 		this.lastRoomVisited = room;
 	}

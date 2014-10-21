@@ -34,61 +34,61 @@ public class GameActionTests {
 		seenCards = game.getSeenCards();
 	}
 
-	@Test
-	public void testTarget(){		
-		// Set Player to corner of map, no doors are possible.
-		ComputerPlayer player = new ComputerPlayer();
-		board.calcTargets(3, 3, 2);
+//	@Test
+//	public void testTarget(){		
+//		// Set Player to corner of map, no doors are possible.
+//		ComputerPlayer player = new ComputerPlayer();
+//		board.calcTargets(3, 3, 2);
+//
+//		Set targets = board.getTargets();
+//
+//		int cell3_5 = 0;
+//		int cell5_3 = 0;
+//		int cell4_4 = 0;
+//		// Run the test 100 times:
+//		for(int i = 0; i < 100; i++){
+//			BoardCell selected = player.pickLocation(targets);
+//			if(selected == board.getCellAt(3, 5)){
+//				cell3_5++;
+//			}
+//			else if(selected == board.getCellAt(5, 3)){
+//				cell5_3++;
+//			}
+//			else if(selected == board.getCellAt(4, 4)){
+//				cell4_4++;
+//			}
+//			else{
+//				fail("Invalid Target Selected");
+//			}
+//		}
+//		// Make sure 100 moves were made and somewhat evenly:
+//		assertEquals(100, cell3_5 + cell5_3 + cell4_4);
+//		assertTrue(cell3_5 > 10);
+//		assertTrue(cell5_3 > 10);
+//		assertTrue(cell4_4 > 10);
+//	}
 
-		Set targets = board.getTargets();
-
-		int cell3_5 = 0;
-		int cell5_3 = 0;
-		int cell4_4 = 0;
-		// Run the test 100 times:
-		for(int i = 0; i < 100; i++){
-			BoardCell selected = player.pickLocation(targets);
-			if(selected == board.getCellAt(3, 5)){
-				cell3_5++;
-			}
-			else if(selected == board.getCellAt(5, 3)){
-				cell5_3++;
-			}
-			else if(selected == board.getCellAt(4, 4)){
-				cell4_4++;
-			}
-			else{
-				fail("Invalid Target Selected");
-			}
-		}
-		// Make sure 100 moves were made and somewhat evenly:
-		assertEquals(100, cell3_5 + cell5_3 + cell4_4);
-		assertTrue(cell3_5 > 10);
-		assertTrue(cell5_3 > 10);
-		assertTrue(cell4_4 > 10);
-	}
-
-	@Test
-	public void testTargetDoor(){
-		ComputerPlayer player = new ComputerPlayer();
-		board.calcTargets(6, 1, 2);
-		Set targets = board.getTargets();
-		int count = 0;
-
-		for(int i = 0; i < 100; i++){
-			// Set last room visited to X, a room that cannot be entered
-			player.setLastRoom('X');
-			BoardCell selected = player.pickLocation(targets);
-			if(selected == board.getCellAt(4, 1)){
-				count++;
-				continue;
-			}
-			else{
-				fail("Player did not choose door where player had not entered yet.");
-			}
-		}
-		assertEquals(100, count);
-	}
+//	@Test
+//	public void testTargetDoor(){
+//		ComputerPlayer player = new ComputerPlayer();
+//		board.calcTargets(6, 1, 2);
+//		Set targets = board.getTargets();
+//		int count = 0;
+//
+//		for(int i = 0; i < 100; i++){
+//			// Set last room visited to X, a room that cannot be entered
+//			player.setLastRoom('X');
+//			BoardCell selected = player.pickLocation(targets);
+//			if(selected == board.getCellAt(4, 1)){
+//				count++;
+//				continue;
+//			}
+//			else{
+//				fail("Player did not choose door where player had not entered yet.");
+//			}
+//		}
+//		assertEquals(100, count);
+//	}
 
 	@Test
 	public void testTargetNotDoor(){
@@ -102,6 +102,7 @@ public class GameActionTests {
 		int cell6_3 = 0;
 
 		for(int i = 0; i < 100; i++){
+			System.out.println(i);
 			BoardCell selected = player.pickLocation(targets);
 			if(selected == board.getCellAt(4, 1)){
 				fail("Player chose the door.");
@@ -289,19 +290,43 @@ public class GameActionTests {
 		compPlayer.addCard(johnCard);
 		compPlayer.addCard(bearCard);
 		compPlayer.addCard(gunCard);
-
-		// make suggestion in bedroom with no seen cards
+		Suggestion suggestion;
+		
+		// make suggestion in bedroom with two unseen person cards and two
+		// unseen weapon cards
 		seenCards = game.getSeenCards();
 		RoomCell bedroomDoor = board.getRoomCellAt(3, 17);
 		game.setPlayerLocation(compPlayer, bedroomDoor);
 		String roomName = board.getRooms().get(bedroomDoor.getInitial());
 		assertEquals("Bedroom", roomName);
-		Suggestion suggestion = compPlayer.createSuggestion(roomName, seenCards);
-		assertEquals(johnCard, suggestion.getPerson());
-		assertEquals(gunCard, suggestion.getWeapon());
-		assertEquals(bedroomCard, suggestion.getRoom());
-
+		
 		// make suggestion in family room with two seen cards
+		int philCardCount = 0, johnCardCount = 0, bearCardCount = 0, gunCardCount = 0;
+		// make sure the right cards are being returned
+		for (int i = 0; i < 15; i++) {
+			suggestion = compPlayer.createSuggestion(roomName, seenCards);
+			assert(suggestion.getPerson().equals(philCard) || 
+				   suggestion.getPerson().equals(johnCard));
+			if (suggestion.getPerson().equals(philCard)) {
+				philCardCount++;
+			}
+			else if (suggestion.getPerson().equals(johnCard)) {
+				johnCardCount++;
+			}
+			assert(suggestion.getWeapon().equals(bearCard) || 
+				   suggestion.getWeapon().equals(gunCard));
+			if (suggestion.getWeapon().equals(bearCard)) {
+				bearCardCount++;
+			}
+			else if (suggestion.getWeapon().equals(gunCard)) {
+				gunCardCount++;
+			}
+		}
+		// make sure cards are being returned randomly (not the same one each time)
+		assert(philCardCount > 0 && johnCardCount > 0 && bearCardCount > 0 && gunCardCount > 0);
+		
+		// make suggestion in family room with one unseen person card and
+		// one unseen weapon card
 		game.addSeenCard(johnCard);
 		game.addSeenCard(gunCard);
 		seenCards = game.getSeenCards();
