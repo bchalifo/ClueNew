@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import clueGame.Card.CardType;
 
@@ -25,19 +26,23 @@ public class ComputerPlayer extends Player {
 	
 	// create suggestion
 	public Suggestion createSuggestion(String room, ArrayList<Card> seenCards) {
-		Card personSuggestion = new Card(), weaponSuggestion = new Card();
+		ArrayList<Card> personSuggestions = new ArrayList<Card>();
+		ArrayList<Card> weaponSuggestions = new ArrayList<Card>();
 		Card roomSuggestion = new Card(room, CardType.ROOM);
 		for (Card card : this.getHand()) {
 			if (!(seenCards.contains(card))) {
 				if (card.getType() == CardType.PERSON) {
-					personSuggestion = card;
+					personSuggestions.add(card);
 				}
 				else if (card.getType() == CardType.WEAPON) {
-					weaponSuggestion = card;
+					weaponSuggestions.add(card);
 				}
 			}
 			
 		}
+		Random rand = new Random();
+		Card personSuggestion = personSuggestions.get(rand.nextInt(personSuggestions.size()));
+		Card weaponSuggestion = weaponSuggestions.get(rand.nextInt(weaponSuggestions.size()));
 		Suggestion s = new Suggestion(personSuggestion, weaponSuggestion, roomSuggestion);
 		return s;
 	}

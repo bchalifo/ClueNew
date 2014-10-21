@@ -190,19 +190,41 @@ public class GameActionTests {
 		compPlayer.addCard(johnCard);
 		compPlayer.addCard(bearCard);
 		compPlayer.addCard(gunCard);
+		Suggestion suggestion;
 		
-		// make suggestion in bedroom with no seen cards
+		// make suggestion in bedroom with two unseen person cards and two
+		// unseen weapon cards
 		seenCards = game.getSeenCards();
 		RoomCell bedroomDoor = board.getRoomCellAt(3, 17);
 		game.setPlayerLocation(compPlayer, bedroomDoor);
 		String roomName = board.getRooms().get(bedroomDoor.getInitial());
 		assertEquals("Bedroom", roomName);
-		Suggestion suggestion = compPlayer.createSuggestion(roomName, seenCards);
-		assertEquals(johnCard, suggestion.getPerson());
-		assertEquals(gunCard, suggestion.getWeapon());
-		assertEquals(bedroomCard, suggestion.getRoom());
+		int philCardCount = 0, johnCardCount = 0, bearCardCount = 0, gunCardCount = 0;
+		// make sure the right cards are being returned
+		for (int i = 0; i < 15; i++) {
+			suggestion = compPlayer.createSuggestion(roomName, seenCards);
+			assert(suggestion.getPerson().equals(philCard) || 
+				   suggestion.getPerson().equals(johnCard));
+			if (suggestion.getPerson().equals(philCard)) {
+				philCardCount++;
+			}
+			else if (suggestion.getPerson().equals(johnCard)) {
+				johnCardCount++;
+			}
+			assert(suggestion.getWeapon().equals(bearCard) || 
+				   suggestion.getWeapon().equals(gunCard));
+			if (suggestion.getWeapon().equals(bearCard)) {
+				bearCardCount++;
+			}
+			else if (suggestion.getWeapon().equals(gunCard)) {
+				gunCardCount++;
+			}
+		}
+		// make sure cards are being returned randomly (not the same one each time)
+		assert(philCardCount > 0 && johnCardCount > 0 && bearCardCount > 0 && gunCardCount > 0);
 		
-		// make suggestion in family room with two seen cards
+		// make suggestion in family room with one unseen person card and
+		// one unseen weapon card
 		game.addSeenCard(johnCard);
 		game.addSeenCard(gunCard);
 		seenCards = game.getSeenCards();
