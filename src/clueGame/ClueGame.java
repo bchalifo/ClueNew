@@ -17,6 +17,7 @@ public class ClueGame {
 	private Solution solution;
 	private ArrayList<Player> players;
 	private Map<Player, BoardCell> playerLocations;
+	private Map<Player, RoomCell> playerLastRoom;
 	private ArrayList<Card> cards;
 
 	// constructor
@@ -25,6 +26,7 @@ public class ClueGame {
 		rooms = new HashMap<Character, String>();
 		cards = new ArrayList<Card>();
 		playerLocations = new HashMap<Player, BoardCell>();
+		playerLastRoom = new HashMap<Player, RoomCell>();
 		players = new ArrayList<Player>(6);
 		solution = new Solution();
 	}
@@ -179,7 +181,7 @@ public class ClueGame {
 			}
 		}
 	}
-
+	
 	// Getters for various containers:
 	public ArrayList<Card> getCards() {
 		return cards;
@@ -191,5 +193,9 @@ public class ClueGame {
 
 	public Map getPlayerLocations(){
 		return playerLocations;
+	}
+	
+	public Map getPlayerLastRoom(){
+		return playerLastRoom;
 	}
 }

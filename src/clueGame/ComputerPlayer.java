@@ -1,9 +1,11 @@
 package clueGame;
 
+import java.util.Set;
+
 public class ComputerPlayer extends Player {
 	// instance variables
 	char lastRoomVisited;
-	
+
 	// default constructor
 	public ComputerPlayer() {
 		super();
@@ -13,18 +15,19 @@ public class ComputerPlayer extends Player {
 		super(name, color);
 	}
 
-	// picks a location from a list of targets
-	public void pickLocation() {
-		
+	// Computer selects a move based off of the input roll and possible moves
+	// The selected BoardCell is returned.
+	public BoardCell pickLocation(Set<BoardCell> targets){
+		return null;
 	}
-	
+
 	// create suggestion
 	public void createSuggestion() {
-		
+
 	}
-	
+
 	// mark card as seen
 	void updateSeen(Card seen) {
-		
+
 	}
 }
