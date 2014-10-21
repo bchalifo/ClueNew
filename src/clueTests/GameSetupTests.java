@@ -20,7 +20,7 @@ public class GameSetupTests {
 	
 	// Create a new game for each test
 	@Before
-	public void setUpPeople(){
+	public void setUp(){
 		game = new ClueGame("ClueLayout.csv", "ClueLegend.txt");
 		game.loadConfigFiles();
 		board = game.getBoard();
@@ -31,7 +31,7 @@ public class GameSetupTests {
 	
 	// Test each person, for their name, their color, and their starting location
 	@Test
-	public void testPeople(){
+	public void testPlayers(){
 		// Test our player container size
 		assertEquals(players.size(), 6);
 		// Test all of our players within the game for correct data:

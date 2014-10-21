@@ -38,7 +38,9 @@ public class RoomCell extends BoardCell {
 	}
 	
 	public boolean isDoorway(){
-		if(doorDirection != DoorDirection.NONE)return true; 
+		if(doorDirection != DoorDirection.NONE) {
+			return true; 
+		}
 		return false;
 	}
 	public boolean isWalkway(){

@@ -19,12 +19,15 @@ public class ClueGame {
 	private Map<Player, BoardCell> playerLocations;
 	private Map<Player, RoomCell> playerLastRoom;
 	private ArrayList<Card> cards;
+	private ArrayList<Card> seenCards;
 
-	// constructor
+	// constructor with game configuration files
 	public ClueGame(String layout, String legend) {
+		// initialize containers
 		board = new Board(layout,legend,ROWS,COLS);
 		rooms = new HashMap<Character, String>();
 		cards = new ArrayList<Card>();
+		seenCards = new ArrayList<Card>();
 		playerLocations = new HashMap<Player, BoardCell>();
 		playerLastRoom = new HashMap<Player, RoomCell>();
 		players = new ArrayList<Player>(6);
@@ -52,10 +55,6 @@ public class ClueGame {
 		}
 	}
 
-	public Board getBoard() {
-		return board;
-	}
-
 	public void loadRoomConfig() {
 		loadConfigFiles();
 	}
@@ -68,9 +67,8 @@ public class ClueGame {
 	// A function called separately to simulate dealing the deck out to each player.
 	public void deal() {
 		Random r = new Random();
-		int low = 0;
 		while(!cards.isEmpty()){
-			for(int i = 0; i < 6; i++){
+			for(int i = 0; i < players.size(); i++){
 				if(cards.isEmpty()){
 					break;
 				}
@@ -86,12 +84,32 @@ public class ClueGame {
 
 	}
 
-	public void handleSuggestion(String person,
-			String room,
-			String weapon,
-			Player accusingPerson)
+	// handles player suggestions; returns matched card if a player can
+	// disprove the suggestion, or null if no player can disprove it
+	public Card handleSuggestion(Card person,
+			Card weapon,
+			Card room,
+			Player accusingPlayer)
 	{
-
+		int nextPlayerIndex = players.indexOf(accusingPlayer) + 1;
+		// check each player to disprove
+		while (true) {
+			Player nextPlayer = players.get(nextPlayerIndex % players.size());
+			// no player can disprove, so break and return null
+			if (nextPlayer == accusingPlayer) {
+				break;
+			}
+			Card result = nextPlayer.disproveSuggestion(person, weapon, room);
+			// no match, check next player
+			if (result == null) {
+				nextPlayerIndex++;
+			}
+			// match, return the result
+			else {
+				return result;
+			}
+		}
+		return null;
 	}
 
 	// Checks an accusation against the game's solution
@@ -130,6 +148,7 @@ public class ClueGame {
 			// add card to the deck
 			cards.add(card);
 		}
+		in.close();
 	}
 
 	// This function loads the players from the text file and instantiates a player
@@ -183,19 +202,39 @@ public class ClueGame {
 	}
 	
 	// Getters for various containers:
+	public Board getBoard() {
+		return board;
+	}
+	
 	public ArrayList<Card> getCards() {
 		return cards;
 	}
+	
+	public ArrayList<Card> getSeenCards() {
+		return seenCards;
+	}
 
-	public ArrayList getPlayers(){
+	public ArrayList<Player> getPlayers(){
 		return players;
 	}
 
-	public Map getPlayerLocations(){
+	public Map<Player, BoardCell> getPlayerLocations(){
 		return playerLocations;
 	}
 	
 	public Map getPlayerLastRoom(){
 		return playerLastRoom;
+	}
+	// set players (needed for testing)
+	public void setPlayers(ArrayList<Player> players) {
+		this.players = players;
+	}
+	
+	public void addSeenCard(Card card) {
+		seenCards.add(card);
+	}
+	
+	public void setPlayerLocation(Player player, BoardCell cell) {
+		playerLocations.put(player, cell);
 	}
 }

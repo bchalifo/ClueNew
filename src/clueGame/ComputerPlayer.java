@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+import java.util.ArrayList;
+
+import clueGame.Card.CardType;
 
 public class ComputerPlayer extends Player {
 	// instance variables
@@ -15,6 +18,7 @@ public class ComputerPlayer extends Player {
 		super();
 	}
 
+	// constructor with fields
 	public ComputerPlayer(String name, String color) {
 		super(name, color);
 	}
@@ -30,8 +34,22 @@ public class ComputerPlayer extends Player {
 	}
 
 	// create suggestion
-	public void createSuggestion() {
-
+	public Suggestion createSuggestion(String room, ArrayList<Card> seenCards) {
+		Card personSuggestion = new Card(), weaponSuggestion = new Card();
+		Card roomSuggestion = new Card(room, CardType.ROOM);
+		for (Card card : this.getHand()) {
+			if (!(seenCards.contains(card))) {
+				if (card.getType() == CardType.PERSON) {
+					personSuggestion = card;
+				}
+				else if (card.getType() == CardType.WEAPON) {
+					weaponSuggestion = card;
+				}
+			}
+			
+		}
+		Suggestion s = new Suggestion(personSuggestion, weaponSuggestion, roomSuggestion);
+		return s;
 	}
 
 	// mark card as seen
