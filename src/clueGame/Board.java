@@ -1,17 +1,13 @@
 package clueGame;
 
+import java.awt.Graphics;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
-public class Board {
+import javax.swing.*;
+
+public class Board extends JPanel {
 	// instance variables
 	private int numRows;
 	private int numColumns;
@@ -27,7 +23,8 @@ public class Board {
 	public Board(String layoutFile, String legendFile, int rows, int cols) {
 		this.layoutFile = layoutFile;
 		this.legendFile = legendFile;
-		setSize(rows, cols);
+		numRows = rows;
+		numColumns = cols;
 		// initialize containers
 		board = new BoardCell[numRows][numColumns];
 		rooms = new HashMap<Character, String>();
@@ -209,6 +206,17 @@ public class Board {
 			}
 		}
 	}
+	
+	/************************ NEW STUFF **************************************/
+	// paint the board
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		/*
+		 * TODO:
+		 *   figure this out
+		 */
+	}
+	/*************************************************************************/
 
 	// get number of rows
 	public int getNumRows() {
@@ -246,13 +254,6 @@ public class Board {
 	// get targets
 	public Set<BoardCell> getTargets() {
 		return targets;
-	}
-
-	// set size of board
-	private void setSize(int rows, int cols) {
-		numRows = rows;
-		numColumns = cols;
-
 	}
 
 	@Override

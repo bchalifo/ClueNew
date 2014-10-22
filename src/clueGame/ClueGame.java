@@ -3,17 +3,17 @@ package clueGame;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
+import javax.swing.*;
 
 import clueGame.Card.CardType;
 
-public class ClueGame {
+public class ClueGame extends JFrame {
 	// constants
 	private final int ROWS = 22;
 	private final int COLS = 23;
 	// instance variables
 	private Map<Character,String> rooms;
 	private Board board;
-
 	private Solution solution;
 	private ArrayList<Player> players;
 	private Map<Player, BoardCell> playerLocations;
@@ -47,7 +47,7 @@ public class ClueGame {
 		solution = new Solution();
 	}
 
-	// Methods
+	// configure game from files
 	public void loadConfigFiles(){
 		try {
 			board.loadBoardConfig();
@@ -62,10 +62,12 @@ public class ClueGame {
 		}
 	}
 
+	// does this do anything?
 	public void loadRoomConfig() {
 		loadConfigFiles();
 	}
 
+	// hard coded solution for testing
 	public void makeSolution(){
 		this.solution = new Solution("Dr. Phil", "Really Depressing Thoughts", 
 				"Bedroom");
@@ -87,6 +89,7 @@ public class ClueGame {
 		}
 	}
 
+	// ??
 	public void selectAnswer() {
 
 	}
@@ -208,7 +211,7 @@ public class ClueGame {
 		}
 	}
 
-	// Getters for various containers:
+	// getters/setters for various containers:
 	public Board getBoard() {
 		return board;
 	}
@@ -243,5 +246,14 @@ public class ClueGame {
 
 	public void setPlayerLocation(Player player, BoardCell cell) {
 		playerLocations.put(player, cell);
+	}
+	
+	// main
+	public static void main(String args[]) {
+		// initialize and configure game
+		ClueGame game = new ClueGame("resources/clueLayout.csv", "resources/legend.txt");
+		game.loadConfigFiles();
+		game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		game.setVisible(true);
 	}
 }
