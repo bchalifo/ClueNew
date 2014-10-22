@@ -1,5 +1,7 @@
 package clueGame;
 
+import java.awt.Color;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -9,16 +11,16 @@ public class Player {
 	private ArrayList<Card> cards;
 	private Color color;
 	
-	// constructor
-	public Player(String name, String color){
-		this.name = name;
-		this.color = Color.valueOf(color);
-		this.cards = new ArrayList<Card>();
-	}
-	
 	// default constructor
 	public Player() {
 		cards = new ArrayList<Card>();
+	}
+
+	// constructor with fields
+	public Player(String name, String color){
+		this.name = name;
+		this.color = convertColor(color);
+		this.cards = new ArrayList<Card>();
 	}
 	
 	// disprove suggestion made by another player
@@ -38,6 +40,19 @@ public class Player {
 			return matches.get(randomIndex);
 		}
 		return null;
+	}
+	
+	// Be sure to trim the color, we don't want spaces around the name
+	public Color convertColor(String strColor) {
+		Color color; 
+		try {     
+			// We can use reflection to convert the string to a color
+			Field field = Color.class.getField(strColor.trim());     
+			color = (Color)field.get(null); } 
+		catch (Exception e) {  
+			color = null; // Not defined } 
+		}
+		return color;
 	}
 
 	// getters

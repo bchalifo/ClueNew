@@ -2,6 +2,7 @@ package clueTests;
 
 import static org.junit.Assert.*;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -36,7 +37,7 @@ public class GameSetupTests {
 		assertEquals(players.size(), 6);
 		// Test all of our players within the game for correct data:
 		assertEquals(players.get(0).getName(), "Dr. Phil");
-		assertEquals(players.get(0).getColor(), Color.PURPLE);
+		assertEquals(players.get(0).getColor(), Color.MAGENTA);
 		assertEquals(playerLocations.get(players.get(0)), board.getCellAt(0, 11));
 		
 		assertEquals(players.get(1).getName(), "Popeye");

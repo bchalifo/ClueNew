@@ -215,6 +215,13 @@ public class Board extends JPanel {
 		 * TODO:
 		 *   figure this out
 		 */
+		
+		// paint board cells
+		for (int row = 0; row < numRows; row++) {
+			for (int col = 0; col < numColumns; col++) {
+				board[row][col].draw(g, this);
+			}
+		}
 	}
 	/*************************************************************************/
 

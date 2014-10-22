@@ -1,5 +1,7 @@
 package clueGame;
 
+import java.awt.Graphics;
+
 public abstract class BoardCell implements Comparable<BoardCell> {
 	
 	private int row;
@@ -23,7 +25,7 @@ public abstract class BoardCell implements Comparable<BoardCell> {
 		return false;
 	}
 	
-	public abstract void draw();
+	public abstract void draw(Graphics g, Board board);
 	
 	@Override
 	public int compareTo(BoardCell o) {

@@ -1,15 +1,19 @@
 package clueGame;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 public class RoomCell extends BoardCell {
 	
 	public enum DoorDirection{
 		UP, DOWN, LEFT, RIGHT, NONE;
 	}
 	
+	// instance variables
 	private DoorDirection doorDirection;
 	private char roomInitial;
 	
-
+	// constructor
 	public RoomCell(int row, int col, String ID) throws BadConfigFormatException {
 		super(row, col);
 		roomInitial = ID.charAt(0);
@@ -43,9 +47,10 @@ public class RoomCell extends BoardCell {
 		return false;
 	}
 	
+	// draw room cell
 	@Override
-	public void draw() {
-		// TODO Auto-generated method stub
+	public void draw(Graphics g, Board board) {
+		g.setColor(Color.BLUE);
 	}
 
 	// get door direction

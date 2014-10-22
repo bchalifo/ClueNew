@@ -1,13 +1,19 @@
 package clueGame;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
+
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 import clueGame.Card.CardType;
 
 public class ClueGame extends JFrame {
+	
 	// constants
 	private final int ROWS = 22;
 	private final int COLS = 23;
@@ -23,6 +29,7 @@ public class ClueGame extends JFrame {
 
 	// default constructor
 	public ClueGame() {
+		// initialize containers
 		rooms = new HashMap<Character, String>();
 		board = new Board("ClueLayout.csv", "ClueLegend.txt",ROWS,COLS);
 		rooms = new HashMap<Character, String>();
@@ -32,6 +39,10 @@ public class ClueGame extends JFrame {
 		playerLastRoom = new HashMap<Player, RoomCell>();
 		players = new ArrayList<Player>(6);
 		solution = new Solution();
+		// initalize GUI
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(new Dimension(500,500));
+		setTitle("Clue");
 	}
 
 	// constructor with game configuration files
@@ -45,6 +56,10 @@ public class ClueGame extends JFrame {
 		playerLastRoom = new HashMap<Player, RoomCell>();
 		players = new ArrayList<Player>(6);
 		solution = new Solution();
+		// initialize GUI
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(new Dimension(500,500));
+		setTitle("Clue");
 	}
 
 	// configure game from files
@@ -253,7 +268,9 @@ public class ClueGame extends JFrame {
 		// initialize and configure game
 		ClueGame game = new ClueGame("resources/clueLayout.csv", "resources/legend.txt");
 		game.loadConfigFiles();
-		game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Board board = game.getBoard();
+		board.calcAdjacencies();
+		game.add(board, BorderLayout.CENTER);
 		game.setVisible(true);
 	}
 }
