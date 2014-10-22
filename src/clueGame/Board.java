@@ -8,6 +8,9 @@ import java.util.*;
 import javax.swing.*;
 
 public class Board extends JPanel {
+	// constants
+	public static int CELL_WIDTH = 30;
+	public static int CELL_HEIGHT = 30;
 	// instance variables
 	private int numRows;
 	private int numColumns;
@@ -213,7 +216,9 @@ public class Board extends JPanel {
 		super.paintComponent(g);
 		/*
 		 * TODO:
-		 *   figure this out
+		 *   paint players
+		 *   paint room labels
+		 *   paint doors
 		 */
 		
 		// paint board cells
