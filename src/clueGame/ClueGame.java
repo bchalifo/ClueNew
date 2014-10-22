@@ -21,6 +21,19 @@ public class ClueGame {
 	private ArrayList<Card> cards;
 	private ArrayList<Card> seenCards;
 
+	// default constructor
+	public ClueGame() {
+		rooms = new HashMap<Character, String>();
+		board = new Board("ClueLayout.csv", "ClueLegend.txt",ROWS,COLS);
+		rooms = new HashMap<Character, String>();
+		cards = new ArrayList<Card>();
+		seenCards = new ArrayList<Card>();
+		playerLocations = new HashMap<Player, BoardCell>();
+		playerLastRoom = new HashMap<Player, RoomCell>();
+		players = new ArrayList<Player>(6);
+		solution = new Solution();
+	}
+
 	// constructor with game configuration files
 	public ClueGame(String layout, String legend) {
 		// initialize containers
@@ -32,12 +45,6 @@ public class ClueGame {
 		playerLastRoom = new HashMap<Player, RoomCell>();
 		players = new ArrayList<Player>(6);
 		solution = new Solution();
-	}
-
-	// default constructor
-	public ClueGame() {
-		rooms = new HashMap<Character, String>();
-		board = new Board("ClueLayout.csv", "ClueLegend.txt",ROWS,COLS);
 	}
 
 	// Methods
@@ -63,7 +70,7 @@ public class ClueGame {
 		this.solution = new Solution("Dr. Phil", "Really Depressing Thoughts", 
 				"Bedroom");
 	}
-	
+
 	// A function called separately to simulate dealing the deck out to each player.
 	public void deal() {
 		Random r = new Random();
@@ -200,16 +207,16 @@ public class ClueGame {
 			}
 		}
 	}
-	
+
 	// Getters for various containers:
 	public Board getBoard() {
 		return board;
 	}
-	
+
 	public ArrayList<Card> getCards() {
 		return cards;
 	}
-	
+
 	public ArrayList<Card> getSeenCards() {
 		return seenCards;
 	}
@@ -221,7 +228,7 @@ public class ClueGame {
 	public Map<Player, BoardCell> getPlayerLocations(){
 		return playerLocations;
 	}
-	
+
 	public Map getPlayerLastRoom(){
 		return playerLastRoom;
 	}
@@ -229,11 +236,11 @@ public class ClueGame {
 	public void setPlayers(ArrayList<Player> players) {
 		this.players = players;
 	}
-	
+
 	public void addSeenCard(Card card) {
 		seenCards.add(card);
 	}
-	
+
 	public void setPlayerLocation(Player player, BoardCell cell) {
 		playerLocations.put(player, cell);
 	}

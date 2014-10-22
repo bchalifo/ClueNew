@@ -1,0 +1,6 @@
+Dr. Phil;PURPLE;0,11
+Popeye;RED;5,0
+Vlad;BLACK;21,4
+That Guy;YELLOW;21,16
+Davey Jones;BLUE;13,22
+John Elway;ORANGE;0,22

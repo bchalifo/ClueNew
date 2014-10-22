@@ -28,7 +28,7 @@ public class Board {
 		this.layoutFile = layoutFile;
 		this.legendFile = legendFile;
 		setSize(rows, cols);
-		// init containers
+		// initialize containers
 		board = new BoardCell[numRows][numColumns];
 		rooms = new HashMap<Character, String>();
 		adjMtx = new HashMap<BoardCell, LinkedList<BoardCell>>();
@@ -71,15 +71,16 @@ public class Board {
 				if (temp.length == numColumns) {
 					// read each column of row
 					for (int column = 0; column < temp.length; column++) {
-						// *****NEEDS FIXING**** //
-						board[row][column] = new RoomCell(row, column, temp[column]);
+						
 						try {
+							// determine cell type and add it to the board
 							if (rooms.get(temp[column].charAt(0)).equalsIgnoreCase("walkway")) {
-								// NOOOO
-								((RoomCell) board[row][column]).makeWalkway();
+								board[row][column] = new WalkwayCell(row, column);
+							}
+							else {
+								board[row][column] = new RoomCell(row, column, temp[column]);
 							}
 						}
-						// ********************* //
 						catch(NullPointerException e) {
 							throw new BadConfigFormatException("Bad Layout file");
 						}
@@ -129,48 +130,55 @@ public class Board {
 
 	// load the adjacency map for the board cells
 	public void calcAdjacencies() {
+		// stores the adjacencies
 		LinkedList<BoardCell> tempList = new LinkedList<BoardCell>();
-		for (int r = 0; r < numRows; r++) {
-			for (int c = 0; c < numColumns; c++) {
-				if (c + 1 < numColumns) {
-					if (getRoomCellAt(r, c + 1).isWalkway()) {
-						tempList.add(getRoomCellAt(r, c + 1));
+		// loop through each board cell
+		for (int row = 0; row < numRows; row++) {
+			for (int col = 0; col < numColumns; col++) {
+				// adjacency right
+				if (col + 1 < numColumns) {
+					if (getCellAt(row, col + 1).isWalkway()) {
+						tempList.add(getCellAt(row, col + 1));
 					}
-					else if (getRoomCellAt(r, c + 1).getDoorDirection() == RoomCell.DoorDirection.LEFT) {
-						tempList.add(getRoomCellAt(r, c + 1));
-					}
-				}
-				if (r + 1 < numRows) {
-					if (getRoomCellAt(r + 1, c).isWalkway()) {
-						tempList.add(getRoomCellAt(r + 1, c));
-					}
-					else if (getRoomCellAt(r + 1, c).getDoorDirection() == RoomCell.DoorDirection.UP) {
-						tempList.add(getRoomCellAt(r + 1, c));
+					else if (getRoomCellAt(row, col + 1).getDoorDirection() == RoomCell.DoorDirection.LEFT) {
+						tempList.add(getRoomCellAt(row, col + 1));
 					}
 				}
-				if (c - 1 >= 0) {
-					if (getRoomCellAt(r, c - 1).isWalkway()) {
-						tempList.add(getRoomCellAt(r, c - 1));
+				// adjacency down
+				if (row + 1 < numRows) {
+					if (getCellAt(row + 1, col).isWalkway()) {
+						tempList.add(getCellAt(row + 1, col));
 					}
-					else if (getRoomCellAt(r, c - 1).getDoorDirection() == RoomCell.DoorDirection.RIGHT) {
-						tempList.add(getRoomCellAt(r, c - 1));
-					}
-				}
-				if (r - 1 >= 0) {
-					if (getRoomCellAt(r - 1, c).isWalkway()) {
-						tempList.add(getRoomCellAt(r - 1, c));
-					}
-					else if (getRoomCellAt(r - 1, c).getDoorDirection() == RoomCell.DoorDirection.DOWN) {
-						tempList.add(getRoomCellAt(r - 1, c));
+					else if (getRoomCellAt(row + 1, col).getDoorDirection() == RoomCell.DoorDirection.UP) {
+						tempList.add(getRoomCellAt(row + 1, col));
 					}
 				}
-
-				if (!getRoomCellAt(r, c).isWalkway()
-						&& !getRoomCellAt(r, c).isDoorway()) {
-					adjMtx.put(getCellAt(r, c), new LinkedList<BoardCell>());
+				// adjacency left
+				if (col - 1 >= 0) {
+					if (getCellAt(row, col - 1).isWalkway()) {
+						tempList.add(getCellAt(row, col - 1));
+					}
+					else if (getRoomCellAt(row, col - 1).getDoorDirection() == RoomCell.DoorDirection.RIGHT) {
+						tempList.add(getRoomCellAt(row, col - 1));
+					}
 				}
+				// adjacency up
+				if (row - 1 >= 0) {
+					if (getCellAt(row - 1, col).isWalkway()) {
+						tempList.add(getCellAt(row - 1, col));
+					}
+					else if (getRoomCellAt(row - 1, col).getDoorDirection() == RoomCell.DoorDirection.DOWN) {
+						tempList.add(getRoomCellAt(row - 1, col));
+					}
+				}
+				// if not walkway or doorway, do not add adjacencies
+				if (!getCellAt(row, col).isWalkway()
+						&& !getRoomCellAt(row, col).isDoorway()) {
+					adjMtx.put(getCellAt(row, col), new LinkedList<BoardCell>());
+				}
+				// else add adjacencies
 				else {
-					adjMtx.put(getCellAt(r, c), new LinkedList<BoardCell>(tempList));
+					adjMtx.put(getCellAt(row, col), new LinkedList<BoardCell>(tempList));
 				}
 				tempList.clear();
 			}
@@ -202,20 +210,17 @@ public class Board {
 		}
 	}
 
-	// Get Rooms
-	public Map<Character, String> getRooms() {
-		return rooms;
-	}
-
+	// get number of rows
 	public int getNumRows() {
 		return numRows;
 	}
 
+	// get number of columns
 	public int getNumColumns() {
 		return numColumns;
 	}
 
-	// Get RoomCell
+	// get RoomCell
 	public RoomCell getRoomCellAt(int row, int col) {
 		if (board[row][col].isRoom()) {
 			return (RoomCell) board[row][col];
@@ -223,21 +228,27 @@ public class Board {
 		return null;
 	}
 
-	// Get BoardCell
+	// get BoardCell
 	public BoardCell getCellAt(int row, int col) {
 		return board[row][col];
 	}
-
-	// Get targets
-	public Set<BoardCell> getTargets() {
-		return targets;
+	
+	// get Rooms
+	public Map<Character, String> getRooms() {
+		return rooms;
 	}
-
-	// Get adjacency list
+	
+	// get adjacency list
 	public LinkedList<BoardCell> getAdjList(int row, int col) {
 		return adjMtx.get(board[row][col]);
 	}
 
+	// get targets
+	public Set<BoardCell> getTargets() {
+		return targets;
+	}
+
+	// set size of board
 	private void setSize(int rows, int cols) {
 		numRows = rows;
 		numColumns = cols;

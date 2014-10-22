@@ -76,7 +76,7 @@ public class FileInitTests {
 		{
 			for(int c = 0; c < COLS; c++)
 			{
-				if(board.getRoomCellAt(r, c).isDoorway()) numDoors++;
+				if(board.getCellAt(r, c).isRoom() && board.getCellAt(r, c).isDoorway() ) numDoors++;
 			}
 		}
 		Assert.assertEquals(20, numDoors);
@@ -95,7 +95,6 @@ public class FileInitTests {
 		Assert.assertEquals('O', board.getRoomCellAt(4, 9).getInitial());
 		Assert.assertEquals('F', board.getRoomCellAt(12, 0).getInitial());
 		Assert.assertEquals('S', board.getRoomCellAt(19, 6).getInitial());
-		Assert.assertEquals('.', board.getRoomCellAt(15, 0).getInitial());
 	}
 	
 	@Test (expected = BadConfigFormatException.class)

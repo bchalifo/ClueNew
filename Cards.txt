@@ -1,0 +1,21 @@
+person,Dr.Phil
+person,Popeye
+person,Vlad
+person,That Guy
+person,Davey Jones
+person,John Elway
+room,Library
+room,Bedroom
+room,Kitchen
+room,Dining Room
+room,Bowling Alley
+room,Water Closet
+room,Office
+room,Family Room
+room,Observatory
+weapon,Bear Hands
+weapon,Bag of Rocks
+weapon,Really Depressing Thoughts
+weapon,Hot Soup
+weapon,Fruit Cake Brick
+weapon,Ray Gun
