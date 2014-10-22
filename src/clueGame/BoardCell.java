@@ -27,6 +27,14 @@ public abstract class BoardCell implements Comparable<BoardCell> {
 	
 	public abstract void draw(Graphics g, Board board);
 	
+	public int getRow() {
+		return row;
+	}
+	
+	public int getColumn() {
+		return col;
+	}
+	
 	@Override
 	public int compareTo(BoardCell o) {
 		if(this.col == o.col && this.row == o.row) {

@@ -51,6 +51,7 @@ public class RoomCell extends BoardCell {
 	@Override
 	public void draw(Graphics g, Board board) {
 		g.setColor(Color.BLUE);
+		g.drawRect(super.getRow() * 10, super.getColumn() * 10, 10, 10);
 	}
 
 	// get door direction
