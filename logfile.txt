@@ -67,3 +67,11 @@ Wed Oct 22 15:42:34 MDT 2014 Bad Layout file
 Wed Oct 22 15:42:34 MDT 2014 Bad legend file
 Wed Oct 22 15:42:39 MDT 2014 Bad Layout file
 Wed Oct 22 15:42:39 MDT 2014 Bad Legend file
+Wed Oct 22 17:53:14 MDT 2014 Bad Layout file
+Wed Oct 22 17:53:14 MDT 2014 Bad Layout file
+Wed Oct 22 17:53:14 MDT 2014 Bad legend file
+Wed Oct 22 17:53:19 MDT 2014 Bad Layout file
+Wed Oct 22 17:53:19 MDT 2014 Bad Legend file
+Thu Oct 23 12:09:31 MDT 2014 Incorrect Room Format
+Thu Oct 23 13:09:58 MDT 2014 Bad Layout file
+Thu Oct 23 13:09:58 MDT 2014 Bad Legend file

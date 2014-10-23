@@ -16,6 +16,7 @@ public class Board extends JPanel {
 	private int numColumns;
 	private BoardCell[][] board;
 	private Map<Character, String> rooms;
+	private Map<Player, BoardCell> playerLocations;
 	private Map<BoardCell, LinkedList<BoardCell>> adjMtx;
 	private Set<BoardCell> visited;
 	private Set<BoardCell> targets;
@@ -31,6 +32,7 @@ public class Board extends JPanel {
 		// initialize containers
 		board = new BoardCell[numRows][numColumns];
 		rooms = new HashMap<Character, String>();
+		playerLocations = new HashMap<Player, BoardCell>();
 		adjMtx = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		visited = new HashSet<BoardCell>();
 		targets = new HashSet<BoardCell>();
@@ -96,6 +98,11 @@ public class Board extends JPanel {
 			}
 		}
 		layout.close();
+	}
+	
+	// update player locations passed from game
+	public void updatePlayerLocations(Map<Player, BoardCell> playerLocations) {
+		this.playerLocations = playerLocations;
 	}
 
 	// creates a scanner for the layout file
@@ -216,8 +223,6 @@ public class Board extends JPanel {
 		super.paintComponent(g);
 		/*
 		 * TODO:
-		 *   paint players
-		 *   paint room labels
 		 *   paint doors
 		 */
 		
@@ -226,6 +231,10 @@ public class Board extends JPanel {
 			for (int col = 0; col < numColumns; col++) {
 				board[row][col].draw(g, this);
 			}
+		}
+		// paint players
+		for (Player player : playerLocations.keySet()) {
+			player.draw(g, playerLocations.get(player), this);
 		}
 	}
 	/*************************************************************************/

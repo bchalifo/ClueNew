@@ -16,12 +16,12 @@ public class WalkwayCell extends BoardCell {
 
 	@Override
 	public void draw(Graphics g, Board board) {
-		int x = super.getColumn() * board.CELL_WIDTH;
-		int y = super.getRow() * board.CELL_HEIGHT;
+		int x = super.getColumn() * Board.CELL_WIDTH;
+		int y = super.getRow() * Board.CELL_HEIGHT;
 		
-		g.setColor(Color.ORANGE);
-		g.fillRect(x, y, board.CELL_WIDTH, board.CELL_HEIGHT);
+		g.setColor(Color.lightGray);
+		g.fillRect(x, y, Board.CELL_WIDTH, Board.CELL_HEIGHT);
 		g.setColor(Color.BLACK);
-		g.drawRect(x, y, board.CELL_WIDTH, board.CELL_HEIGHT);
+		g.drawRect(x, y, Board.CELL_WIDTH, Board.CELL_HEIGHT);
 	}
 }

@@ -57,7 +57,6 @@ public class ClueGame extends JFrame {
 		solution = new Solution();
 		// initialize GUI
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(new Dimension(500,500));
 		setTitle("Clue");
 	}
 
@@ -67,6 +66,7 @@ public class ClueGame extends JFrame {
 			board.loadBoardConfig();
 			this.loadCards();
 			this.loadPlayers();
+			board.updatePlayerLocations(playerLocations);
 		} catch (BadConfigFormatException e) {
 			System.out.println(e.getLocalizedMessage());
 			System.exit(0);
@@ -223,6 +223,7 @@ public class ClueGame extends JFrame {
 				break;
 			}
 		}
+		people.close();
 	}
 
 	// getters/setters for various containers:
@@ -271,7 +272,7 @@ public class ClueGame extends JFrame {
 		board.calcAdjacencies();
 		// configure GUI
 		game.add(board, BorderLayout.CENTER);
-		Dimension boardDimensions = new Dimension(game.COLS * board.CELL_WIDTH, game.ROWS * board.CELL_HEIGHT);
+		Dimension boardDimensions = new Dimension(game.COLS * Board.CELL_WIDTH, game.ROWS * Board.CELL_HEIGHT);
 		game.getContentPane().setPreferredSize(boardDimensions);
 		game.pack();
 		game.setVisible(true);

@@ -1,6 +1,10 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
+
+import javax.swing.*;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Random;
@@ -53,6 +57,17 @@ public class Player {
 			color = null; // Not defined } 
 		}
 		return color;
+	}
+	
+	// draw the player on the board GUI
+	public void draw(Graphics g, BoardCell cell, Board board) {
+		int x = cell.getColumn() * Board.CELL_WIDTH;
+		int y = cell.getRow() * Board.CELL_HEIGHT;
+		
+		g.setColor(Color.BLACK);
+		g.drawOval(x, y, Board.CELL_WIDTH, Board.CELL_HEIGHT);
+		g.setColor(color);
+		g.fillOval(x, y, Board.CELL_WIDTH, Board.CELL_HEIGHT);
 	}
 
 	// getters
