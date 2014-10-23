@@ -7,9 +7,11 @@ import java.awt.Graphics2D;
 
 public class RoomCell extends BoardCell {
 	
-	public enum DoorDirection{
+	// door direction and size in GUI
+	public enum DoorDirection {
 		UP, DOWN, LEFT, RIGHT, NONE;
 	}
+	public static final int DOOR_WIDTH = 5;
 	
 	// instance variables
 	private DoorDirection doorDirection;
@@ -69,23 +71,21 @@ public class RoomCell extends BoardCell {
 			g.setColor(Color.CYAN);
 			// up door
 			if (this.doorDirection == DoorDirection.UP) {
-				g.drawLine(x, y, x + Board.CELL_WIDTH, y);
-				g.fillRect(x, y, Board.CELL_WIDTH, Board.CELL_HEIGHT);
+				g.fillRect(x, y, Board.CELL_WIDTH, DOOR_WIDTH);
 			}
 			// down door
 			else if (this.doorDirection == DoorDirection.DOWN) {
-				g.drawLine(x, y + Board.CELL_HEIGHT, x + Board.CELL_WIDTH, y + Board.CELL_HEIGHT);
-				g.fillRect(x, y, Board.CELL_WIDTH, Board.CELL_HEIGHT);
+				g.fillRect(x, y + Board.CELL_HEIGHT - DOOR_WIDTH,
+						Board.CELL_WIDTH, DOOR_WIDTH);
 			}
 			// left door
 			else if (this.doorDirection == DoorDirection.LEFT) {
-				g.drawLine(x, y , x, y + Board.CELL_HEIGHT);
-				g.fillRect(x, y, Board.CELL_WIDTH, Board.CELL_HEIGHT);
+				g.fillRect(x, y, DOOR_WIDTH, Board.CELL_HEIGHT);
 			}
 			// right door
 			if (this.doorDirection == DoorDirection.RIGHT) {
-				g.drawLine(x + Board.CELL_WIDTH, y, x + Board.CELL_WIDTH, y + Board.CELL_HEIGHT);
-				g.fillRect(x, y, Board.CELL_WIDTH, Board.CELL_HEIGHT);
+				g.fillRect(x + Board.CELL_WIDTH - DOOR_WIDTH, y,
+						DOOR_WIDTH, Board.CELL_HEIGHT);
 			}
 		}
 		
