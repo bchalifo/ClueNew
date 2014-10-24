@@ -74,13 +74,27 @@ public class ClueGame extends JFrame {
 	// create the file menu
 	private JMenu createFileMenu() {
 		JMenu menu = new JMenu("File");
+		menu.add(createDetectiveNotesItem());
 		menu.add(createFileExitItem());
 		return menu;
 	}
 	
+	// create the detective notes menu option
+	private JMenuItem createDetectiveNotesItem() {
+		JMenuItem dn = new JMenuItem("Detective Notes");
+		// open detective notes when clicked
+		dn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				detectiveNotes.setVisible(true);
+			}
+		});
+		return dn;
+	}
+
 	// create the menu exit option
 	private JMenuItem createFileExitItem() {
 		JMenuItem exit = new JMenuItem("Exit");
+		// exit program when clicked
 		exit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -89,7 +103,6 @@ public class ClueGame extends JFrame {
 		return exit;
 	}
 	
-
 	// configure game from files
 	public void loadConfigFiles(){
 		try {
@@ -104,11 +117,6 @@ public class ClueGame extends JFrame {
 			System.out.println(e.getLocalizedMessage());
 			System.exit(0);
 		}
-	}
-
-	// does this do anything?
-	public void loadRoomConfig() {
-		loadConfigFiles();
 	}
 
 	// hard coded solution for testing
