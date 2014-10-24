@@ -221,11 +221,6 @@ public class Board extends JPanel {
 	// paint the board
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		/*
-		 * TODO:
-		 *   paint doors
-		 */
-		
 		// paint board cells
 		for (int row = 0; row < numRows; row++) {
 			for (int col = 0; col < numColumns; col++) {

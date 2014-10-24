@@ -2,6 +2,7 @@ package clueGame;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
@@ -20,6 +21,8 @@ public class ClueGame extends JFrame {
 	// instance variables
 	private Map<Character,String> rooms;
 	private Board board;
+	private DetectiveNotes detectiveNotes;
+	private JMenuBar menuBar;
 	private Solution solution;
 	private ArrayList<Player> players;
 	private Map<Player, BoardCell> playerLocations;
@@ -32,6 +35,8 @@ public class ClueGame extends JFrame {
 		// initialize containers
 		rooms = new HashMap<Character, String>();
 		board = new Board("ClueLayout.csv", "ClueLegend.txt",ROWS,COLS);
+		detectiveNotes = new DetectiveNotes();
+		menuBar = new JMenuBar();
 		rooms = new HashMap<Character, String>();
 		cards = new ArrayList<Card>();
 		seenCards = new ArrayList<Card>();
@@ -42,12 +47,16 @@ public class ClueGame extends JFrame {
 		// initalize GUI
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Clue");
+		setJMenuBar(menuBar);
+		menuBar.add(createFileMenu());
 	}
 
 	// constructor with game configuration files
 	public ClueGame(String layout, String legend) {
 		// initialize containers
 		board = new Board(layout,legend,ROWS,COLS);
+		detectiveNotes = new DetectiveNotes();
+		menuBar = new JMenuBar();
 		rooms = new HashMap<Character, String>();
 		cards = new ArrayList<Card>();
 		seenCards = new ArrayList<Card>();
@@ -58,7 +67,28 @@ public class ClueGame extends JFrame {
 		// initialize GUI
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Clue");
+		setJMenuBar(menuBar);
+		menuBar.add(createFileMenu());
 	}
+	
+	// create the file menu
+	private JMenu createFileMenu() {
+		JMenu menu = new JMenu("File");
+		menu.add(createFileExitItem());
+		return menu;
+	}
+	
+	// create the menu exit option
+	private JMenuItem createFileExitItem() {
+		JMenuItem exit = new JMenuItem("Exit");
+		exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		return exit;
+	}
+	
 
 	// configure game from files
 	public void loadConfigFiles(){
@@ -137,8 +167,8 @@ public class ClueGame extends JFrame {
 	}
 
 	// Checks an accusation against the game's solution
-	public boolean checkAccusation(Solution assertion) {
-		if(this.solution.equals(assertion)){
+	public boolean checkAccusation(Solution accusation) {
+		if(this.solution.equals(accusation)){
 			return true;
 		}
 		return false;
