@@ -10,44 +10,67 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 public class DetectiveNotes extends JDialog {
-	private JComboBox<String> pGuess,rGuess,wGuess;
 	public DetectiveNotes() {
 		// stuff
 		setTitle("Detective Notes");
 		setSize(750, 400);
 		setLayout(new GridLayout(3, 2));
 		// create components
-		//		JLabel testLabel = new JLabel("TEST");
-		//		JTextField testField = new JTextField("test");
-		//		add(testLabel);
-		//		add(testField);
 		PeopleBoxPanel pCheck = new PeopleBoxPanel();
 		RoomBoxPanel rCheck = new RoomBoxPanel();
-		WeaponsBoxPanel wCheck = new WeaponsBoxPanel();
-		pGuess = PeopleGuess();
-		pGuess.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				//Do Stuff Later
-			}
-		});
-		rGuess = RoomGuess();
-		rGuess.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				//Do Stuff Later
-			}
-		});
-		wGuess = WeaponGuess();
-		wGuess.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				//Do Stuff Later
-			}
-		});
+		WeaponsBoxPanel wCheck = new WeaponsBoxPanel();		
+		PeopleGuessBox pGuess = new PeopleGuessBox();
+		RoomGuessBox rGuess = new RoomGuessBox();
+		WeaponGuessBox wGuess = new WeaponGuessBox();
+
 		add(pCheck);
 		add(pGuess);
 		add(rCheck);
 		add(rGuess);
 		add(wCheck);
 		add(wGuess);
+	}
+
+	public class PeopleGuessBox extends JPanel{
+		public PeopleGuessBox(){
+			setBorder(new TitledBorder (new EtchedBorder(), "People Guess"));
+			setLayout(new GridLayout(1,1));
+			JComboBox<String> box = PeopleGuess();
+//			box.addActionListener(new ActionListener(){
+//				public void actionPerformed(ActionEvent e){
+//					//Do Stuff Later
+//				}
+//			});			
+			add(box);
+		}
+	}
+	
+	public class RoomGuessBox extends JPanel{
+		public RoomGuessBox(){
+			setBorder(new TitledBorder (new EtchedBorder(), "Room Guess"));
+			setLayout(new GridLayout(1,1));
+			JComboBox<String> box = RoomGuess();
+//			box.addActionListener(new ActionListener(){
+//				public void actionPerformed(ActionEvent e){
+//					//Do Stuff Later
+//				}
+//			});			
+			add(box);
+		}
+	}
+	
+	public class WeaponGuessBox extends JPanel{
+		public WeaponGuessBox(){
+			setBorder(new TitledBorder (new EtchedBorder(), "Room Guess"));
+			setLayout(new GridLayout(1,1));
+			JComboBox<String> box = WeaponGuess();
+//			box.addActionListener(new ActionListener(){
+//				public void actionPerformed(ActionEvent e){
+//					//Do Stuff Later
+//				}
+//			});			
+			add(box);
+		}
 	}
 
 	public class PeopleBoxPanel extends JPanel{
