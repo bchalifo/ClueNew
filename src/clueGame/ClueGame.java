@@ -31,7 +31,8 @@ public class ClueGame extends JFrame {
 	public ClueGame() {
 		// initialize containers
 		rooms = new HashMap<Character, String>();
-		board = new Board("ClueLayout.csv", "ClueLegend.txt");
+		board = new Board("resources/alternative/ClueLayout.csv", 
+				"resources/alternative/ClueLegend.txt");
 		detectiveNotes = new DetectiveNotes();
 		menuBar = new JMenuBar();
 		rooms = new HashMap<Character, String>();

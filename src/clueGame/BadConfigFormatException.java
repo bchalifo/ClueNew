@@ -17,7 +17,7 @@ public class BadConfigFormatException extends Exception {
 		Date errorDate = new Date();
 		PrintWriter out = null;
 		try {
-			out = new PrintWriter(new FileWriter("logfile.txt",true));
+			out = new PrintWriter(new FileWriter("resources/logfile.txt",true));
 			out.append(errorDate + " " + this.getLocalizedMessage() +"\n");
 		} catch (Exception e) {
 			System.out.println( e.getLocalizedMessage());

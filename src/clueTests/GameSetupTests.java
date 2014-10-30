@@ -22,7 +22,8 @@ public class GameSetupTests {
 	// Create a new game for each test
 	@Before
 	public void setUp(){
-		game = new ClueGame("ClueLayout.csv", "ClueLegend.txt");
+		game = new ClueGame("resources/alternative/ClueLayout.csv", 
+				"resources/alternative/ClueLegend.txt");
 		game.loadConfigFiles();
 		board = game.getBoard();
 		players = game.getPlayers();
