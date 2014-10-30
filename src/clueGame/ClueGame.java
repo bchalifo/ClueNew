@@ -15,9 +15,6 @@ import clueGame.Card.CardType;
 
 public class ClueGame extends JFrame {
 	
-	// constants
-	private final int ROWS = 22;
-	private final int COLS = 23;
 	// instance variables
 	private Map<Character,String> rooms;
 	private Board board;
@@ -34,7 +31,7 @@ public class ClueGame extends JFrame {
 	public ClueGame() {
 		// initialize containers
 		rooms = new HashMap<Character, String>();
-		board = new Board("ClueLayout.csv", "ClueLegend.txt",ROWS,COLS);
+		board = new Board("ClueLayout.csv", "ClueLegend.txt");
 		detectiveNotes = new DetectiveNotes();
 		menuBar = new JMenuBar();
 		rooms = new HashMap<Character, String>();
@@ -44,7 +41,7 @@ public class ClueGame extends JFrame {
 		playerLastRoom = new HashMap<Player, RoomCell>();
 		players = new ArrayList<Player>(6);
 		solution = new Solution();
-		// initalize GUI
+		// initialize GUI
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Clue");
 		setJMenuBar(menuBar);
@@ -54,7 +51,7 @@ public class ClueGame extends JFrame {
 	// constructor with game configuration files
 	public ClueGame(String layout, String legend) {
 		// initialize containers
-		board = new Board(layout,legend,ROWS,COLS);
+		board = new Board(layout,legend);
 		detectiveNotes = new DetectiveNotes();
 		menuBar = new JMenuBar();
 		rooms = new HashMap<Character, String>();
@@ -310,7 +307,8 @@ public class ClueGame extends JFrame {
 		board.calcAdjacencies();
 		// configure GUI
 		game.add(board, BorderLayout.CENTER);
-		Dimension boardDimensions = new Dimension(game.COLS * Board.CELL_WIDTH, game.ROWS * Board.CELL_HEIGHT);
+		Dimension boardDimensions = new Dimension(board.getNumColumns() * Board.CELL_WIDTH,
+				board.getNumRows() * Board.CELL_HEIGHT);
 		game.getContentPane().setPreferredSize(boardDimensions);
 		game.pack();
 		game.setVisible(true);

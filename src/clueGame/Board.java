@@ -9,8 +9,10 @@ import javax.swing.*;
 
 public class Board extends JPanel {
 	// constants
-	public static int CELL_WIDTH = 30;
-	public static int CELL_HEIGHT = 30;
+	private static final int MAX_NUM_ROWS = 30;
+	private static final int MAX_NUM_COLUMNS = 30;
+	public static final int CELL_WIDTH = 30;
+	public static final int CELL_HEIGHT = 30;
 	// instance variables
 	private int numRows;
 	private int numColumns;
@@ -24,13 +26,13 @@ public class Board extends JPanel {
 	private String legendFile;
 
 	// constructor with fields
-	public Board(String layoutFile, String legendFile, int rows, int cols) {
+	public Board(String layoutFile, String legendFile) {
 		this.layoutFile = layoutFile;
 		this.legendFile = legendFile;
-		numRows = rows;
-		numColumns = cols;
+		numRows = 0;
+		numColumns = 0;
 		// initialize containers
-		board = new BoardCell[numRows][numColumns];
+		board = new BoardCell[MAX_NUM_ROWS][MAX_NUM_COLUMNS];
 		rooms = new HashMap<Character, String>();
 		playerLocations = new HashMap<Player, BoardCell>();
 		adjMtx = new HashMap<BoardCell, LinkedList<BoardCell>>();
@@ -63,31 +65,33 @@ public class Board extends JPanel {
 
 		// Load board layout
 		Scanner layout = loadLayout();
-		int row = 0;
 		while (layout.hasNextLine()) {
 			// read in row
 			String layoutLine = layout.nextLine();
 			String temp[];
 			if (layoutLine.indexOf(',') > -1) {
 				temp = layoutLine.split(",");
+				// get the numColumns from the first row
+				if(numRows == 0) {
+					numColumns = temp.length;
+				}
 				if (temp.length == numColumns) {
 					// read each column of row
-					for (int column = 0; column < temp.length; column++) {
-						
+					for (int column = 0; column < numColumns; column++) {
 						try {
 							// determine cell type and add it to the board
 							if (rooms.get(temp[column].charAt(0)).equalsIgnoreCase("walkway")) {
-								board[row][column] = new WalkwayCell(row, column);
+								board[numRows][column] = new WalkwayCell(numRows, column);
 							}
 							else {
-								board[row][column] = new RoomCell(row, column, temp[column]);
+								board[numRows][column] = new RoomCell(numRows, column, temp[column]);
 							}
 						}
 						catch(NullPointerException e) {
 							throw new BadConfigFormatException("Bad Layout file");
 						}
 					}
-					row++;
+					numRows++;
 				}
 				else {
 					throw new BadConfigFormatException("Bad Layout file");
@@ -99,7 +103,7 @@ public class Board extends JPanel {
 		}
 		layout.close();
 	}
-	
+
 	// update player locations passed from game
 	public void updatePlayerLocations(Map<Player, BoardCell> playerLocations) {
 		this.playerLocations = playerLocations;
@@ -217,7 +221,6 @@ public class Board extends JPanel {
 		}
 	}
 	
-	/************************ NEW STUFF **************************************/
 	// paint the board
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -232,7 +235,6 @@ public class Board extends JPanel {
 			player.draw(g, playerLocations.get(player), this);
 		}
 	}
-	/*************************************************************************/
 
 	// get number of rows
 	public int getNumRows() {
@@ -256,12 +258,12 @@ public class Board extends JPanel {
 	public BoardCell getCellAt(int row, int col) {
 		return board[row][col];
 	}
-	
+
 	// get Rooms
 	public Map<Character, String> getRooms() {
 		return rooms;
 	}
-	
+
 	// get adjacency list
 	public LinkedList<BoardCell> getAdjList(int row, int col) {
 		return adjMtx.get(board[row][col]);
