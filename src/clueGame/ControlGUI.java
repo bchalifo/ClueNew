@@ -28,6 +28,7 @@ public class ControlGUI extends JFrame{
 			JLabel label = new JLabel("Whose Turn?");
 			turn = new JTextField(20);
 			turn.setFont(new Font("SansSerif", Font.BOLD, 12));
+			turn.setEditable(false);
 			add(label);
 			add(turn);
 
