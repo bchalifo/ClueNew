@@ -230,6 +230,11 @@ public class Board extends JPanel {
 				board[row][col].draw(g, this);
 			}
 		}
+		for (int row = 0; row < numRows; row++) {
+			for (int col = 0; col < numColumns; col++) {
+				board[row][col].drawLabel(g, this);
+			}
+		}
 		// paint players
 		for (Player player : playerLocations.keySet()) {
 			player.draw(g, playerLocations.get(player), this);

@@ -14,6 +14,7 @@ public class RoomCell extends BoardCell {
 	public static final int DOOR_WIDTH = 5;
 	
 	// instance variables
+	private int x, y;
 	private DoorDirection doorDirection;
 	private char roomInitial;
 	private boolean isLabel;
@@ -21,6 +22,9 @@ public class RoomCell extends BoardCell {
 	// constructor
 	public RoomCell(int row, int col, String ID) throws BadConfigFormatException {
 		super(row, col);
+		// get x and y coordinates
+		x = col * Board.CELL_WIDTH;
+		y = row * Board.CELL_HEIGHT;
 		isLabel = false;
 		roomInitial = ID.charAt(0);
 		if(ID.length()>1){
@@ -58,10 +62,6 @@ public class RoomCell extends BoardCell {
 	// draw room cell
 	@Override
 	public void draw(Graphics g, Board board) {
-		// get x and y coordinates
-		int x = super.getColumn() * Board.CELL_WIDTH;
-		int y = super.getRow() * Board.CELL_HEIGHT;
-		
 		// draw cell
 		g.setColor(Color.BLUE);
 		if(roomInitial == 'X'){
@@ -91,8 +91,10 @@ public class RoomCell extends BoardCell {
 						DOOR_WIDTH, Board.CELL_HEIGHT);
 			}
 		}
-		
-		// draw room label if applicable
+	}
+	
+	// separate function so labels don't get partially covered
+	public void drawLabel(Graphics g, Board board) {
 		if (isLabel) {
 			String roomName = board.getRooms().get(roomInitial);
 			g.setColor(Color.WHITE);

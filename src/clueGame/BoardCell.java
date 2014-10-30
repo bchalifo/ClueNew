@@ -27,6 +27,8 @@ public abstract class BoardCell implements Comparable<BoardCell> {
 	
 	public abstract void draw(Graphics g, Board board);
 	
+	public abstract void drawLabel(Graphics g, Board board);
+	
 	public int getRow() {
 		return row;
 	}
