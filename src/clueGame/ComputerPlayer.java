@@ -25,31 +25,26 @@ public class ComputerPlayer extends Player {
 		super(name, color);
 	}
 
-	// Tests if targets has a door option that does not equal
-	// last room visited.
-	public int roomOption(){
+	// Computer selects a move based off of the input roll and possible moves
+	// The selected BoardCell is returned.
+	public BoardCell pickLocation(Set<BoardCell> targets){
+		this.targetList = new ArrayList<BoardCell>(targets);
 		int room = -1;
-
+		
 		for(int i = 0; i < targetList.size(); i++){
 			if(targetList.get(i).isDoorway()){
 				RoomCell door = (RoomCell) targetList.get(i);
 				char targetDoor = door.getInitial();
 				if(!(targetDoor == lastRoomVisited)){
-					return i;
+					room = i;
+					break;
 				}
 				else{
 					targetList.remove(i);
 				}
 			}
 		}
-		return room;
-	}
-
-	// Computer selects a move based off of the input roll and possible moves
-	// The selected BoardCell is returned.
-	public BoardCell pickLocation(Set<BoardCell> targets){
-		this.targetList = new ArrayList<BoardCell>(targets);
-		int room = roomOption();
+		
 		if(room != -1){
 			BoardCell choice = targetList.get(room);
 			return choice;
