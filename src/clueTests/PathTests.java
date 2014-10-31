@@ -22,7 +22,6 @@ public class PathTests {
 	@BeforeClass
 	public static void init(){
 		ClueGame game = new ClueGame("resources/clueLayout.csv", "resources/legend.txt");
-		game.loadConfigFiles();
 		board = game.getBoard();
 		board.calcAdjacencies();
 	}

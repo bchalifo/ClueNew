@@ -8,3 +8,12 @@ Thu Oct 30 16:51:12 MDT 2014 Bad Layout file
 Thu Oct 30 16:51:12 MDT 2014 Bad legend file
 Thu Oct 30 16:51:16 MDT 2014 Bad Layout file
 Thu Oct 30 16:51:16 MDT 2014 Bad Legend file
+Thu Oct 30 22:25:04 MDT 2014 Bad Layout file
+Thu Oct 30 22:25:26 MDT 2014 Bad Layout file
+Thu Oct 30 22:26:05 MDT 2014 Bad Layout file
+Thu Oct 30 22:26:25 MDT 2014 Bad Layout file
+Thu Oct 30 22:27:33 MDT 2014 Bad Legend file
+Thu Oct 30 22:28:38 MDT 2014 Bad Legend file
+Thu Oct 30 22:29:00 MDT 2014 Bad Legend file
+Thu Oct 30 22:29:23 MDT 2014 Bad Layout file
+Thu Oct 30 22:31:15 MDT 2014 Bad Layout file

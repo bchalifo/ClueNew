@@ -16,7 +16,6 @@ public class CR_BoardAdjTargetTests {
 	@BeforeClass
 	public static void setUp() {
 		ClueGame game = new ClueGame();
-		game.loadConfigFiles();
 		board = game.getBoard();
 		board.calcAdjacencies();
 	}

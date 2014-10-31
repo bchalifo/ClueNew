@@ -24,7 +24,6 @@ public class GameSetupTests {
 	public void setUp(){
 		game = new ClueGame("resources/alternative/ClueLayout.csv", 
 				"resources/alternative/ClueLegend.txt");
-		game.loadConfigFiles();
 		board = game.getBoard();
 		players = game.getPlayers();
 		playerLocations = game.getPlayerLocations();

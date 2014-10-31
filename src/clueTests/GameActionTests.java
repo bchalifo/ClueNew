@@ -25,7 +25,6 @@ public class GameActionTests {
 	// set up game before each test
 	public void setUp(){
 		game = new ClueGame("resources/clueLayout.csv", "resources/legend.txt");
-		game.loadConfigFiles();
 		board = game.getBoard();
 		board.calcAdjacencies();
 		players = game.getPlayers();

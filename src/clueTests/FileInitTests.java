@@ -24,7 +24,6 @@ public class FileInitTests {
 	@BeforeClass
 	public static void init(){
 		ClueGame game = new ClueGame("resources/clueLayout.csv", "resources/legend.txt");
-		game.loadConfigFiles();
 		board = game.getBoard();
 	}
 	
@@ -100,17 +99,11 @@ public class FileInitTests {
 	@Test (expected = BadConfigFormatException.class)
 	public void testLayout() throws BadConfigFormatException{
 		ClueGame game = new ClueGame("resources/badLayout.csv", "resources/legend.txt");
-		game.getBoard().loadBoardConfig();
-		game.loadConfigFiles();
-		
 	}
 	
 	@Test (expected = BadConfigFormatException.class)
 	public void testLegend() throws BadConfigFormatException{
 		ClueGame game = new ClueGame("resources/clueLayout.csv", "resources/badLegend.txt");
-		game.getBoard().loadBoardConfig();
-		game.loadConfigFiles();
-		
 	}
 
 }

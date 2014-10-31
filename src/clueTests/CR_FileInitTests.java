@@ -30,7 +30,6 @@ public class CR_FileInitTests {
 	public static void setUp() {
 		ClueGame game = new ClueGame("resources/alternative/ClueLayout.csv", 
 				"resources/alternative/ClueLegend.txt");
-		game.loadConfigFiles();
 		board = game.getBoard();
 	}
 	@Test

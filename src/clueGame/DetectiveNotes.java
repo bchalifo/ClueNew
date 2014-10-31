@@ -97,7 +97,6 @@ public class DetectiveNotes extends JDialog {
 	}
 
 	public class PeopleBoxPanel extends JPanel{
-
 		public PeopleBoxPanel(){
 			setBorder(new TitledBorder (new EtchedBorder(), "People"));
 			setLayout(new GridLayout(3,2));
