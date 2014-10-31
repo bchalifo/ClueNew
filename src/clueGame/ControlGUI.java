@@ -8,8 +8,12 @@ import java.awt.*;
 import java.util.jar.Attributes.Name;
 
 public class ControlGUI extends JFrame{
+	private static final int WIDTH = 700;
+	private static final int HEIGHT = 200;
+	
 	public ControlGUI(){
-		setSize(new Dimension(700,200));
+		super();
+		setSize(new Dimension(WIDTH, HEIGHT));
 		setTitle("Clue - Control GUI");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -25,13 +29,13 @@ public class ControlGUI extends JFrame{
 		private JTextField turn;
 
 		public northPanel(){
+			super();
 			JLabel label = new JLabel("Whose Turn?");
-			turn = new JTextField(20);
+			turn = new JTextField(15);
 			turn.setFont(new Font("SansSerif", Font.BOLD, 12));
 			turn.setEditable(false);
 			add(label);
 			add(turn);
-
 			nextPlayer = new Button("Next Player");
 			makeAccusation = new Button("Make an Accusation");
 			add(nextPlayer);
@@ -42,6 +46,7 @@ public class ControlGUI extends JFrame{
 	public class dieRoll extends JPanel{
 		private JTextField dieRoll;
 		public dieRoll(){
+			super();
 			setBorder(new TitledBorder (new EtchedBorder(), "Die"));
 			JLabel labelRoll = new JLabel("Roll");
 			dieRoll = new JTextField(3);
@@ -55,6 +60,7 @@ public class ControlGUI extends JFrame{
 	public class guess extends JPanel{
 		private JTextField guess;
 		public guess(){
+			super();
 			setBorder(new TitledBorder (new EtchedBorder(), "Guess"));
 			JLabel labelGuess = new JLabel("Guess");
 			guess = new JTextField(20);
@@ -67,7 +73,8 @@ public class ControlGUI extends JFrame{
 	
 	public class guessResult extends JPanel{
 		private JTextField guessResult;
-		public guessResult(){
+		public guessResult() {
+			super();
 			setBorder(new TitledBorder (new EtchedBorder(), "Guess Result"));
 			JLabel labelGuessResult = new JLabel("Guess Result");
 			guessResult = new JTextField(10);
@@ -83,7 +90,8 @@ public class ControlGUI extends JFrame{
 		private guess guess;
 		private guessResult guessResult;
 
-		public southPanel(){
+		public southPanel() {
+			super();
 			roll = new dieRoll();
 			guess = new guess();
 			guessResult = new guessResult();
