@@ -33,7 +33,6 @@ public class ClueGame extends JFrame {
 		rooms = new HashMap<Character, String>();
 		board = new Board("resources/alternative/ClueLayout.csv", 
 				"resources/alternative/ClueLegend.txt");
-		detectiveNotes = new DetectiveNotes();
 		menuBar = new JMenuBar();
 		rooms = new HashMap<Character, String>();
 		cards = new ArrayList<Card>();
@@ -42,6 +41,8 @@ public class ClueGame extends JFrame {
 		playerLastRoom = new HashMap<Player, RoomCell>();
 		players = new ArrayList<Player>(6);
 		solution = new Solution();
+		loadConfigFiles();
+		detectiveNotes = new DetectiveNotes(cards);
 		// initialize GUI
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Clue");
@@ -53,7 +54,6 @@ public class ClueGame extends JFrame {
 	public ClueGame(String layout, String legend) {
 		// initialize containers
 		board = new Board(layout,legend);
-		detectiveNotes = new DetectiveNotes();
 		menuBar = new JMenuBar();
 		rooms = new HashMap<Character, String>();
 		cards = new ArrayList<Card>();
@@ -62,6 +62,8 @@ public class ClueGame extends JFrame {
 		playerLastRoom = new HashMap<Player, RoomCell>();
 		players = new ArrayList<Player>(6);
 		solution = new Solution();
+		loadConfigFiles();
+		detectiveNotes = new DetectiveNotes(cards);
 		// initialize GUI
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Clue");
@@ -283,7 +285,7 @@ public class ClueGame extends JFrame {
 		return playerLocations;
 	}
 
-	public Map getPlayerLastRoom(){
+	public Map<Player, RoomCell> getPlayerLastRoom(){
 		return playerLastRoom;
 	}
 	// set players (needed for testing)
@@ -303,7 +305,6 @@ public class ClueGame extends JFrame {
 	public static void main(String args[]) {
 		// initialize and configure game
 		ClueGame game = new ClueGame("resources/clueLayout.csv", "resources/legend.txt");
-		game.loadConfigFiles();
 		Board board = game.getBoard();
 		board.calcAdjacencies();
 		// configure GUI
