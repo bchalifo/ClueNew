@@ -19,9 +19,12 @@ public class ClueGame extends JFrame {
 	private Map<Character,String> rooms;
 	private Board board;
 	private DetectiveNotes detectiveNotes;
+	private ControlGUI controlPanel;
+	private CardDisplay cardDisplay;
 	private JMenuBar menuBar;
 	private Solution solution;
 	private ArrayList<Player> players;
+	private HumanPlayer humanPlayer;
 	private Map<Player, BoardCell> playerLocations;
 	private Map<Player, RoomCell> playerLastRoom;
 	private ArrayList<Card> cards;
@@ -42,8 +45,14 @@ public class ClueGame extends JFrame {
 		players = new ArrayList<Player>(6);
 		solution = new Solution();
 		loadConfigFiles();
+		deal();
 		detectiveNotes = new DetectiveNotes(cards);
+		controlPanel = new ControlGUI();
+		cardDisplay = new CardDisplay(humanPlayer.getHand());
 		// initialize GUI
+		add(board, BorderLayout.CENTER);
+		add(controlPanel, BorderLayout.SOUTH);
+		add(cardDisplay, BorderLayout.EAST);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Clue");
 		setJMenuBar(menuBar);
@@ -63,8 +72,14 @@ public class ClueGame extends JFrame {
 		players = new ArrayList<Player>(6);
 		solution = new Solution();
 		loadConfigFiles();
+		deal();
 		detectiveNotes = new DetectiveNotes(cards);
+		controlPanel = new ControlGUI();
+		cardDisplay = new CardDisplay(humanPlayer.getHand());
 		// initialize GUI
+		add(board, BorderLayout.CENTER);
+		add(controlPanel, BorderLayout.SOUTH);
+		add(cardDisplay, BorderLayout.EAST);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Clue");
 		setJMenuBar(menuBar);
@@ -253,6 +268,7 @@ public class ClueGame extends JFrame {
 				HumanPlayer hPerson = new HumanPlayer(name, color);
 				playerLocations.put(hPerson, tempCell);
 				players.add(hPerson);
+				this.humanPlayer = hPerson;
 				break;
 			default:
 				ComputerPlayer cPerson = new ComputerPlayer(name, color);				
@@ -308,9 +324,10 @@ public class ClueGame extends JFrame {
 		Board board = game.getBoard();
 		board.calcAdjacencies();
 		// configure GUI
-		game.add(board, BorderLayout.CENTER);
-		Dimension boardDimensions = new Dimension(board.getNumColumns() * Board.CELL_WIDTH,
-				board.getNumRows() * Board.CELL_HEIGHT);
+		//game.add(board, BorderLayout.CENTER);
+		//game.add(controlPanel, BoardLayout.SOUTH);
+		Dimension boardDimensions = new Dimension(board.getNumColumns() * Board.CELL_WIDTH + CardDisplay.WIDTH,
+				board.getNumRows() * Board.CELL_HEIGHT + ControlGUI.HEIGHT);
 		game.getContentPane().setPreferredSize(boardDimensions);
 		game.pack();
 		game.setVisible(true);

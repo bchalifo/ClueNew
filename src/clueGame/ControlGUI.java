@@ -10,21 +10,23 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.jar.Attributes.Name;
 
-public class ControlGUI extends JFrame {
-	private static final int WIDTH = 700;
-	private static final int HEIGHT = 200;
+public class ControlGUI extends JPanel {
+	public static final int WIDTH = 700;
+	public static final int HEIGHT = 150;
+
 	
 	public ControlGUI(){
 		super();
-		setSize(new Dimension(WIDTH, HEIGHT));
-		setTitle("Clue - Control GUI");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setSize(new Dimension(WIDTH, HEIGHT));
+		//setTitle("Clue - Control GUI");
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLayout(new GridLayout(2,1));
 
 		northPanel nPanel = new northPanel();
-		add(nPanel, BorderLayout.NORTH);
+		add(nPanel);
 
 		southPanel sPanel = new southPanel();
-		add(sPanel, BorderLayout.SOUTH);
+		add(sPanel);
 	}
 
 	public class northPanel extends JPanel implements ActionListener {
