@@ -8,32 +8,39 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.jar.Attributes.Name;
 
 public class ControlGUI extends JPanel {
 	public static final int WIDTH = 700;
 	public static final int HEIGHT = 150;
+	private ArrayList<Player> players;
+	private int playerIndex;
+	private boolean turnFinished;
+	private northPanel nPanel;
+	private southPanel sPanel;
 
 	
-	public ControlGUI(){
+	public ControlGUI(ArrayList<Player> players) {
 		super();
-		//setSize(new Dimension(WIDTH, HEIGHT));
-		//setTitle("Clue - Control GUI");
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.players = players;
+		playerIndex = 0;
+		turnFinished = true;
 		setLayout(new GridLayout(2,1));
 
-		northPanel nPanel = new northPanel();
+		nPanel = new northPanel();
 		add(nPanel);
 
-		southPanel sPanel = new southPanel();
+		sPanel = new southPanel();
 		add(sPanel);
 	}
 
-	public class northPanel extends JPanel implements ActionListener {
+	public class northPanel extends JPanel {
 		private Button nextPlayer, makeAccusation;
 		private JTextField turn;
 
-		public northPanel(){
+		public northPanel() {
 			super();
 			JLabel label = new JLabel("Whose Turn?");
 			turn = new JTextField(15);
@@ -42,15 +49,23 @@ public class ControlGUI extends JPanel {
 			add(label);
 			add(turn);
 			nextPlayer = new Button("Next Player");
+			nextPlayer.addActionListener(new NextPlayerListener());
 			makeAccusation = new Button("Make an Accusation");
 			add(nextPlayer);
 			add(makeAccusation);
-		}	
+		}
 		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == nextPlayer) {
-				System.out.println("success");
+		public void displayPlayerTurn(Player player) {
+			turn.setText(player.getName());
+		}
+		
+		public class NextPlayerListener implements ActionListener {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource() == nextPlayer) {
+					nextPlayer(players.get(playerIndex));
+				}
+				
 			}
 			
 		}
@@ -67,6 +82,13 @@ public class ControlGUI extends JPanel {
 			dieRoll.setEditable(false);
 			add(labelRoll);
 			add(dieRoll);
+		}
+		
+		public int rollDie() {
+			Random rand = new Random();
+			Integer randomNum = rand.nextInt(6) + 1;
+			dieRoll.setText(randomNum.toString());
+			return randomNum;
 		}
 	}
 	
@@ -99,7 +121,7 @@ public class ControlGUI extends JPanel {
 	}
 
 	public class southPanel extends JPanel{
-		private dieRoll roll;
+		public dieRoll roll;
 		private guess guess;
 		private guessResult guessResult;
 
@@ -114,9 +136,20 @@ public class ControlGUI extends JPanel {
 			add(guessResult);
 		}
 	}
-
-	public static void main(String[] args){
-		ControlGUI gui = new ControlGUI();
-		gui.setVisible(true);
+	
+	public void nextPlayer(Player player) {
+		if(!turnFinished) {
+			//display message
+			return;
+		}
+		int roll = sPanel.roll.rollDie();
+		nPanel.displayPlayerTurn(player);
+		if(player instanceof HumanPlayer) {
+			turnFinished = false;
+			player.displayTargets();
+		}
+		else {
+			playerIndex = (playerIndex + 1) % players.size();
+		}
 	}
 }

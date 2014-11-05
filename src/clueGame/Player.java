@@ -69,6 +69,10 @@ public class Player {
 		g.setColor(color);
 		g.fillOval(x, y, Board.CELL_WIDTH, Board.CELL_HEIGHT);
 	}
+	
+	public void displayTargets() {
+		//need to have a way for the board to display the players targets
+	}
 
 	// getters
 	public String getName() {

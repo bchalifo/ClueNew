@@ -47,7 +47,7 @@ public class ClueGame extends JFrame {
 		loadConfigFiles();
 		deal();
 		detectiveNotes = new DetectiveNotes(cards);
-		controlPanel = new ControlGUI();
+		controlPanel = new ControlGUI(players);
 		cardDisplay = new CardDisplay(humanPlayer.getHand());
 		// initialize GUI
 		add(board, BorderLayout.CENTER);
@@ -74,7 +74,7 @@ public class ClueGame extends JFrame {
 		loadConfigFiles();
 		deal();
 		detectiveNotes = new DetectiveNotes(cards);
-		controlPanel = new ControlGUI();
+		controlPanel = new ControlGUI(players);
 		cardDisplay = new CardDisplay(humanPlayer.getHand());
 		// initialize GUI
 		add(board, BorderLayout.CENTER);
