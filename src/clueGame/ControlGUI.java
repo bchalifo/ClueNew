@@ -5,9 +5,12 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.util.jar.Attributes.Name;
 
-public class ControlGUI extends JFrame{
+public class ControlGUI extends JFrame {
 	private static final int WIDTH = 700;
 	private static final int HEIGHT = 200;
 	
@@ -24,7 +27,7 @@ public class ControlGUI extends JFrame{
 		add(sPanel, BorderLayout.SOUTH);
 	}
 
-	public class northPanel extends JPanel{
+	public class northPanel extends JPanel implements ActionListener {
 		private Button nextPlayer, makeAccusation;
 		private JTextField turn;
 
@@ -40,7 +43,15 @@ public class ControlGUI extends JFrame{
 			makeAccusation = new Button("Make an Accusation");
 			add(nextPlayer);
 			add(makeAccusation);
-		}		
+		}	
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() == nextPlayer) {
+				System.out.println("success");
+			}
+			
+		}
 	}
 
 	public class dieRoll extends JPanel{
