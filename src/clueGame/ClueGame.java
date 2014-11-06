@@ -29,6 +29,7 @@ public class ClueGame extends JFrame {
 	private Map<Player, BoardCell> playerLocations;
 	private Map<Player, RoomCell> playerLastRoom;
 	private ArrayList<Card> cards;
+	private ArrayList<Card> cardsTest;
 	private ArrayList<Card> seenCards;
 
 	// default constructor
@@ -126,6 +127,7 @@ public class ClueGame extends JFrame {
 			this.loadCards();
 			this.loadPlayers();
 			board.updatePlayerLocations(playerLocations);
+			cardsTest = new ArrayList<Card>(cards);
 		} catch (BadConfigFormatException e) {
 			System.out.println(e.getLocalizedMessage());
 			System.exit(0);
@@ -177,7 +179,6 @@ public class ClueGame extends JFrame {
 				break;
 			}
 			rando = Math.abs(r.nextInt()%20);
-			System.out.println(rando);
 			temp = cards.get(rando);
 		}
 
@@ -204,7 +205,6 @@ public class ClueGame extends JFrame {
 				break;
 			}
 			rando = Math.abs(r.nextInt()%18);
-			System.out.println(rando);
 			temp = cards.get(rando);
 		}
 
@@ -366,6 +366,10 @@ public class ClueGame extends JFrame {
 
 	public void setPlayerLocation(Player player, BoardCell cell) {
 		playerLocations.put(player, cell);
+	}
+	
+	public ArrayList<Card> getTestCards(){
+		return this.cardsTest;
 	}
 
 	// main

@@ -147,17 +147,23 @@ public class ControlGUI extends JPanel {
 			//display message
 			return;
 		}
+		// Iterate to next player
 		playerIndex = (playerIndex + 1) % players.size();
+		// Roll the die
 		int roll = sPanel.roll.rollDie();
+		// Change display of whose turn it is
 		nPanel.displayPlayerTurn(player);
+		// Get targets
 		board.calcTargets(playerLocations.get(player).getRow(),
 				playerLocations.get(player).getColumn(), roll);
+		// Human Player
 		if(player instanceof HumanPlayer) {
 			//turnFinished = false;
 			board.displayTargets();
 			board.repaint();
 			return;
 		}
+		// Computer Player
 		else {
 			board.removeTargets();
 			BoardCell choice = player.pickLocation(board.getTargets());

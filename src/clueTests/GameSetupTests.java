@@ -22,12 +22,12 @@ public class GameSetupTests {
 	// Create a new game for each test
 	@Before
 	public void setUp(){
-		game = new ClueGame("resources/alternative/ClueLayout.csv", 
-				"resources/alternative/ClueLegend.txt");
+		game = new ClueGame("resources/clueLayout.csv", 
+				"resources/legend.txt");
 		board = game.getBoard();
 		players = game.getPlayers();
 		playerLocations = game.getPlayerLocations();
-		cards = game.getCards();
+		cards = game.getTestCards();
 	}
 	
 	// Test each person, for their name, their color, and their starting location
@@ -36,31 +36,31 @@ public class GameSetupTests {
 		// Test our player container size
 		assertEquals(players.size(), 6);
 		// Test all of our players within the game for correct data:
-		assertEquals(players.get(0).getName(), "Dr. Phil");
-		assertEquals(players.get(0).getColor(), Color.MAGENTA);
-		assertEquals(playerLocations.get(players.get(0)), board.getCellAt(0, 11));
+		assertEquals(players.get(0).getName(), "Davey Jones");
+		assertEquals(players.get(0).getColor(), Color.BLUE);
+		assertEquals(playerLocations.get(players.get(0)), board.getCellAt(13, 22));
 		
-		assertEquals(players.get(1).getName(), "Popeye");
-		assertEquals(players.get(1).getColor(), Color.RED);
-		assertEquals(playerLocations.get(players.get(1)), board.getCellAt(5, 0));
+		assertEquals(players.get(1).getName(), "Dr. Phil");
+		assertEquals(players.get(1).getColor(), Color.MAGENTA);
+		assertEquals(playerLocations.get(players.get(1)), board.getCellAt(0, 11));
 		
-		assertEquals(players.get(2).getName(), "Vlad");
-		assertEquals(players.get(2).getColor(), Color.BLACK);
-		assertEquals(playerLocations.get(players.get(2)), board.getCellAt(21, 4));
+		assertEquals(players.get(2).getName(), "Popeye");
+		assertEquals(players.get(2).getColor(), Color.RED);
+		assertEquals(playerLocations.get(players.get(2)), board.getCellAt(5, 0));
 		
-		assertEquals(players.get(3).getName(), "That Guy");
-		assertEquals(players.get(3).getColor(), Color.YELLOW);
-		assertEquals(playerLocations.get(players.get(3)), board.getCellAt(21, 16));
+		assertEquals(players.get(3).getName(), "Vlad");
+		assertEquals(players.get(3).getColor(), Color.BLACK);
+		assertEquals(playerLocations.get(players.get(3)), board.getCellAt(21, 4));
 		// This is the one human player, the rest are computers.
-		assertEquals(players.get(4).getName(), "Davey Jones");
-		assertEquals(players.get(4).getColor(), Color.BLUE);
-		assertEquals(playerLocations.get(players.get(4)), board.getCellAt(13, 22));
+		assertEquals(players.get(4).getName(), "That Guy");
+		assertEquals(players.get(4).getColor(), Color.YELLOW);
+		assertEquals(playerLocations.get(players.get(4)), board.getCellAt(21, 16));
 		
 		assertEquals(players.get(5).getName(), "John Elway");
 		assertEquals(players.get(5).getColor(), Color.ORANGE);
 		assertEquals(playerLocations.get(players.get(5)), board.getCellAt(0, 22));
 	}
-	/*
+	
 	// This tests that cards are loaded correctly from file
 	@Test
 	public void testLoadingCards() {
@@ -106,13 +106,11 @@ public class GameSetupTests {
 			assert(personFound && roomFound && weaponFound);
 		}
 	}
-
 	// This tests that the cards are dealt properly
 	@Test
 	public void testDeal() {
-		ArrayList<Card> deckCopy = new ArrayList<Card>(cards); 
-		// deal the cards
-		game.deal();
+		ArrayList<Card> deckCopy = new ArrayList<Card>(cards);
+		this.cards = game.getCards();
 		// all cards should be dealt
 		assertEquals(cards.size(), 0);
 		// all players should have 3 or 4 cards each
@@ -133,5 +131,5 @@ public class GameSetupTests {
 				deckCopy.remove(playerCard);
 			}
 		}
-	}*/
+	}
 }
