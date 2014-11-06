@@ -134,7 +134,8 @@ public class ClueGame extends JFrame {
 		}
 	}
 
-	// hard coded solution for testing
+	// hard coded solution for testing purposes only. Actual game will call
+	// makeAnswer.
 	public void makeSolution(){
 		this.solution = new Solution("Dr. Phil", "Really Depressing Thoughts", 
 				"Bedroom");
