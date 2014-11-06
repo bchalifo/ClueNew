@@ -263,15 +263,12 @@ public class ClueGame extends JFrame {
 			card.setName(name);
 			switch(type) {
 			case "person":
-				System.out.println("Person");
 				card.setType(CardType.PERSON);
 				break;
 			case "room":
-				System.out.println("Room");
 				card.setType(CardType.ROOM);
 				break;
 			case "weapon":
-				System.out.println("Weapon");
 				card.setType(CardType.WEAPON);
 				break;
 			}
