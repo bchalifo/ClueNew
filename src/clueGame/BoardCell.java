@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 public abstract class BoardCell implements Comparable<BoardCell> {
@@ -28,6 +29,11 @@ public abstract class BoardCell implements Comparable<BoardCell> {
 	public abstract void draw(Graphics g, Board board);
 	
 	public abstract void drawLabel(Graphics g, Board board);
+	
+	public void drawTarget(Graphics g, Board board) {
+		g.setColor(Color.pink);
+		g.fillOval(col*Board.CELL_WIDTH, row*Board.CELL_HEIGHT, Board.CELL_WIDTH, Board.CELL_HEIGHT);
+	}
 	
 	public int getRow() {
 		return row;
