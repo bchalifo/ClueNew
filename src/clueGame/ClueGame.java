@@ -14,7 +14,7 @@ import javax.swing.border.TitledBorder;
 import clueGame.Card.CardType;
 
 public class ClueGame extends JFrame {
-	
+
 	// instance variables
 	private Map<Character,String> rooms;
 	private Board board;
@@ -85,7 +85,7 @@ public class ClueGame extends JFrame {
 		setJMenuBar(menuBar);
 		menuBar.add(createFileMenu());
 	}
-	
+
 	// create the file menu
 	private JMenu createFileMenu() {
 		JMenu menu = new JMenu("File");
@@ -93,7 +93,7 @@ public class ClueGame extends JFrame {
 		menu.add(createFileExitItem());
 		return menu;
 	}
-	
+
 	// create the detective notes menu option
 	private JMenuItem createDetectiveNotesItem() {
 		JMenuItem dn = new JMenuItem("Detective Notes");
@@ -117,7 +117,7 @@ public class ClueGame extends JFrame {
 		});
 		return exit;
 	}
-	
+
 	// configure game from files
 	public void loadConfigFiles(){
 		try {
@@ -143,6 +143,8 @@ public class ClueGame extends JFrame {
 
 	// A function called separately to simulate dealing the deck out to each player.
 	public void deal() {
+		selectAnswer();
+		// Deal out the rest of the cards.
 		Random r = new Random();
 		while(!cards.isEmpty()){
 			for(int i = 0; i < players.size(); i++){
@@ -157,9 +159,56 @@ public class ClueGame extends JFrame {
 		}
 	}
 
-	// ??
+	// Creates the game solution based off of random choice between the three
+	// card types.
 	public void selectAnswer() {
+		String person, room, weapon;
+		Random r = new Random();
+		int rando = Math.abs(r.nextInt()%20);
 
+		Card temp = new Card();
+		temp = cards.get(rando);
+		// get person card and remove from deck.
+		while(true){
+			if(temp.getType() == CardType.PERSON){
+				person = cards.get(rando).getName();
+				cards.remove(rando);
+				break;
+			}
+			rando = Math.abs(r.nextInt()%20);
+			System.out.println(rando);
+			temp = cards.get(rando);
+		}
+
+		rando = Math.abs(r.nextInt()%19);
+		temp = cards.get(rando);
+		// get room card and remove from deck.
+		while(true){
+			if(temp.getType() == CardType.ROOM){
+				room = cards.get(rando).getName();
+				cards.remove(rando);
+				break;
+			}
+			rando = Math.abs(r.nextInt()%19);
+			temp = cards.get(rando);
+		}
+
+		rando = Math.abs(r.nextInt()%18);
+		temp = cards.get(rando);
+		// get weapon card and remove from deck.
+		while(true){
+			if(temp.getType() == CardType.WEAPON){
+				weapon = cards.get(rando).getName();
+				cards.remove(rando);
+				break;
+			}
+			rando = Math.abs(r.nextInt()%18);
+			System.out.println(rando);
+			temp = cards.get(rando);
+		}
+
+		// Create solution based off chosen cards
+		this.solution = new Solution(person, weapon, room);
 	}
 
 	// handles player suggestions; returns matched card if a player can
@@ -214,12 +263,15 @@ public class ClueGame extends JFrame {
 			card.setName(name);
 			switch(type) {
 			case "person":
+				System.out.println("Person");
 				card.setType(CardType.PERSON);
 				break;
 			case "room":
+				System.out.println("Room");
 				card.setType(CardType.ROOM);
 				break;
 			case "weapon":
+				System.out.println("Weapon");
 				card.setType(CardType.WEAPON);
 				break;
 			}
@@ -317,7 +369,7 @@ public class ClueGame extends JFrame {
 	public void setPlayerLocation(Player player, BoardCell cell) {
 		playerLocations.put(player, cell);
 	}
-	
+
 	// main
 	public static void main(String args[]) {
 		// initialize and configure game

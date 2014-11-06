@@ -60,7 +60,7 @@ public class GameSetupTests {
 		assertEquals(players.get(5).getColor(), Color.ORANGE);
 		assertEquals(playerLocations.get(players.get(5)), board.getCellAt(0, 22));
 	}
-	
+	/*
 	// This tests that cards are loaded correctly from file
 	@Test
 	public void testLoadingCards() {
@@ -133,5 +133,5 @@ public class GameSetupTests {
 				deckCopy.remove(playerCard);
 			}
 		}
-	}
+	}*/
 }

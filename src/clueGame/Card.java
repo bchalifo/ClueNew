@@ -15,6 +15,11 @@ public class Card {
 		
 	}
 	
+	@Override
+	public String toString() {
+		return "Card [type=" + type + "]";
+	}
+
 	// constructor with fields
 	public Card(String name, CardType type) {
 		super();
