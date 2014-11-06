@@ -11,8 +11,8 @@ public class Board extends JPanel {
 	// constants
 	private static final int MAX_NUM_ROWS = 30;
 	private static final int MAX_NUM_COLUMNS = 30;
-	public static final int CELL_WIDTH = 30;
-	public static final int CELL_HEIGHT = 30;
+	public static final int CELL_WIDTH = 20;
+	public static final int CELL_HEIGHT = 20;
 	// instance variables
 	private int numRows;
 	private int numColumns;
@@ -24,6 +24,7 @@ public class Board extends JPanel {
 	private Set<BoardCell> targets;
 	private String layoutFile;
 	private String legendFile;
+	private boolean displayTargets;
 
 	// constructor with fields
 	public Board(String layoutFile, String legendFile) {
@@ -38,6 +39,7 @@ public class Board extends JPanel {
 		adjMtx = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		visited = new HashSet<BoardCell>();
 		targets = new HashSet<BoardCell>();
+		displayTargets = false;
 	}
 
 	// load board configuration
@@ -239,6 +241,11 @@ public class Board extends JPanel {
 		for (Player player : playerLocations.keySet()) {
 			player.draw(g, playerLocations.get(player), this);
 		}
+		if(displayTargets) {
+			for(BoardCell b : targets) {
+				b.drawTarget(g, this);
+			}
+		}
 	}
 
 	// get number of rows
@@ -277,6 +284,14 @@ public class Board extends JPanel {
 	// get targets
 	public Set<BoardCell> getTargets() {
 		return targets;
+	}
+	
+	public void displayTargets() {
+		displayTargets = true;
+	}
+	
+	public void removeTargets() {
+		displayTargets = false;
 	}
 
 	@Override

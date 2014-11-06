@@ -9,22 +9,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
 import java.util.jar.Attributes.Name;
 
 public class ControlGUI extends JPanel {
 	public static final int WIDTH = 700;
 	public static final int HEIGHT = 150;
+	private Board board;
 	private ArrayList<Player> players;
+	private Map<Player, BoardCell> playerLocations;
 	private int playerIndex;
 	private boolean turnFinished;
 	private northPanel nPanel;
 	private southPanel sPanel;
 
 	
-	public ControlGUI(ArrayList<Player> players) {
+	public ControlGUI(Board board, ArrayList<Player> players, Map<Player, BoardCell> playerLocations) {
 		super();
+		this.board = board;
 		this.players = players;
+		this.playerLocations = playerLocations;
 		playerIndex = 0;
 		turnFinished = true;
 		setLayout(new GridLayout(2,1));
@@ -142,14 +147,22 @@ public class ControlGUI extends JPanel {
 			//display message
 			return;
 		}
+		playerIndex = (playerIndex + 1) % players.size();
 		int roll = sPanel.roll.rollDie();
 		nPanel.displayPlayerTurn(player);
+		board.calcTargets(playerLocations.get(player).getRow(),
+				playerLocations.get(player).getColumn(), roll);
 		if(player instanceof HumanPlayer) {
-			turnFinished = false;
-			player.displayTargets();
+			//turnFinished = false;
+			board.displayTargets();
+			board.repaint();
+			return;
 		}
 		else {
-			playerIndex = (playerIndex + 1) % players.size();
+			board.removeTargets();
+			BoardCell choice = player.pickLocation(board.getTargets());
+			playerLocations.put(player, choice);
+			board.repaint();
 		}
 	}
 }

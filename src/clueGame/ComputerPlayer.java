@@ -27,7 +27,7 @@ public class ComputerPlayer extends Player {
 
 	// Computer selects a move based off of the input roll and possible moves
 	// The selected BoardCell is returned.
-	public BoardCell pickLocation(Set<BoardCell> targets){
+	public BoardCell pickLocation(Set<BoardCell> targets) {
 		this.targetList = new ArrayList<BoardCell>(targets);
 		int room = -1;
 		

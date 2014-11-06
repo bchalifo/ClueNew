@@ -2,6 +2,7 @@ package clueGame;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -47,7 +48,7 @@ public class ClueGame extends JFrame {
 		loadConfigFiles();
 		deal();
 		detectiveNotes = new DetectiveNotes(cards);
-		controlPanel = new ControlGUI(players);
+		controlPanel = new ControlGUI(board, players, playerLocations);
 		cardDisplay = new CardDisplay(humanPlayer.getHand());
 		// initialize GUI
 		add(board, BorderLayout.CENTER);
@@ -74,7 +75,7 @@ public class ClueGame extends JFrame {
 		loadConfigFiles();
 		deal();
 		detectiveNotes = new DetectiveNotes(cards);
-		controlPanel = new ControlGUI(players);
+		controlPanel = new ControlGUI(board, players, playerLocations);
 		cardDisplay = new CardDisplay(humanPlayer.getHand());
 		// initialize GUI
 		add(board, BorderLayout.CENTER);
