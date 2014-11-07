@@ -7,13 +7,14 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 import java.util.jar.Attributes.Name;
 
-public class ControlGUI extends JPanel {
+public class ControlGUI extends JPanel implements MouseListener {
 	public static final int WIDTH = 700;
 	public static final int HEIGHT = 150;
 	private Board board;
@@ -28,6 +29,7 @@ public class ControlGUI extends JPanel {
 	public ControlGUI(Board board, ArrayList<Player> players, Map<Player, BoardCell> playerLocations) {
 		super();
 		this.board = board;
+		this.board.addMouseListener(this);
 		this.players = players;
 		this.playerLocations = playerLocations;
 		playerIndex = 0;
@@ -144,7 +146,7 @@ public class ControlGUI extends JPanel {
 	
 	public void nextPlayer(Player player) {
 		if(!turnFinished) {
-			//display message
+			JOptionPane.showMessageDialog(null, "Your turn isn't finished!");
 			return;
 		}
 		// Iterate to next player
@@ -158,17 +160,72 @@ public class ControlGUI extends JPanel {
 				playerLocations.get(player).getColumn(), roll);
 		// Human Player
 		if(player instanceof HumanPlayer) {
-			//turnFinished = false;
+			turnFinished = false;
 			board.displayTargets();
+			// See if target clicked is valid
+			board.checkValidity();		
 			board.repaint();
 			return;
 		}
 		// Computer Player
 		else {
-			board.removeTargets();
 			BoardCell choice = player.pickLocation(board.getTargets());
 			playerLocations.put(player, choice);
 			board.repaint();
+			if(choice.isRoom()) {
+				makeSuggestion();
+			}
 		}
+	}
+	
+	public void makeSuggestion() {
+		//to do
+	}
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if(!turnFinished) {
+			for(BoardCell b : board.getTargets()) {
+				if(b.isClicked(e.getX(), e.getY(), board)) {
+					playerLocations.put(players.get(0), b);
+					board.removeTargets();
+					board.repaint();
+					if(b.isRoom()) {
+						makeSuggestion();
+					}
+					turnFinished = true;
+					return;
+				}
+			}
+			JOptionPane.showMessageDialog(null, "Not a valid target!");
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "It's not your turn!");
+		}
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

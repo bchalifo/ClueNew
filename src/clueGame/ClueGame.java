@@ -386,5 +386,6 @@ public class ClueGame extends JFrame {
 		game.getContentPane().setPreferredSize(boardDimensions);
 		game.pack();
 		game.setVisible(true);
+		JOptionPane.showMessageDialog(null, "Welcome to Clue. You are playing as Davey Jones (Blue).");
 	}
 }

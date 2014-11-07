@@ -1,6 +1,8 @@
 package clueGame;
 
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
@@ -247,6 +249,16 @@ public class Board extends JPanel {
 			}
 		}
 	}
+	
+	
+	
+	// check to see if human player made a valid move
+	public boolean checkValidity(){
+		int row, col;  // x,y
+		
+		
+		return false;
+	}
 
 	// get number of rows
 	public int getNumRows() {
@@ -257,7 +269,7 @@ public class Board extends JPanel {
 	public int getNumColumns() {
 		return numColumns;
 	}
-
+	
 	// get RoomCell
 	public RoomCell getRoomCellAt(int row, int col) {
 		if (board[row][col].isRoom()) {
@@ -304,4 +316,6 @@ public class Board extends JPanel {
 		}
 		return sBoard;
 	}
+
+	
 }

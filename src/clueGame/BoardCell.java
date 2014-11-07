@@ -2,6 +2,8 @@ package clueGame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
 
 public abstract class BoardCell implements Comparable<BoardCell> {
 	
@@ -33,6 +35,14 @@ public abstract class BoardCell implements Comparable<BoardCell> {
 	public void drawTarget(Graphics g, Board board) {
 		g.setColor(Color.pink);
 		g.fillOval(col*Board.CELL_WIDTH, row*Board.CELL_HEIGHT, Board.CELL_WIDTH, Board.CELL_HEIGHT);
+	}
+	
+	public boolean isClicked(int mouseX, int mouseY, Board board){
+		Rectangle rect = new Rectangle(col*board.CELL_WIDTH, row*board.CELL_HEIGHT, board.CELL_WIDTH, board.CELL_HEIGHT);
+		if(rect.contains(new Point(mouseX, mouseY))) {
+			return true;
+		}
+		return false;
 	}
 	
 	public int getRow() {
