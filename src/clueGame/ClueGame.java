@@ -30,7 +30,7 @@ public class ClueGame extends JFrame {
 	private Map<Player, RoomCell> playerLastRoom;
 	private ArrayList<Card> cards;
 	private ArrayList<Card> cardsTest;
-	private ArrayList<Card> seenCards;
+	private static ArrayList<Card> seenCards;
 
 	// default constructor
 	public ClueGame() {
@@ -49,7 +49,7 @@ public class ClueGame extends JFrame {
 		loadConfigFiles();
 		deal();
 		detectiveNotes = new DetectiveNotes(cards);
-		controlPanel = new ControlGUI(board, players, playerLocations);
+		controlPanel = new ControlGUI(board, players, playerLocations, seenCards);
 		cardDisplay = new CardDisplay(humanPlayer.getHand());
 		// initialize GUI
 		add(board, BorderLayout.CENTER);
@@ -76,7 +76,7 @@ public class ClueGame extends JFrame {
 		loadConfigFiles();
 		deal();
 		detectiveNotes = new DetectiveNotes(cards);
-		controlPanel = new ControlGUI(board, players, playerLocations);
+		controlPanel = new ControlGUI(board, players, playerLocations, seenCards);
 		cardDisplay = new CardDisplay(humanPlayer.getHand());
 		// initialize GUI
 		add(board, BorderLayout.CENTER);
@@ -363,7 +363,7 @@ public class ClueGame extends JFrame {
 	public void addSeenCard(Card card) {
 		seenCards.add(card);
 	}
-
+	
 	public void setPlayerLocation(Player player, BoardCell cell) {
 		playerLocations.put(player, cell);
 	}

@@ -20,18 +20,21 @@ public class ControlGUI extends JPanel implements MouseListener {
 	private Board board;
 	private ArrayList<Player> players;
 	private Map<Player, BoardCell> playerLocations;
+	private static ArrayList<Card> seenCards;
 	private int playerIndex;
 	private boolean turnFinished;
 	private northPanel nPanel;
 	private southPanel sPanel;
 
 	
-	public ControlGUI(Board board, ArrayList<Player> players, Map<Player, BoardCell> playerLocations) {
+	public ControlGUI(Board board, ArrayList<Player> players, Map<Player, BoardCell> playerLocations,
+			ArrayList<Card> seenCards) {
 		super();
 		this.board = board;
 		this.board.addMouseListener(this);
 		this.players = players;
 		this.playerLocations = playerLocations;
+		this.seenCards = seenCards;
 		playerIndex = 0;
 		turnFinished = true;
 		setLayout(new GridLayout(2,1));
@@ -173,13 +176,24 @@ public class ControlGUI extends JPanel implements MouseListener {
 			playerLocations.put(player, choice);
 			board.repaint();
 			if(choice.isRoom()) {
-				makeSuggestion();
+				makeSuggestion(player);
 			}
 		}
 	}
 	
-	public void makeSuggestion() {
-		//to do
+	public void makeSuggestion(Player player) {
+		// Decide between human or computer player
+		// Human player:
+		if(player instanceof HumanPlayer){
+			
+		}
+		// Computer player:
+		else{
+			// get current room
+			String room = playerLocations.get(player).toString();
+			// Generate suggestion
+			Suggestion s = ((ComputerPlayer) player).createSuggestion(room, seenCards);
+		}
 	}
 	
 	@Override
@@ -191,7 +205,7 @@ public class ControlGUI extends JPanel implements MouseListener {
 					board.removeTargets();
 					board.repaint();
 					if(b.isRoom()) {
-						makeSuggestion();
+						makeSuggestion(players.get(playerIndex));
 					}
 					turnFinished = true;
 					return;
