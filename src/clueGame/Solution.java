@@ -27,6 +27,11 @@ public class Solution {
 	}
 
 	@Override
+	public String toString() {
+		return person + ", " + weapon + ", " + room;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

@@ -29,7 +29,7 @@ public class ClueGame extends JFrame {
 	private Map<Player, BoardCell> playerLocations;
 	private Map<Player, RoomCell> playerLastRoom;
 	private ArrayList<Card> cards;
-	private ArrayList<Card> cardsTest;
+	private ArrayList<Card> deck;
 	private static ArrayList<Card> seenCards;
 
 	// default constructor
@@ -48,8 +48,8 @@ public class ClueGame extends JFrame {
 		solution = new Solution();
 		loadConfigFiles();
 		deal();
-		detectiveNotes = new DetectiveNotes(cards);
-		controlPanel = new ControlGUI(board, players, playerLocations, seenCards, cardsTest);
+		detectiveNotes = new DetectiveNotes(deck);
+		controlPanel = new ControlGUI(board, players, playerLocations, seenCards, deck, solution);
 		cardDisplay = new CardDisplay(humanPlayer.getHand());
 		// initialize GUI
 		add(board, BorderLayout.CENTER);
@@ -75,8 +75,8 @@ public class ClueGame extends JFrame {
 		solution = new Solution();
 		loadConfigFiles();
 		deal();
-		detectiveNotes = new DetectiveNotes(cards);
-		controlPanel = new ControlGUI(board, players, playerLocations, seenCards, cardsTest);
+		detectiveNotes = new DetectiveNotes(deck);
+		controlPanel = new ControlGUI(board, players, playerLocations, seenCards, deck, solution);
 		cardDisplay = new CardDisplay(humanPlayer.getHand());
 		// initialize GUI
 		add(board, BorderLayout.CENTER);
@@ -127,7 +127,7 @@ public class ClueGame extends JFrame {
 			this.loadCards();
 			this.loadPlayers();
 			board.updatePlayerLocations(playerLocations);
-			cardsTest = new ArrayList<Card>(cards);
+			deck = new ArrayList<Card>(cards);
 		} catch (BadConfigFormatException e) {
 			System.out.println(e.getLocalizedMessage());
 			System.exit(0);
@@ -303,6 +303,32 @@ public class ClueGame extends JFrame {
 		people.close();
 	}
 
+	// handles player suggestions; returns matched card if a player can
+	// disprove the suggestion, or null if no player can disprove it for
+	// testing purposes
+	public Card handleSuggestion(Card person, Card weapon, Card room, Player accusingPlayer)
+	{
+		int nextPlayerIndex = players.indexOf(accusingPlayer) + 1;
+		// check each player to disprove
+		while (true) {
+			Player nextPlayer = players.get(nextPlayerIndex % players.size());
+			// no player can disprove, so break and return null
+			if (nextPlayer == accusingPlayer) {
+				break;
+			}
+			Card result = nextPlayer.disproveSuggestion(person, weapon, room);
+			// no match, check next player
+			if (result == null) {
+				nextPlayerIndex++;
+			}
+			// match, return the result
+			else {
+				return result;
+			}
+		}
+		return null;
+	}
+
 	// getters/setters for various containers:
 	public Board getBoard() {
 		return board;
@@ -335,13 +361,13 @@ public class ClueGame extends JFrame {
 	public void addSeenCard(Card card) {
 		seenCards.add(card);
 	}
-	
+
 	public void setPlayerLocation(Player player, BoardCell cell) {
 		playerLocations.put(player, cell);
 	}
-	
+
 	public ArrayList<Card> getTestCards(){
-		return this.cardsTest;
+		return this.deck;
 	}
 
 	// main

@@ -14,6 +14,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.jar.Attributes.Name;
 
 public class ControlGUI extends JPanel implements MouseListener {
@@ -25,13 +26,13 @@ public class ControlGUI extends JPanel implements MouseListener {
 	private static ArrayList<Card> seenCards;
 	private ArrayList<Card> deck;
 	private int playerIndex;
-	private boolean turnFinished;
+	private boolean turnFinished, canMakeAccusation, isMakingChoice;
 	private northPanel nPanel;
 	private southPanel sPanel;
-
+	private Solution solution;
 
 	public ControlGUI(Board board, ArrayList<Player> players, Map<Player, BoardCell> playerLocations,
-			ArrayList<Card> seenCards, ArrayList<Card> deck) {
+			ArrayList<Card> seenCards, ArrayList<Card> deck, Solution solution) {
 		super();
 		this.board = board;
 		this.board.addMouseListener(this);
@@ -39,8 +40,11 @@ public class ControlGUI extends JPanel implements MouseListener {
 		this.playerLocations = playerLocations;
 		this.seenCards = seenCards;
 		this.deck = deck;
+		this.solution = solution;
 		playerIndex = 0;
 		turnFinished = true;
+		canMakeAccusation = false;
+		isMakingChoice = false;
 		setLayout(new GridLayout(2,1));
 
 		nPanel = new northPanel();
@@ -63,8 +67,9 @@ public class ControlGUI extends JPanel implements MouseListener {
 			add(label);
 			add(turn);
 			nextPlayer = new Button("Next Player");
-			nextPlayer.addActionListener(new NextPlayerListener());
+			nextPlayer.addActionListener(new ButtonListener());
 			makeAccusation = new Button("Make an Accusation");
+			makeAccusation.addActionListener(new ButtonListener());
 			add(nextPlayer);
 			add(makeAccusation);
 		}
@@ -73,11 +78,19 @@ public class ControlGUI extends JPanel implements MouseListener {
 			turn.setText(player.getName());
 		}
 
-		public class NextPlayerListener implements ActionListener {
+		public class ButtonListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == nextPlayer) {
-					nextPlayer(players.get(playerIndex));
+					if(isMakingChoice) {
+						JOptionPane.showMessageDialog(null, "You are't finished!");
+					}
+					else {
+						nextPlayer(players.get(playerIndex));
+					}
+				}
+				else if(e.getSource() == makeAccusation) {
+					makeAccusation();
 				}
 
 			}
@@ -138,6 +151,9 @@ public class ControlGUI extends JPanel implements MouseListener {
 		public void displayResult(Card card) {
 			guessResult.setText(card.getName());
 		}
+		public void displayResult(String string){
+			guessResult.setText(string);
+		}
 	}
 
 	public class southPanel extends JPanel{
@@ -174,6 +190,7 @@ public class ControlGUI extends JPanel implements MouseListener {
 		// Human Player
 		if(player instanceof HumanPlayer) {
 			turnFinished = false;
+			canMakeAccusation = true;
 			board.displayTargets();
 			// See if target clicked is valid
 			board.checkValidity();		
@@ -182,12 +199,33 @@ public class ControlGUI extends JPanel implements MouseListener {
 		}
 		// Computer Player
 		else {
+			int count = 0;
+			for(Card c : player.getHand()) {
+				if(!seenCards.contains(c)) {
+					count++;
+				}
+			}
+			if((count + seenCards.size()) == deck.size() - 3) {
+				JOptionPane.showMessageDialog(null, player.getName() + " has won. You lose. Solution: \n" + 
+											solution.toString());
+				System.exit(0);
+			}
 			BoardCell choice = player.pickLocation(board.getTargets());
 			playerLocations.put(player, choice);
 			board.repaint();
 			if(choice.isRoom()) {
 				makeSuggestion(player);
 			}
+		}
+	}
+	
+	public void makeAccusation() {
+		if(canMakeAccusation) {
+			isMakingChoice = true;
+			getHumanAccusation a = new getHumanAccusation(deck);
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "Wait for your turn!");
 		}
 	}
 	
@@ -218,6 +256,7 @@ public class ControlGUI extends JPanel implements MouseListener {
 		// Decide between human or computer player
 		// Human player:
 		if(player instanceof HumanPlayer){
+			isMakingChoice = true;
 			getHumanSuggestion t = new getHumanSuggestion(room, deck);
 			return;
 		}
@@ -225,10 +264,22 @@ public class ControlGUI extends JPanel implements MouseListener {
 		else{
 			// Generate suggestion
 			Suggestion s = ((ComputerPlayer) player).createSuggestion(room, seenCards, deck);
+			// move player
+			Card targetPlayer = s.getPerson();
+			for(Player p : players) {
+				if(targetPlayer.getName().equals(p.getName())) {
+					playerLocations.put(p, playerLocations.get(player));
+				}
+			}
+			board.repaint();
 			result = handleSuggestion(s.getPerson(), s.getWeapon(), s.getRoom(), player);
 		}
 		if(result != null){
+			seenCards.add(result);
 			sPanel.guessResult.displayResult(result);
+		}
+		else{
+			sPanel.guessResult.displayResult("no new clue");
 		}
 	}
 
@@ -279,8 +330,20 @@ public class ControlGUI extends JPanel implements MouseListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == okButton) {
+					isMakingChoice = false;
 					suggestions.add((String)peopleBox.getSelectedItem());
 					suggestions.add((String)weaponBox.getSelectedItem());
+					// move player
+					String targetPlayer = suggestions.get(1);
+					Player person = new Player();
+					for(Player p : players) {
+						if(targetPlayer.equals(p.getName())) {
+							person = p;
+							break;
+						}
+					}
+					playerLocations.put(person, playerLocations.get(players.get(0)));
+					board.repaint();
 					setVisible(false);
 					displaySuggestions(suggestions.get(0), suggestions.get(1), suggestions.get(2));
 				}
@@ -290,17 +353,104 @@ public class ControlGUI extends JPanel implements MouseListener {
 		
 		
 	}
+	
+	public class getHumanAccusation extends JDialog{
+		private ArrayList<String> accusations;
+		private JButton submitButton;
+		private JButton cancelButton;
+		private JComboBox roomBox;
+		private JComboBox peopleBox;
+		private JComboBox weaponBox;
+		
+		getHumanAccusation(ArrayList<Card> deck){
+			accusations = new ArrayList<String>();
+			setTitle("Human Accusation");
+			setSize(500, 500);
+			setLayout(new GridLayout(4,2));
+			add(new JLabel("Room"));
+			roomBox = new JComboBox();
+			for(Card c : deck) {
+				if(c.getType() == CardType.ROOM) {
+					roomBox.addItem(c.getName());
+				}
+			}
+			add(roomBox);
+			add(new JLabel("Person"));
+			peopleBox = new JComboBox();
+			for(Card c : deck) {
+				if(c.getType() == CardType.PERSON) {
+					peopleBox.addItem(c.getName());
+				}
+			}
+			add(peopleBox);
+			add(new JLabel("Weapon"));
+			weaponBox = new JComboBox();
+			for(Card c : deck) {
+				if(c.getType() == CardType.WEAPON) {
+					weaponBox.addItem(c.getName());
+				}
+			}
+			add(weaponBox);
+			submitButton = new JButton("Submit");
+			submitButton.addActionListener(new ButtonListener());
+			add(submitButton);
+			cancelButton = new JButton("Cancel");
+			cancelButton.addActionListener(new ButtonListener());
+			add(cancelButton);
+			setVisible(true);
+		}
+		
+		public ArrayList<String> getSuggestions() {
+			return accusations;
+		}
+		
+		public class ButtonListener implements ActionListener {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource() == submitButton) {
+					isMakingChoice = false;
+					accusations.add((String)roomBox.getSelectedItem());
+					accusations.add((String)peopleBox.getSelectedItem());
+					accusations.add((String)weaponBox.getSelectedItem());
+					setVisible(false);
+					Solution solutionTest = new Solution(accusations.get(1), accusations.get(2), accusations.get(0));
+					boolean isReal = checkAccusation(solutionTest);
+					if(isReal) {
+						JOptionPane.showMessageDialog(null, "You are correct. You win!");
+						System.exit(0);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "That's not correct.");
+						turnFinished = true;
+						board.removeTargets();
+						board.repaint();
+						return;
+					}
+				}
+				else if(e.getSource() == cancelButton) {
+					isMakingChoice = false;
+					setVisible(false);
+					return;
+				}
+			}
+		}
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		if(isMakingChoice) {
+			JOptionPane.showMessageDialog(null, "You haven't finished!");
+		}
 		if(!turnFinished) {
 			for(BoardCell b : board.getTargets()) {
 				if(b.isClicked(e.getX(), e.getY(), board)) {
+					canMakeAccusation = false;
 					playerLocations.put(players.get(0), b);
 					board.removeTargets();
 					board.repaint();
 					if(b.isRoom()) {
-						makeSuggestion(players.get(playerIndex - 1));
+						makeSuggestion(players.get(0));
 					}
 					turnFinished = true;
 					return;
@@ -316,9 +466,15 @@ public class ControlGUI extends JPanel implements MouseListener {
 
 	public void displaySuggestions(String room, String person, String weapon) {
 		ArrayList<Card> theGuess = generateGuess(room, person, weapon);
-		Card result = handleSuggestion(theGuess.get(0), theGuess.get(1), theGuess.get(2), players.get(playerIndex - 1));
+		Card result = handleSuggestion(theGuess.get(0), theGuess.get(1), theGuess.get(2), players.get(0));
 		if(result != null){
 			sPanel.guessResult.displayResult(result);
+			if(!seenCards.contains(result)){
+				seenCards.add(result);
+			}
+		}
+		else{
+			sPanel.guessResult.displayResult("no new clue");
 		}
 	}
 
@@ -348,10 +504,7 @@ public class ControlGUI extends JPanel implements MouseListener {
 
 	// handles player suggestions; returns matched card if a player can
 	// disprove the suggestion, or null if no player can disprove it
-	public Card handleSuggestion(Card person,
-			Card weapon,
-			Card room,
-			Player accusingPlayer)
+	public Card handleSuggestion(Card person, Card weapon, Card room, Player accusingPlayer)
 	{
 		// Display guess
 		sPanel.guess.displayGuess(person, weapon, room);
@@ -376,4 +529,11 @@ public class ControlGUI extends JPanel implements MouseListener {
 		return null;
 	}
 
+	// Checks an accusation against the game's solution
+		public boolean checkAccusation(Solution accusation) {
+			if(this.solution.equals(accusation)){
+				return true;
+			}
+			return false;
+		}
 }

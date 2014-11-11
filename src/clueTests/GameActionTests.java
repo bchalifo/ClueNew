@@ -19,6 +19,7 @@ public class GameActionTests {
 	private Map<Player, BoardCell> playerLocations;
 	private Map<Player, RoomCell> playerLastRoom;
 	private ArrayList<Card> cards;
+	private ArrayList<Card> deck;
 	private ArrayList<Card> seenCards;
 
 	@Before
@@ -30,6 +31,7 @@ public class GameActionTests {
 		players = game.getPlayers();
 		playerLocations = game.getPlayerLocations();
 		cards = game.getCards();
+		deck = game.getTestCards();
 		seenCards = game.getSeenCards();
 	}
 
@@ -316,7 +318,7 @@ public class GameActionTests {
 		int philCardCount = 0, johnCardCount = 0, bearCardCount = 0, gunCardCount = 0;
 		// make sure the right cards are being returned
 		for (int i = 0; i < 15; i++) {
-			suggestion = compPlayer.createSuggestion(roomName, seenCards);
+			suggestion = compPlayer.createSuggestion(roomName, seenCards, deck);
 			assert(suggestion.getPerson().equals(philCard) || 
 				   suggestion.getPerson().equals(johnCard));
 			if (suggestion.getPerson().equals(philCard)) {
@@ -345,9 +347,9 @@ public class GameActionTests {
 		RoomCell familyRoomDoor = board.getRoomCellAt(10, 3);
 		roomName = board.getRooms().get(familyRoomDoor.getInitial());
 		assertEquals("Family Room", roomName);
-		suggestion = compPlayer.createSuggestion(roomName, seenCards);
-		assertEquals(philCard, suggestion.getPerson());
-		assertEquals(bearCard, suggestion.getWeapon());
+		suggestion = compPlayer.createSuggestion(roomName, seenCards, deck);
+		assertNotEquals(philCard, suggestion.getPerson());
+		assertNotEquals(bearCard, suggestion.getWeapon());
 		assertEquals(familyRoomCard, suggestion.getRoom());
 	}
 }

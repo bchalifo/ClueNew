@@ -72,11 +72,6 @@ public class Player {
 		g.fillOval(x, y, Board.CELL_WIDTH, Board.CELL_HEIGHT);
 	}
 
-	// mark card as seen
-	void updateSeen(Card seen) {
-
-	}
-
 	public BoardCell pickLocation(Set<BoardCell> targets) {
 		return null;
 	}
