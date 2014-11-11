@@ -5,6 +5,10 @@ public class Suggestion {
 	private Card weapon;
 	private Card room;
 	
+	public Suggestion(){
+		
+	}
+	
 	public Suggestion(Card person, Card weapon, Card room) {
 		this.person = person;
 		this.weapon = weapon;

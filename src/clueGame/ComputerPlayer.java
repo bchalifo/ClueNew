@@ -30,7 +30,7 @@ public class ComputerPlayer extends Player {
 	public BoardCell pickLocation(Set<BoardCell> targets) {
 		this.targetList = new ArrayList<BoardCell>(targets);
 		int room = -1;
-		
+
 		for(int i = 0; i < targetList.size(); i++){
 			if(targetList.get(i).isDoorway()){
 				RoomCell door = (RoomCell) targetList.get(i);
@@ -44,7 +44,7 @@ public class ComputerPlayer extends Player {
 				}
 			}
 		}
-		
+
 		if(room != -1){
 			BoardCell choice = targetList.get(room);
 			return choice;
@@ -58,11 +58,14 @@ public class ComputerPlayer extends Player {
 	}
 
 	// create suggestion
-	public Suggestion createSuggestion(String room, ArrayList<Card> seenCards) {
+	public Suggestion createSuggestion(String room, ArrayList<Card> seenCards, ArrayList<Card> deck) {
 		ArrayList<Card> personSuggestions = new ArrayList<Card>();
 		ArrayList<Card> weaponSuggestions = new ArrayList<Card>();
 		Card roomSuggestion = new Card(room, CardType.ROOM);
-		for (Card card : this.getHand()) {
+		for (Card card : deck) {
+			if(this.getHand().contains(card)){
+				continue;
+			}
 			if (!(seenCards.contains(card))) {
 				if (card.getType() == CardType.PERSON) {
 					personSuggestions.add(card);
@@ -71,18 +74,18 @@ public class ComputerPlayer extends Player {
 					weaponSuggestions.add(card);
 				}
 			}
-
 		}
 		Random rand = new Random();
-		Card personSuggestion = personSuggestions.get(rand.nextInt(personSuggestions.size()));
-		Card weaponSuggestion = weaponSuggestions.get(rand.nextInt(weaponSuggestions.size()));
+		Card personSuggestion = new Card();
+		Card weaponSuggestion = new Card();
+		if(personSuggestions.size() > 0) {
+			personSuggestion = personSuggestions.get(rand.nextInt(personSuggestions.size()));
+		}
+		if(weaponSuggestions.size() > 0) {
+			weaponSuggestion = weaponSuggestions.get(rand.nextInt(weaponSuggestions.size()));
+		}
 		Suggestion s = new Suggestion(personSuggestion, weaponSuggestion, roomSuggestion);
 		return s;
-	}
-
-	// mark card as seen
-	void updateSeen(Card seen) {
-
 	}
 
 	public void setLastRoom(char room){

@@ -49,7 +49,7 @@ public class ClueGame extends JFrame {
 		loadConfigFiles();
 		deal();
 		detectiveNotes = new DetectiveNotes(cards);
-		controlPanel = new ControlGUI(board, players, playerLocations, seenCards);
+		controlPanel = new ControlGUI(board, players, playerLocations, seenCards, cardsTest);
 		cardDisplay = new CardDisplay(humanPlayer.getHand());
 		// initialize GUI
 		add(board, BorderLayout.CENTER);
@@ -76,7 +76,7 @@ public class ClueGame extends JFrame {
 		loadConfigFiles();
 		deal();
 		detectiveNotes = new DetectiveNotes(cards);
-		controlPanel = new ControlGUI(board, players, playerLocations, seenCards);
+		controlPanel = new ControlGUI(board, players, playerLocations, seenCards, cardsTest);
 		cardDisplay = new CardDisplay(humanPlayer.getHand());
 		// initialize GUI
 		add(board, BorderLayout.CENTER);
@@ -210,34 +210,6 @@ public class ClueGame extends JFrame {
 
 		// Create solution based off chosen cards
 		this.solution = new Solution(person, weapon, room);
-	}
-
-	// handles player suggestions; returns matched card if a player can
-	// disprove the suggestion, or null if no player can disprove it
-	public Card handleSuggestion(Card person,
-			Card weapon,
-			Card room,
-			Player accusingPlayer)
-	{
-		int nextPlayerIndex = players.indexOf(accusingPlayer) + 1;
-		// check each player to disprove
-		while (true) {
-			Player nextPlayer = players.get(nextPlayerIndex % players.size());
-			// no player can disprove, so break and return null
-			if (nextPlayer == accusingPlayer) {
-				break;
-			}
-			Card result = nextPlayer.disproveSuggestion(person, weapon, room);
-			// no match, check next player
-			if (result == null) {
-				nextPlayerIndex++;
-			}
-			// match, return the result
-			else {
-				return result;
-			}
-		}
-		return null;
 	}
 
 	// Checks an accusation against the game's solution

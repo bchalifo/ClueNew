@@ -16,7 +16,7 @@ public class Player {
 	private String name;
 	private ArrayList<Card> cards;
 	private Color color;
-	
+
 	// default constructor
 	public Player() {
 		cards = new ArrayList<Card>();
@@ -28,7 +28,7 @@ public class Player {
 		this.color = convertColor(color);
 		this.cards = new ArrayList<Card>();
 	}
-	
+
 	// disprove suggestion made by another player
 	public Card disproveSuggestion(Card person, Card weapon, Card room) {
 		ArrayList<Card> matches = new ArrayList<Card>();
@@ -47,7 +47,7 @@ public class Player {
 		}
 		return null;
 	}
-	
+
 	// Be sure to trim the color, we don't want spaces around the name
 	public Color convertColor(String strColor) {
 		Color color; 
@@ -60,18 +60,23 @@ public class Player {
 		}
 		return color;
 	}
-	
+
 	// draw the player on the board GUI
 	public void draw(Graphics g, BoardCell cell, Board board) {
 		int x = cell.getColumn() * Board.CELL_WIDTH;
 		int y = cell.getRow() * Board.CELL_HEIGHT;
-		
+
 		g.setColor(Color.BLACK);
 		g.drawOval(x, y, Board.CELL_WIDTH, Board.CELL_HEIGHT);
 		g.setColor(color);
 		g.fillOval(x, y, Board.CELL_WIDTH, Board.CELL_HEIGHT);
 	}
-	
+
+	// mark card as seen
+	void updateSeen(Card seen) {
+
+	}
+
 	public BoardCell pickLocation(Set<BoardCell> targets) {
 		return null;
 	}
